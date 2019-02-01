@@ -2,8 +2,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.Drivetrain.Drivetrain;
 
 
@@ -11,6 +9,7 @@ public class Robot extends TimedRobot {
 
 
       public static Drivetrain sub_drivetrain;
+      public static OI robot_oi;
 
 
 
@@ -19,6 +18,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
   
     sub_drivetrain = new Drivetrain();
+    robot_oi = new OI();
+
   }
 
   @Override

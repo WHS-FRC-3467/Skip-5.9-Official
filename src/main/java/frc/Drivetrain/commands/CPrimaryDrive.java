@@ -11,6 +11,13 @@ public class CPrimaryDrive extends Command {
 
     int current_drive_mode = 0;
 
+    public CPrimaryDrive() {
+        requires(Robot.sub_drivetrain);
+        this.setInterruptible(true);
+        
+    }
+
+
     @Override
     protected boolean isFinished() {
         return false;
