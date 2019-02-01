@@ -13,7 +13,7 @@ public class OI {
 
     public void init() {
         driverController = new XboxController(0);
-        driverController = new XboxController(1);
+        operatorController = new XboxController(1);
 
     }
 
