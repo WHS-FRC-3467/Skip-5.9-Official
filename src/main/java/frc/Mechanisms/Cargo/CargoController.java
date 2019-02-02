@@ -1,5 +1,6 @@
 package frc.Mechanisms.Cargo;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
@@ -10,9 +11,11 @@ public class CargoController extends Subsystem {
 
     private final SpeedController Controller_CargoIntakeRollers = new SpeedControllerGroup(new Talon(RobotGlobal.CARGO_INTAKE_ROLLERS));
     private final SpeedController Controller_CargoTusk = new SpeedControllerGroup(new Talon(RobotGlobal.CARGO_TUSK));
+    private final SpeedController Controller_CargoLift = new SpeedControllerGroup(new Spark(RobotGlobal.CARGO_LIFT_L), new Spark(RobotGlobal.CARGO_LIFT_R));
 
     private boolean roller_state;
     private boolean tusk_state;
+    private boolean lift_state;
 
 
 
@@ -20,6 +23,8 @@ public class CargoController extends Subsystem {
     public CargoController() {
         roller_state  = false;
         tusk_state = false;
+        lift_state = false;
+
     }
 
 
@@ -40,6 +45,11 @@ public class CargoController extends Subsystem {
 
     }
 
+    public void enableLift(int direction, double speed) {
+        Controller_CargoLift.set(speed * (double)direction);
+        lift_state = true;
+    }
+
     public void disableRollers() {
         Controller_CargoIntakeRollers.stopMotor();
         roller_state = false;
@@ -50,6 +60,11 @@ public class CargoController extends Subsystem {
         Controller_CargoTusk.stopMotor();
         tusk_state = false;
 
+    }
+
+    public void disableLift() {
+        Controller_CargoLift.stopMotor();
+        lift_state = true;
     }
 
     public void disableAll() {
@@ -63,6 +78,10 @@ public class CargoController extends Subsystem {
 
     public boolean getTuskState() {
         return tusk_state;
+    }
+
+    public boolean getLiftState() {
+        return lift_state;
     }
 
 }

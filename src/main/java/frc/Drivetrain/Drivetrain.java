@@ -1,9 +1,11 @@
 package frc.Drivetrain;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.Drivetrain.commands.CPrimaryDrive;
@@ -11,17 +13,30 @@ import frc.robot.RobotGlobal;
 
 public class Drivetrain extends Subsystem {
 
-  // harvest grain and nut 
-  
+  // harvest grain and nut
 
-  //TODO change these motor channels
+  // TODO change these motor channels
 
-      private final SpeedController LEFT_MOTOR_SPEED_GROUP = new SpeedControllerGroup(new Victor(RobotGlobal.DRIVEBASE_VICTOR_1) , new Victor(RobotGlobal.DRIVEBASE_VICTOR_2), new Talon(RobotGlobal.DRIVEBASE_TALON_3));
-      private final SpeedController RIGHT_MOTOR_SPEED_GROUP = new SpeedControllerGroup(new Victor(RobotGlobal.DRIVEBASE_VICTOR_4) , new Victor(RobotGlobal.DRIVEBASE_VICTOR_5), new Talon(RobotGlobal.DRIVEBASE_TALON_6));
+  private final WPI_TalonSRX left_talon, right_talon;
+  private final WPI_VictorSPX left_victor_1, left_victor_2, right_victor_1, right_victor_2;
 
-      private final DifferentialDrive D_DRIVE = new DifferentialDrive(LEFT_MOTOR_SPEED_GROUP, RIGHT_MOTOR_SPEED_GROUP);
+  private final DifferentialDrive d_drive;
 
+  public Drivetrain() {
+        left_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_1);
+        left_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_2);
+        left_talon = new WPI_TalonSRX(RobotGlobal.DRIVEBASE_TALON_3);
+        right_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_4);
+        right_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_5);
+        right_talon = new WPI_TalonSRX(RobotGlobal.DRIVEBASE_TALON_6);
 
+        left_victor_1.follow(left_talon);
+        left_victor_2.follow(left_talon);
+        right_victor_1.follow(right_talon);
+        right_victor_2.follow(right_talon);
+
+        d_drive = new DifferentialDrive(left_talon, right_talon);
+      }
 
     
 
@@ -31,21 +46,18 @@ public class Drivetrain extends Subsystem {
         setDefaultCommand(new CPrimaryDrive());
     }
 
-
-    public Drivetrain() {
-      super();
-    }
     
     public void drive(double left, double right) {
-      D_DRIVE.tankDrive(left, right);
+      d_drive.tankDrive(left, right);
     }
 
     public void driveCurvature(double speed, double rot, boolean quickTurn) {
-      D_DRIVE.curvatureDrive(speed, rot, quickTurn);
+      d_drive.curvatureDrive(speed, rot, quickTurn);
     }
 
     public void driveArcade(double speed, double rot) {
-      D_DRIVE.arcadeDrive(speed, rot);
+      d_drive.arcadeDrive(speed, rot);
+      
     }
 
 

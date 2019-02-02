@@ -11,7 +11,6 @@ public class HatchController extends Subsystem {
     private boolean hatch_state;
 
     private SpeedController Controller_HatchGrabber = new SpeedControllerGroup(new Talon(RobotGlobal.HATCH_HATCH_GRABBER));
-    private SpeedController Controller_HatchLateral = new SpeedControllerGroup(new Talon(RobotGlobal.HATCH_LATERAL));
     private SpeedController Controller_HatchActuator = new SpeedControllerGroup(new Talon(RobotGlobal.HATCH_ACTUATOR));
 
 
