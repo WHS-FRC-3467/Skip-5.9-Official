@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import org.gradle.internal.os.OperatingSystem
 
 pluginManagement {
@@ -24,11 +23,3 @@ pluginManagement {
         }
     }
 }
-=======
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-    }
-}
->>>>>>> df37eca1d1e88651174f567e3c5104dd37a18734

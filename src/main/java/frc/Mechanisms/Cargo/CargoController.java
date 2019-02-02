@@ -11,15 +11,15 @@ public class CargoController extends Subsystem {
     private final SpeedController Controller_CargoIntakeRollers = new SpeedControllerGroup(new Talon(RobotGlobal.CARGO_INTAKE_ROLLERS));
     private final SpeedController Controller_CargoTusk = new SpeedControllerGroup(new Talon(RobotGlobal.CARGO_TUSK));
 
-    private boolean ROLLER_STATE;
-    private boolean TUSK_STATE;
+    private boolean roller_state;
+    private boolean tusk_state;
 
 
 
 
     public CargoController() {
-        ROLLER_STATE  = false;
-        TUSK_STATE = false;
+        roller_state  = false;
+        tusk_state = false;
     }
 
 
@@ -31,27 +31,26 @@ public class CargoController extends Subsystem {
 
     public void enableRollers(int direction, double speed) {
         Controller_CargoIntakeRollers.set(speed * (double)direction);
-        ROLLER_STATE = true;
+        roller_state = true;
     }
 
     public void enableTusks(int direction, double speed) {
-        Controller_CargoTusk.set(speed * (double)direction);
-        TUSK_STATE = true;
+        Controller_CargoTusk.set(speed * (double) direction);
+        tusk_state = true;
 
     }
 
     public void disableRollers() {
-        Controller_CargoIntakeRollers.set(0.0);
-        ROLLER_STATE = false;
+        Controller_CargoIntakeRollers.stopMotor();
+        roller_state = false;
 
     }
 
     public void disableTusk() {
-        Controller_CargoTusk.set(0.0);
-        TUSK_STATE = false;
+        Controller_CargoTusk.stopMotor();
+        tusk_state = false;
 
     }
-
 
     public void disableAll() {
         disableRollers();
@@ -59,10 +58,11 @@ public class CargoController extends Subsystem {
     }
 
     public boolean getRollerState() {
-        return ROLLER_STATE;
+        return roller_state;
     }
+
     public boolean getTuskState() {
-        return TUSK_STATE;
+        return tusk_state;
     }
 
 }

@@ -2,10 +2,12 @@ package frc.Drivetrain;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.Drivetrain.commands.CPrimaryDrive;
+import frc.robot.RobotGlobal;
 
 public class Drivetrain extends Subsystem {
 
@@ -14,8 +16,8 @@ public class Drivetrain extends Subsystem {
 
   //TODO change these motor channels
 
-      private final SpeedController LEFT_MOTOR_SPEED_GROUP = new SpeedControllerGroup(new Victor(1) , new Victor(2), new Victor(3));
-      private final SpeedController RIGHT_MOTOR_SPEED_GROUP = new SpeedControllerGroup(new Victor(4) , new Victor(5), new Victor(6));
+      private final SpeedController LEFT_MOTOR_SPEED_GROUP = new SpeedControllerGroup(new Victor(RobotGlobal.DRIVEBASE_VICTOR_1) , new Victor(RobotGlobal.DRIVEBASE_VICTOR_2), new Talon(RobotGlobal.DRIVEBASE_TALON_3));
+      private final SpeedController RIGHT_MOTOR_SPEED_GROUP = new SpeedControllerGroup(new Victor(RobotGlobal.DRIVEBASE_VICTOR_4) , new Victor(RobotGlobal.DRIVEBASE_VICTOR_5), new Talon(RobotGlobal.DRIVEBASE_TALON_6));
 
       private final DifferentialDrive D_DRIVE = new DifferentialDrive(LEFT_MOTOR_SPEED_GROUP, RIGHT_MOTOR_SPEED_GROUP);
 
