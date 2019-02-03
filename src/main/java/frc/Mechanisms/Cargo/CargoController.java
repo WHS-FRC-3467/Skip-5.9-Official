@@ -17,7 +17,7 @@ public class CargoController extends Subsystem {
     private boolean tusk_state;
     private boolean lift_state;
 
-
+        
 
 
     public CargoController() {

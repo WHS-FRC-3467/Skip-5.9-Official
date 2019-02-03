@@ -1,13 +1,12 @@
 package frc.Drivetrain.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class CPrimaryDrive extends Command {
 
 
-    public static final int mode_drive_with_xbox_controller = 0;
+    public static final int CURVATURE_MODE = 0;
 
     int current_drive_mode = 0;
 
@@ -24,13 +23,21 @@ public class CPrimaryDrive extends Command {
     }
 
     @Override
+    @SuppressWarnings("static-access")
     protected void execute() {
         
         switch(current_drive_mode) {
 
-            case mode_drive_with_xbox_controller:
+            case CURVATURE_MODE:
 
-            Robot.sub_drivetrain.driveArcade(Robot.robot_oi.driverController.getTriggerAxis(Hand.kRight), Robot.robot_oi.driverController.getX(Hand.kLeft));
+                if(Robot.robot_oi.getDriverLeftTrigger() == 0 && Robot.robot_oi.getDriverRightTrigger()  > 0) {
+                    Robot.sub_drivetrain.driveCurvature(-Robot.robot_oi.getDriverRightTrigger(), Robot.robot_oi.getDriverLeftX(), false);
+
+                } else {
+                    Robot.sub_drivetrain.driveCurvature(Robot.robot_oi.getDriverLeftTrigger(), -Robot.robot_oi.getDriverLeftX(), false);
+
+                }
+
 
                 break;
         }
