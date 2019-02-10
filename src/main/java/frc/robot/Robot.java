@@ -3,16 +3,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.Drivetrain.Drivetrain;
-import frc.Mechanisms.Cargo.CargoController;
+import frc.Subsystems.Cargo.CargoHold;
+import frc.Subsystems.Cargo.CargoIntake;
+import frc.Subsystems.Cargo.CargoLift;
+import frc.Subsystems.Drivetrain.Drivetrain;
+
 
 
 public class Robot extends TimedRobot {
 
 
-      public static Drivetrain sub_drivetrain;
       public static OI robot_oi;
-      public static CargoController sub_cargocontroller;
+
+      public static Drivetrain sub_drivetrain;
+      public static CargoHold sub_cargohold;
+      public static CargoIntake sub_cargointake;
+      public static CargoLift sub_cargolift;
 
 
 
@@ -21,7 +27,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
   
     sub_drivetrain = new Drivetrain();
-    sub_cargocontroller = new CargoController();
+    sub_cargohold = new CargoHold();
+    sub_cargointake = new CargoIntake();
+    sub_cargolift = new CargoLift();
+
     robot_oi = new OI();
 
   }

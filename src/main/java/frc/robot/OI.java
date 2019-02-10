@@ -1,10 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.Xbox.XboxController;
 
 public class OI {
     
+
     private static XboxController driverController;
     private static XboxController operatorController;
 
@@ -15,14 +16,11 @@ public class OI {
     public void init() {
         driverController = new XboxController(0);
         operatorController = new XboxController(1);
-            
+            bindControllerCommands();
     }
 
 
     public void bindControllerCommands() {
-
-        //TODO add command bindings
-
         
 
     }

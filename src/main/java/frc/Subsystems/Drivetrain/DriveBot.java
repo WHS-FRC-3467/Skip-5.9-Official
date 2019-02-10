@@ -1,16 +1,16 @@
-package frc.Drivetrain.commands;
+package frc.Subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class CPrimaryDrive extends Command {
+public class DriveBot extends Command {
 
 
     public static final int CURVATURE_MODE = 0;
 
     int current_drive_mode = 0;
 
-    public CPrimaryDrive() {
+    public DriveBot() {
         requires(Robot.sub_drivetrain);
         this.setInterruptible(true);
 

@@ -1,4 +1,4 @@
-package frc.Mechanisms.Hatch;
+package frc.Subsystems.Hatch;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -6,15 +6,16 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotGlobal;
 
-public class HatchController extends Subsystem {
+public class HatchGrabber extends Subsystem {
 
     private boolean hatch_state;
 
     private SpeedController Controller_HatchGrabber = new SpeedControllerGroup(new Talon(RobotGlobal.HATCH_HATCH_GRABBER));
+    @SuppressWarnings("unused")
     private SpeedController Controller_HatchActuator = new SpeedControllerGroup(new Talon(RobotGlobal.HATCH_ACTUATOR));
 
 
-    public HatchController() {
+    public HatchGrabber() {
         hatch_state = false;
     }
 

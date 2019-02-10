@@ -1,24 +1,21 @@
-package frc.Drivetrain;
+package frc.Subsystems.Drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.Drivetrain.commands.CPrimaryDrive;
 import frc.robot.RobotGlobal;
 
 public class Drivetrain extends Subsystem {
 
-  // harvest grain and nut
-
-  // TODO change these motor channels
+  // TODO drivetrain: uncomplete
 
   private final WPI_TalonSRX left_talon, right_talon;
   private final WPI_VictorSPX left_victor_1, left_victor_2, right_victor_1, right_victor_2;
+  //private final Encoder left = new Encoder();
 
   private final DifferentialDrive d_drive;
 
@@ -43,7 +40,7 @@ public class Drivetrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new CPrimaryDrive());
+        setDefaultCommand(new DriveBot());
     }
 
     
