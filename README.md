@@ -84,6 +84,7 @@ This is the repository for all official, working, and completed builds for the T
 ## Subsystem: Limelight
 
 *Methods:*
+
     getTx()
     getTy()
     getTa()
@@ -91,6 +92,7 @@ This is the repository for all official, working, and completed builds for the T
     getLED()
 
 *Commands:*
+
     enableLED()
     disableLED()
 
@@ -98,9 +100,11 @@ This is the repository for all official, working, and completed builds for the T
 ## Subsystem: LEDs
 
 *Methods:*
+
     isEnabled()
 
 *Commands:*
+
     enable()
     disable()
     setEffect()
@@ -109,9 +113,11 @@ This is the repository for all official, working, and completed builds for the T
 ## Subsystem: Lidar
 
 *Methods:*
+
     getDistance(int side)
 
 *Commands:*
+
     zeroDistance(int side)
 
 
