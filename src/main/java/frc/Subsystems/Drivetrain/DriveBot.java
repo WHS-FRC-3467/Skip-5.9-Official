@@ -11,7 +11,7 @@ public class DriveBot extends Command {
     int current_drive_mode = 0;
 
     public DriveBot() {
-        requires(Robot.sub_drivetrain);
+        //requires(Robot.sub_drivetrain);
         this.setInterruptible(true);
 
     }
@@ -31,10 +31,10 @@ public class DriveBot extends Command {
             case CURVATURE_MODE:
 
                 if(Robot.robot_oi.getDriverLeftTrigger() == 0 && Robot.robot_oi.getDriverRightTrigger()  > 0) {
-                    Robot.sub_drivetrain.driveCurvature(-Robot.robot_oi.getDriverRightTrigger(), Robot.robot_oi.getDriverLeftX(), false);
+                    //Robot.sub_drivetrain.driveCurvature(-Robot.robot_oi.getDriverRightTrigger(), Robot.robot_oi.getDriverLeftX(), false);
 
                 } else {
-                    Robot.sub_drivetrain.driveCurvature(Robot.robot_oi.getDriverLeftTrigger(), -Robot.robot_oi.getDriverLeftX(), false);
+                    //Robot.sub_drivetrain.driveCurvature(Robot.robot_oi.getDriverLeftTrigger(), -Robot.robot_oi.getDriverLeftX(), false);
 
                 }
 
