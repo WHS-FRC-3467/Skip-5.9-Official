@@ -85,27 +85,46 @@ This is the repository for all official, working, and completed builds for the T
 
 *Methods:*
 
+    getTx()
+    getTy()
+    getTa()
+    hasTarget()
+    getLED()
+
 *Commands:*
+
+    enableLED()
+    disableLED()
 
 
 ## Subsystem: LEDs
 
 *Methods:*
 
+    isEnabled()
+
 *Commands:*
+
+    enable()
+    disable()
+    setEffect()
 
 
 ## Subsystem: Lidar
 
 *Methods:*
 
+    getDistance(int side)
+
 *Commands:*
+
+    zeroDistance(int side)
 
 
 ## Subsystem: Gyro
 
 *Methods:*
-
+    
 *Commands:*
 
     getCurrentAngle()
