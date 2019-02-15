@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
       public static OI robot_oi;
 
       //public static Drivetrain sub_drivetrain;
-      //public static CargoHold sub_cargohold;
+      public static CargoHold sub_cargohold;
       //public static CargoIntake sub_cargointake;
       //public static CargoLift sub_cargolift;
       public static HatchGrabber sub_hatchgrabber;
@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
   
     //sub_drivetrain = new Drivetrain();
-    //sub_cargohold = new CargoHold();
+    sub_cargohold = new CargoHold();
     //sub_cargointake = new CargoIntake();
    // sub_cargolift = new CargoLift();
     sub_hatchgrabber = new HatchGrabber();

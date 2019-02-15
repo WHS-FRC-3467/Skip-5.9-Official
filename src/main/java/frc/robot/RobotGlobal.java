@@ -16,9 +16,9 @@ public final class RobotGlobal {
     public final static int CARGO_INTAKE_ARM_1 = 8;
     public final static int CARGO_INTAKE_ARM_2 = 9;
     public final static int CARGO_INTAKE_ROLLER = 9;
-    public final static int CARGO_HOLD =  11;
+    public final static int CARGO_HOLD =  4;
 
-    public final static int HATCH_GRABBER = 4;
+    public final static int HATCH_GRABBER = 12;
     public final static int HATCH_ACTUATOR = 13;
 
     public final static int GYRO = 14;

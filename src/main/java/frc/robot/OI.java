@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.Subsystems.Cargo.IntakeCargo;
 import frc.Subsystems.Hatch.GrabHatch;
 import frc.Subsystems.Hatch.ReleaseHatch;
 import frc.robot.Xbox.XboxController;
@@ -26,6 +27,7 @@ public class OI {
     public void bindControllerCommands() {
         new XboxControllerButton(driverController, XboxController.Button.kA).whenPressed(new GrabHatch());
         new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new ReleaseHatch());
+        new XboxControllerButton(driverController, XboxController.Button.kY).whenPressed(new IntakeCargo());
 
     }
 
