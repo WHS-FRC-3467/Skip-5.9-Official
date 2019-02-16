@@ -14,8 +14,8 @@ This is the repository for all official, working, and completed builds for the T
 |[Limelight](#subsystem-limelight)|1|||||
 |[LEDs](#subsystem-leds)|1||||    Needs buck converter module (12V -> 5V)
 |[Lidar](#subsystem-lidar)|1|||||               1
-|[Gyro](#subsystem-gyro)|1||14||Pigeon IMU on CAN - attached to Talon or direct to CANbus|               1
-|Totals:|15||||
+|[Gyro](#subsystem-gyro)|0||1||Pigeon IMU on CAN - attached to Talon or direct to CANbus|               1
+|Totals:|16||||
 
 ## Subsystem: Drivebase
 

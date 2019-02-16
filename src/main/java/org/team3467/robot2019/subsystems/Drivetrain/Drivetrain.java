@@ -18,6 +18,9 @@ public class Drivetrain extends Subsystem {
 
   private final DifferentialDrive d_drive;
 
+  public boolean quickTurnsEnabled = false;
+
+
   public Drivetrain() {
         left_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_1);
         left_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_2);

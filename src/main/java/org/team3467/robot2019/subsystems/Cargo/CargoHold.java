@@ -5,6 +5,7 @@
 package org.team3467.robot2019.subsystems.Cargo;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.robot.RobotGlobal;
@@ -18,9 +19,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CargoHold extends Subsystem
 {
-  private WPI_VictorSPX m_CargoHold = new WPI_VictorSPX(RobotGlobal.CARGO_HOLD);
+  private WPI_TalonSRX m_CargoHold = new WPI_TalonSRX(RobotGlobal.CARGO_HOLD);
 
-  private static final double CARGO_INTAKE_SPEED = 0.5;
+  private static final double CARGO_INTAKE_SPEED = 0.7;
   private static final double CARGO_HOLD_STALL_CURRENT = 6.0; //TODO: Determine correct value here
 
   @Override
@@ -40,7 +41,7 @@ public class CargoHold extends Subsystem
 
     // Motor is stalled or close to it; stop it
     // Otherwise, run motor to collect and hold cargo
-    m_CargoHold.set(noIntake ? 0.0 : CARGO_INTAKE_SPEED);
+    m_CargoHold.set(noIntake ? 0.0 : -CARGO_INTAKE_SPEED);
     
     return noIntake;
   }
