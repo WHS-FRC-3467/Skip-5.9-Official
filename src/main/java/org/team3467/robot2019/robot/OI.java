@@ -3,6 +3,7 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.robot.Xbox.XboxController;
 import org.team3467.robot2019.robot.Xbox.XboxControllerButton;
 import org.team3467.robot2019.subsystems.Cargo.IntakeCargo;
+import org.team3467.robot2019.subsystems.Cargo.ReleaseCargo;
 import org.team3467.robot2019.subsystems.Hatch.GrabHatch;
 import org.team3467.robot2019.subsystems.Hatch.ReleaseHatch;
 
@@ -27,7 +28,8 @@ public class OI {
     public void bindControllerCommands() {
         new XboxControllerButton(driverController, XboxController.Button.kA).whenPressed(new GrabHatch());
         new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new ReleaseHatch());
-        new XboxControllerButton(driverController, XboxController.Button.kX).whenPressed(new IntakeCargo());
+        new XboxControllerButton(driverController, XboxController.Button.kY).whenPressed(new IntakeCargo());
+        new XboxControllerButton(driverController, XboxController.Button.kX).whenPressed(new ReleaseCargo(0.95));
 
     }
 

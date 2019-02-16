@@ -30,4 +30,8 @@ public final class RobotGlobal {
     //Side constants
     public static final int SIDE_LEFT = 0;
     public static final int SIDE_RIGHT = 1;
+
+    // PDP Channels
+    public static final int PDP_CARGO_HOLD_CHAN = 3;  // TODO: Set this correctly
+
 }
