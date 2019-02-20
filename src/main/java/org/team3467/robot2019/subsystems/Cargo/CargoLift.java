@@ -11,7 +11,6 @@ public class CargoLift extends Subsystem {
 
     @SuppressWarnings("unused")
 
-    private final SpeedController Controller_CargoLift = new SpeedControllerGroup(new Talon(RobotGlobal.CARGO_LIFT));
 
     @Override
     protected void initDefaultCommand() {

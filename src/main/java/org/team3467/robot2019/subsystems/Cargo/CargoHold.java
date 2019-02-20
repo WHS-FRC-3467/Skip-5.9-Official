@@ -10,7 +10,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.robot.RobotGlobal;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -23,6 +26,10 @@ public class CargoHold extends Subsystem
 
   private static final double CARGO_INTAKE_SPEED = 0.7;
   private static final double CARGO_HOLD_STALL_CURRENT = 6.0; //TODO: Determine correct value here
+
+
+  public double motorCurrent;
+
 
   @Override
   public void initDefaultCommand()
@@ -58,7 +65,7 @@ public class CargoHold extends Subsystem
 
   public boolean checkCargoStall()
   {
-    double motorCurrent = Robot.robot_pdp.getCurrent(RobotGlobal.PDP_CARGO_HOLD_CHAN);
+     motorCurrent = Robot.robot_pdp.getCurrent(RobotGlobal.PDP_CARGO_HOLD_CHAN);
     SmartDashboard.putNumber("CargoHold Current Draw", motorCurrent);
     return (motorCurrent > CARGO_HOLD_STALL_CURRENT);
   }

@@ -8,6 +8,7 @@ import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeCargo extends Command {
   
@@ -29,6 +30,7 @@ public class IntakeCargo extends Command {
   @Override
   protected void execute()
   {
+    SmartDashboard.putNumber("CargoHold Current Draw", Robot.sub_cargohold.motorCurrent);
     // If intake is stopped due to high current, give it a rest for a bit
     if (m_intakeStopped == true)
     {

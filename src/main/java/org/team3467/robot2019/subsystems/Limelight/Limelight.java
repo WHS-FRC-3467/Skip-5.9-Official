@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * @author Dan Waxman
  */
 public class Limelight {
-	private static NetworkTableInstance table = null;
+	public static NetworkTableInstance table = null;
 
 	/**
 	 * Light modes for Limelight.
@@ -44,7 +44,6 @@ public class Limelight {
 	 * @return tx as reported by the Limelight.
 	 */
 	public static double getTx() {
-		System.out.println("DOING STUFF");
 		return getValue("tx").getDouble(-100.00);
 	}
 
@@ -83,6 +82,8 @@ public class Limelight {
 	public static double getTl() {
 		return getValue("tl").getDouble(0.00);
 	}
+
+
 
 	/**
 	 * Sets LED mode of Limelight.

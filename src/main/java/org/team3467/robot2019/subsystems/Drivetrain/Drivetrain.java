@@ -18,6 +18,10 @@ public class Drivetrain extends Subsystem {
 
   private final DifferentialDrive d_drive;
 
+  public boolean lineupAssistActive = false;
+
+
+  public boolean precisionModeEnabled = false;
   public boolean quickTurnsEnabled = false;
 
 
