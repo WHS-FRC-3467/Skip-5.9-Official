@@ -34,7 +34,11 @@ public class XboxController extends GenericHID {
     kX(3),
     kY(4),
     kBack(7),
-    kStart(8);
+    kStart(8),
+    kDPadUp(30),
+    kDPadDown(30),
+    kDPadLeft(30),
+    kDPadRight(30);
 
     public final int value;
 
@@ -345,4 +349,20 @@ public class XboxController extends GenericHID {
   public boolean getStartButtonReleased() {
     return getRawButtonReleased(Button.kStart.value);
   }
+
+  public boolean getDpadUp() {
+		return(getPOV(0) == 0 ? true : false);
+	}
+	
+	public boolean getDpadRight() {
+		return(getPOV(0) == 90 ? true : false);
+	}
+	
+	public boolean getDpadDown() {
+		return(getPOV(0) == 180 ? true : false);
+	}
+
+	public boolean getDpadLeft() {
+		return(getPOV(0) == 270 ? true : false);
+	}
 }

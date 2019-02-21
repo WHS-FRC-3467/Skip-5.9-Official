@@ -58,6 +58,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Shuffleboard.selectTab("Sandstorm Period");
+    
     robot_oi.log();
 
   }
@@ -79,7 +80,6 @@ public void teleopInit() {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     robot_oi.log();
-    //SmartDashboard.putNumber("CargoHold Current Draw", Robot.robot_pdp.getCurrent(RobotGlobal.PDP_CARGO_HOLD_CHAN));
 
 
   }

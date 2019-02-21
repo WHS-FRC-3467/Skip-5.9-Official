@@ -27,6 +27,9 @@ public class DriveBot extends Command {
     @SuppressWarnings("static-access")
     protected void execute() {
         
+            //only drive with drivebase if crawl mode is disabled
+        if(!Robot.sub_drivetrain.crawlModeEnabled) {
+
         switch(current_drive_mode) {
 
             case CURVATURE_MODE:
@@ -43,6 +46,9 @@ public class DriveBot extends Command {
                 break;
         }
         
+
+        }
+
     }
 
 }

@@ -24,6 +24,7 @@ public class Drivetrain extends Subsystem {
   public boolean precisionModeEnabled = false;
   public boolean quickTurnsEnabled = false;
 
+  public boolean crawlModeEnabled = false;
 
   public Drivetrain() {
         left_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_1);

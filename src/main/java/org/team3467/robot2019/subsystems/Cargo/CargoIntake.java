@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CargoIntake extends Subsystem {
@@ -25,11 +26,15 @@ public class CargoIntake extends Subsystem {
     Cargo_WPI_TalonSRX Cargo_Intake_Arm_2 = new Cargo_WPI_TalonSRX(RobotGlobal.CARGO_INTAKE_ARM_2);
     WPI_VictorSPX Cargo_Intake_Rollers = new WPI_VictorSPX(RobotGlobal.CARGO_INTAKE_ROLLER);
 
+    @Override
+    protected void initDefaultCommand() {
+        setDefaultCommand(new CrawlBot());
+    }
 
     public enum eCargoIntakeArmPosition {
-            Floor(0,"FLOOR"),
-            Roller(1, "ROLLER"),
-            Retracted(2, "RETRACTED");
+            CRAWL(0000,"CRAWL"),
+            INTAKE(0000, "INTAKE"),
+            RETRACTED(0000, "RETRACTED");
 
             private int IntakeArmPosition;
             private String IntakeArmPositionName;
@@ -68,13 +73,7 @@ public class CargoIntake extends Subsystem {
         
 
 
-   
 
-
-    @Override
-    protected void initDefaultCommand() {
-
-    }
 
     //#region Roller System
 

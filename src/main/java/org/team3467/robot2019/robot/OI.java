@@ -39,7 +39,7 @@ public class OI {
             bindControllerCommands();
     }
 
-
+    @SuppressWarnings("resource")
     public void bindControllerCommands() {
         //new XboxControllerButton(driverController, XboxController.Button.kA).whenPressed(new GrabHatch());
         //new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new ReleaseHatch());
@@ -48,6 +48,11 @@ public class OI {
         //new XboxControllerButton(driverController, XboxController.Button.kX).whenPressed(new ToggleQuickTurns());
         //new XboxControllerButton(driverController, XboxController.Button.kX).whileHeld(new Elevate());
        // new XboxControllerButton(driverController, XboxController.Button.kX).whenPressed(new MoveCargoIntake());
+
+
+       //ready to go commands ::::
+
+        new XboxControllerButton(driverController, XboxController.Button.kStickLeft).whenPressed(new CargoIntakeManual());
         new XboxControllerButton(driverController, XboxController.Button.kX).whileHeld(new CargoIntakeManual());
 
         //TODO code cleanup...
