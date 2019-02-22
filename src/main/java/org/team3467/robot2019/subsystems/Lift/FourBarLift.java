@@ -18,7 +18,7 @@ public class FourBarLift extends Subsystem {
         L2(1, "ROCKET LEVEL TWO"),
         L3(2, "ROCKET LEVEL THREE"),
         CARGO_SHIP(3,  "CARGO SHIP"),
-        UNKNOWN(4, "UNKNOWN");
+        INTAKE(4, "INTAKE");
 
         private final int position;
         private final String name;

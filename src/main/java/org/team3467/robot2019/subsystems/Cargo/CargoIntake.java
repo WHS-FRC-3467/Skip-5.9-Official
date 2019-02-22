@@ -17,9 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CargoIntake extends Subsystem {
 
-    private boolean IntakeRollerState;
     private eCargoIntakeArmPosition activeIntakeArmPosition;
-    private eCargoIntakeArmPosition standbyIntakeArmPosition;
 
 
     Cargo_WPI_TalonSRX Cargo_Intake_Arm_1 = new Cargo_WPI_TalonSRX(RobotGlobal.CARGO_INTAKE_ARM_1);
@@ -59,7 +57,6 @@ public class CargoIntake extends Subsystem {
     }
 
         public CargoIntake() {
-        IntakeRollerState = false;
 
         Cargo_Intake_Arm_1.follow(Cargo_Intake_Arm_2);
         
@@ -100,25 +97,16 @@ public class CargoIntake extends Subsystem {
         Cargo_Intake_Arm_1.setSelectedSensorPosition(0,0,0);
     }
 
-    // setter methods
-    public void setStandbyRollerPosition(eCargoIntakeArmPosition position) {
-        standbyIntakeArmPosition = position;
-    }
 
     // getter methods
     public eCargoIntakeArmPosition getArmActivePosition() {
             return activeIntakeArmPosition;
     }
-    public eCargoIntakeArmPosition getArmStandbyPosition() {
-        return standbyIntakeArmPosition;
-}
+   
 
     
     //  move methods
-    public void arm_moveToStandbyPosition() {
-        activeIntakeArmPosition = standbyIntakeArmPosition;
-        Cargo_Intake_Arm_2.set(ControlMode.MotionMagic, standbyIntakeArmPosition.getSetpoint());
-    }
+    
 
     public void arm_moveDirectlyToPosition(eCargoIntakeArmPosition position) {
         activeIntakeArmPosition = position;

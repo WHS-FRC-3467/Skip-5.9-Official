@@ -86,7 +86,6 @@ public class OI {
 
 
             SmartDashboard.putString("CARGO_INTAKE_ARM_ACTIVE_POS", Robot.sub_cargointake.getArmActivePosition().getSetpointName());
-            SmartDashboard.putString("CARGO_INTAKE_ARM_STANDBY_POS", Robot.sub_cargointake.getArmStandbyPosition().getSetpointName());
 
             SmartDashboard.putNumber("CARGO_INTAKE_ARM_STANDBY_POS", Robot.sub_cargointake.getArmEncoder());
 
