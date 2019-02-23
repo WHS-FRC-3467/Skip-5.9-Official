@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class FourBarLift extends Subsystem {
 
-    WPI_TalonSRX liftmotor = new WPI_TalonSRX(RobotGlobal.CARGO_LIFT);
-    private eFourBarLiftPosition currentPosition;
+    FBL_WPI_TalonSRX liftmotor = new FBL_WPI_TalonSRX(RobotGlobal.CARGO_LIFT);
+    
+    private eFourBarLiftPosition moveToPosition;
 
+    //TODO implement encoder values here
     public enum eFourBarLiftPosition {
         L1(0, "ROCKET LEVEL ONE"),
         L2(1, "ROCKET LEVEL TWO"),
@@ -54,10 +56,10 @@ public class FourBarLift extends Subsystem {
     }
 
     public eFourBarLiftPosition getPosition() {
-        return currentPosition;
+        return moveToPosition;
     }
     public void setPosition(eFourBarLiftPosition position) {
-        currentPosition = position;
+        moveToPosition = position;
 
     }
 
@@ -69,7 +71,12 @@ public class FourBarLift extends Subsystem {
     }
 
     public void moveMagically() {
+        liftmotor.set(ControlMode.MotionMagic, position.getSetpoint());
+    }
 
+    public void moveMagically(eFourBarLiftPosition pos) {
+        liftmotor.set(ControlMode.MotionMagic, pos.getSetpoint());
+        position = pos;
     }
 
     public void driveManual(double speed) {
