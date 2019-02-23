@@ -5,32 +5,28 @@ import org.team3467.robot2019.subsystems.Cargo.CargoHold;
 import org.team3467.robot2019.subsystems.Cargo.CargoIntake;
 import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
+import org.team3467.robot2019.subsystems.LED.LEDSerial;
 import org.team3467.robot2019.subsystems.Lift.FourBarLift;
-import org.team3467.robot2019.subsystems.Limelight.Limelight;
-import org.team3467.robot2019.subsystems.Gyro.Gyro;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Robot extends TimedRobot {
-
-  public static OI robot_oi;
 
       public static Drivetrain sub_drivetrain;
       public static CargoHold sub_cargohold;
       public static CargoIntake sub_cargointake;
-      //public static CargoLift sub_cargolift;
       public static HatchGrabber sub_hatchgrabber;
       //public static Gyro sub_gyro;
       public static FourBarLift sub_fourbarlift;
+      public static LEDSerial sub_led;
 
       
       public static PowerDistributionPanel robot_pdp;
+      public static OI robot_oi;
 
     
 
@@ -44,6 +40,8 @@ public class Robot extends TimedRobot {
     sub_cargointake = new CargoIntake();
     sub_hatchgrabber = new HatchGrabber();
     sub_fourbarlift = new FourBarLift();
+    sub_led = new LEDSerial();
+
     robot_oi = new OI();
 
 

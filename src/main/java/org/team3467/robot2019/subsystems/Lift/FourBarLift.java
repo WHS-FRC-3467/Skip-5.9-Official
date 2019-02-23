@@ -22,16 +22,16 @@ public class FourBarLift extends Subsystem {
         CARGO_SHIP(3,  "CARGO SHIP"),
         INTAKE(4, "INTAKE");
 
-        private final int position;
+        private final int setpoint;
         private final String name;
 
         private eFourBarLiftPosition(int position, String name) {
-                this.position = position;
+                this.setpoint = position;
                 this.name = name;
         }
 
-        public int getPosition() {
-            return this.position;
+        public int getSetpoint() {
+            return this.setpoint;
         }
 
         public String getName() {
@@ -71,7 +71,7 @@ public class FourBarLift extends Subsystem {
     }
 
     public void moveMagically() {
-        liftmotor.set(ControlMode.MotionMagic, position.getSetpoint());
+        liftmotor.set(ControlMode.MotionMagic, moveToPosition.getSetpoint());
     }
 
     public void moveMagically(eFourBarLiftPosition pos) {
@@ -79,8 +79,8 @@ public class FourBarLift extends Subsystem {
         moveToPosition = pos;
     }
 
-    public void driveManual(double speed) {
-        liftmotor.set(ControlMode.PercentOutput, speed);
+    public void driveManual(double speed, int direction) {
+        liftmotor.set(ControlMode.PercentOutput, speed*(double)direction);
     }
 
   

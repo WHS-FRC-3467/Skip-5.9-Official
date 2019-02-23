@@ -1,8 +1,8 @@
-package org.team3467.robot2019.subsystems.Cargo;
+package org.team3467.robot2019.subsystems.Lift;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-public class Cargo_WPI_TalonSRX extends WPI_TalonSRX {
+public class FBL_WPI_TalonSRX extends WPI_TalonSRX {
 
 
     private double m_P = 0.3;
@@ -16,7 +16,7 @@ public class Cargo_WPI_TalonSRX extends WPI_TalonSRX {
     private int m_slot = 0;
 
 
-    public Cargo_WPI_TalonSRX(int deviceId) {
+    public FBL_WPI_TalonSRX(int deviceId) {
             super(deviceId);
         loadDefaults();
             
