@@ -76,7 +76,7 @@ public class FourBarLift extends Subsystem {
 
     public void moveMagically(eFourBarLiftPosition pos) {
         liftmotor.set(ControlMode.MotionMagic, pos.getSetpoint());
-        position = pos;
+        moveToPosition = pos;
     }
 
     public void driveManual(double speed) {
