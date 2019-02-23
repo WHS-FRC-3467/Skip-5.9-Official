@@ -5,29 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2019.subsystems.Drivetrain;
+package org.team3467.robot2019.subsystems.CargoIntake;
 
 import org.team3467.robot2019.robot.Robot;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-/**
- * Add your docs here.
- */
-public class ToggleQuickTurns extends InstantCommand {
-  /**
-   * Add your docs here.
-   */
-  public ToggleQuickTurns() {
-    super();
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class MoveCargoIntake extends InstantCommand {
+  public MoveCargoIntake() {
+    requires(Robot.sub_cargointake);
   }
 
-  // Called once when the command executes
   @Override
   protected void initialize() {
-      Robot.sub_drivetrain.quickTurnsEnabled = !Robot.sub_drivetrain.quickTurnsEnabled;
   }
 
+  @Override
+  protected void execute() {
+    System.out.println("THE WIZARD IS MOVING YOUR MOTOR");
+    //Robot.sub_cargointake.moveMagically(Robot.sub_cargointake);
+
+  }
+
+  @Override
+  protected boolean isFinished() {
+    return true;
+  }
+
+  @Override
+  protected void end() {
+  }
+
+
+  @Override
+  protected void interrupted() {
+  }
 }

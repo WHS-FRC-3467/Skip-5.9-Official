@@ -2,7 +2,7 @@
 /* Copyright (c) 2019 FRC Team 3467                                           */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2019.subsystems.Cargo;
+package org.team3467.robot2019.subsystems.CargoHold;
 
 import org.team3467.robot2019.robot.Robot;
 

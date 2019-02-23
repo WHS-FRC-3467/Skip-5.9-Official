@@ -1,12 +1,12 @@
 
 package org.team3467.robot2019.robot;
 
-import org.team3467.robot2019.subsystems.Cargo.CargoHold;
-import org.team3467.robot2019.subsystems.Cargo.CargoIntake;
+import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
+import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
+import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
 import org.team3467.robot2019.subsystems.LED.LEDSerial;
-import org.team3467.robot2019.subsystems.Lift.FourBarLift;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;

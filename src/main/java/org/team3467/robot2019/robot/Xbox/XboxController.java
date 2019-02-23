@@ -47,6 +47,19 @@ public class XboxController extends GenericHID {
     }
   }
 
+  public enum DPad {
+    kDPadUp(0),
+    kDPadRight(90),
+    kDPadDown(180),
+    kDPadLeft(270);
+
+    public final int value;
+
+    DPad(int value) {
+      this.value = value;
+    }
+  }
+
   /**
    * Construct an instance of a joystick. The joystick index is the USB port on the drivers
    * station.

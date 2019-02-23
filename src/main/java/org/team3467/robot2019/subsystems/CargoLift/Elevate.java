@@ -1,4 +1,4 @@
-package org.team3467.robot2019.subsystems.Lift;
+package org.team3467.robot2019.subsystems.CargoLift;
 
 import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;

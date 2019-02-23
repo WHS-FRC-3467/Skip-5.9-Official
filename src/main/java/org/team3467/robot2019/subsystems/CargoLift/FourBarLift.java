@@ -1,8 +1,8 @@
-package org.team3467.robot2019.subsystems.Lift;
+package org.team3467.robot2019.subsystems.CargoLift;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2019.robot.RobotGlobal;
 
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class FourBarLift extends Subsystem {
 
-    FBL_WPI_TalonSRX liftmotor = new FBL_WPI_TalonSRX(RobotGlobal.CARGO_LIFT);
+    FBL_TalonSRX liftmotor = new FBL_TalonSRX(RobotGlobal.CARGO_LIFT);
     
     private eFourBarLiftPosition moveToPosition;
 

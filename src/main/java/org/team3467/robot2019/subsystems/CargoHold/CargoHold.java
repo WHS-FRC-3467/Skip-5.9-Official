@@ -2,10 +2,10 @@
 /* Copyright (c) 2019 FRC Team 3467                                           */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2019.subsystems.Cargo;
+package org.team3467.robot2019.subsystems.CargoHold;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.robot.RobotGlobal;
@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CargoHold extends Subsystem
 {
-  private WPI_TalonSRX m_CargoHold = new WPI_TalonSRX(RobotGlobal.CARGO_HOLD);
+  private TalonSRX m_CargoHold = new TalonSRX(RobotGlobal.CARGO_HOLD);
 
   private static final double CARGO_INTAKE_SPEED = 0.7;
   private static final double CARGO_HOLD_STALL_CURRENT = 6.0; //TODO: Determine correct value here
@@ -48,19 +48,19 @@ public class CargoHold extends Subsystem
 
     // Motor is stalled or close to it; stop it
     // Otherwise, run motor to collect and hold cargo
-    m_CargoHold.set(noIntake ? 0.0 : -CARGO_INTAKE_SPEED);
+    m_CargoHold.set(ControlMode.PercentOutput,  noIntake ? 0.0 : -CARGO_INTAKE_SPEED);
     
     return noIntake;
   }
 
   public void releaseCargo(double speed)
   {
-    m_CargoHold.set(speed);
+    m_CargoHold.set(ControlMode.PercentOutput,speed);
   }
 
   public void stop()
   {
-    m_CargoHold.set(0.0);
+    m_CargoHold.set(ControlMode.PercentOutput,0.0);
   }
 
   public boolean checkCargoStall()
