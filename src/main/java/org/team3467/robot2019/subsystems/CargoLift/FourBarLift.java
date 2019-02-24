@@ -48,6 +48,7 @@ public class FourBarLift extends Subsystem {
             liftmotor.set(ControlMode.PercentOutput, 0.0);
             liftmotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
+        new LiftManually(); //start the manual control command
     }
     
     @Override
@@ -75,8 +76,10 @@ public class FourBarLift extends Subsystem {
     }
 
     public void moveMagically(eFourBarLiftPosition pos) {
-        liftmotor.set(ControlMode.MotionMagic, pos.getSetpoint());
-        moveToPosition = pos;
+        if(safetyCheck()) {
+            liftmotor.set(ControlMode.MotionMagic, pos.getSetpoint());
+            moveToPosition = pos;
+        }
     }
 
     public void driveManual(double speed, int direction) {
@@ -84,6 +87,13 @@ public class FourBarLift extends Subsystem {
     }
 
   
+    private boolean safetyCheck() {
+        boolean passed = true;
+
+        System.out.println("Safety check at FBL passed? : " + passed);
+        return passed;
+    }
+
 
     
 

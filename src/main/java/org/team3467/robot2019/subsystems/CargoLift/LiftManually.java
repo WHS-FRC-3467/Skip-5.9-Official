@@ -6,9 +6,9 @@ import org.team3467.robot2019.robot.RobotGlobal;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Elevate extends Command {
+public class LiftManually extends Command {
 
-    public Elevate() {
+    public LiftManually() {
         requires(Robot.sub_fourbarlift);
     }
 
@@ -20,9 +20,17 @@ public class Elevate extends Command {
     @Override
     protected void execute() {
 
-        double speed = OI.getDriverRightTrigger();
+        double fSpeed = OI.getOperatorRightTrigger();
+        double rSpeed = OI.getOperatorLeftTrigger();
 
-        Robot.sub_fourbarlift.driveManual(speed, RobotGlobal.DIRECTION_NORMAL);
+        if(fSpeed > 0) {
+            Robot.sub_fourbarlift.driveManual(fSpeed, RobotGlobal.DIRECTION_NORMAL);
+
+        } else {
+            Robot.sub_fourbarlift.driveManual(rSpeed, RobotGlobal.DIRECTION_REVERSE);
+
+        }
+
     }
 
 }

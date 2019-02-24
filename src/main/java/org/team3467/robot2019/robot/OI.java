@@ -3,6 +3,8 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.robot.Xbox.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Xbox.XboxController;
 import org.team3467.robot2019.robot.Xbox.XboxControllerButton;
+import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
+import org.team3467.robot2019.subsystems.CargoLift.LiftToPosition;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 import org.team3467.robot2019.subsystems.Limelight.Limelight;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
@@ -42,7 +44,6 @@ public class OI {
 		 * Drive Controller
 		 * 
 		 */
-		// Bind any Drive Controller buttons here
 		
 		// DPad will change drive control mode
 		new XBoxControllerDPad(driverController, XboxController.DPad.kDPadUp).whenActive(new DriveBot(DriveBot.driveMode_Tank, false));
@@ -60,18 +61,13 @@ public class OI {
 		 * Operator Controller
 		 * 
 		 */
-		// Bind any Operator Controller buttons here
-		
-       //new XboxControllerButton(operatorController, XboxController.Button.kStickLeft).whenPressed(new CargoIntakeManual());
-       //new XboxControllerButton(operatorController, XboxController.Button.kX).whileHeld(new CargoIntakeManual());
+        
+         new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new LiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE));
+         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L1));
+         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L2));
+         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L3));
 
-       //new XboxControllerButton(operatorController, XboxController.Button.kA).whenPressed(new GrabHatch());
-        //new XboxControllerButton(operatorController, XboxController.Button.kB).whenPressed(new ReleaseHatch());
-       // new XboxControllerButton(operatorController, XboxController.Button.kY).whileHeld(new IntakeCargo());
-        //new XboxControllerButton(operatorController, XboxController.Button.kX).whileHeld(new ReleaseCargo(1.0));
-        //new XboxControllerButton(operatorController, XboxController.Button.kX).whenPressed(new ToggleQuickTurns());
-        //new XboxControllerButton(operatorController, XboxController.Button.kX).whileHeld(new Elevate());
-       // new XboxControllerButton(operatorController, XboxController.Button.kX).whenPressed(new MoveCargoIntake());
 
     }
 
