@@ -1,34 +1,34 @@
 package org.team3467.robot2019.subsystems.Hatch;
 
 import org.team3467.robot2019.robot.Robot;
-import org.team3467.robot2019.robot.RobotGlobal;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
-public class GrabHatch extends InstantCommand {
+public class GrabHatch extends Command {
 
+    private boolean m_motionStopped;
+    
     public GrabHatch() {
         requires(Robot.sub_hatchgrabber);
     }
 
-    @Override
-    protected boolean isFinished() {
-        return true;
+    protected void initialize() {
+        m_motionStopped = false;
     }
 
-    @Override
     protected void execute() {
-        if(!(Robot.sub_hatchgrabber.getHatcherGrabberState() == RobotGlobal.DIRECTION_NORMAL)) {
-            Robot.sub_hatchgrabber.setHatchGrabber(0.2, RobotGlobal.DIRECTION_NORMAL);
-            } else {
-                Robot.sub_hatchgrabber.stopHatchGrabber();
-
-            }
+        m_motionStopped = Robot.sub_hatchgrabber.grabHatch();
     }
-    @Override
+
+    protected boolean isFinished() {
+        return m_motionStopped;
+    }
+
     protected void end() {
-      //  Robot.sub_hatchgrabber.disable();
+        Robot.sub_hatchgrabber.stopGrabber();
     }
     
-
+    protected void interrupted() {
+        end();
+    }
 }

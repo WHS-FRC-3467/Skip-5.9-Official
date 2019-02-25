@@ -5,52 +5,55 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package org.team3467.robot2019.subsystems.Hatch;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RunTest extends Command {
-  WPI_TalonSRX one_talon = Robot.m_hatch.getOne_Talon();
-  int direction = 1;
 
-  public RunTest() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_hatch);
-  }
+    private int direction;
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
+    public RunTest() {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.sub_hatchgrabber);
+    }
 
-  }
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+        direction = 1;
+    }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    one_talon.set(0.5*direction);
-  }
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+        if (direction > 0)
+        {
+            if (Robot.sub_hatchgrabber.grabHatch())
+                direction = direction * -1;
+        }
+        else if (direction < 0)
+        {
+            if (Robot.sub_hatchgrabber.releaseHatch())
+                direction = direction * -1;
+        }
+    }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    boolean isClosedFwd = one_talon.getSensorCollection().isFwdLimitSwitchClosed();
-    boolean isClosedRev = one_talon.getSensorCollection().isRevLimitSwitchClosed();
-    if (isClosedFwd || isClosedRev)
-      direction = direction*-1;
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-    return false;
-  }
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+    }
 }

@@ -1,61 +1,97 @@
 package org.team3467.robot2019.subsystems.Hatch;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.team3467.robot2019.robot.RobotGlobal;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchGrabber extends Subsystem {
 
-    private int hatchGrabberState;
+    public static final double DEPLOY_TIME = 1.0;
+    public static final double RETRACT_TIME = 1.0;
+    
+    private static final double GRAB_SPEED = 0.9;
+    private static final double RELEASE_SPEED = 0.9;
+    private static final double DEPLOY_SPEED = 0.9;
+    private static final double RETRACT_SPEED = 0.9;
 
-    private boolean hatchActuatorState;
+    private WPI_TalonSRX m_grabTalon;
+    private WPI_TalonSRX m_deployTalon;
+    private boolean      m_grabberDeployed;
 
-    private SpeedController Controller_HatchGrabber = new SpeedControllerGroup(new WPI_VictorSPX(RobotGlobal.HATCH_GRABBER));
-    @SuppressWarnings("unused")
-    private SpeedController Controller_HatchActuator = new SpeedControllerGroup(new WPI_VictorSPX(RobotGlobal.HATCH_ACTUATOR));
+    public HatchGrabber()
+    {
+        
+        m_grabberDeployed = false;
 
+        m_grabTalon = new  WPI_TalonSRX(RobotGlobal.HATCH_GRABBER);
+        m_deployTalon = new WPI_TalonSRX(RobotGlobal.HATCH_ACTUATOR);
 
-    public HatchGrabber() {
-        hatchGrabberState = 0;
-        hatchActuatorState = false;
+        m_grabTalon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        m_grabTalon.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
+        m_deployTalon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+
+        m_grabTalon.setNeutralMode(NeutralMode.Brake);
+        m_deployTalon.setNeutralMode(NeutralMode.Brake);
     }
 
-    @Override
     protected void initDefaultCommand() {
 
     }
 
-    public void setHatchGrabber(double speed, int direction) {
-            Controller_HatchGrabber.set(speed * (double)direction);
-            hatchGrabberState = direction;
+    // TODO: Confirm proper limit switch directions to use here
+    public boolean grabHatch()
+    {
+        m_grabTalon.set(GRAB_SPEED);
+        return m_grabTalon.getSensorCollection().isFwdLimitSwitchClosed();
+    }
+
+    public boolean releaseHatch()
+    {
+        m_grabTalon.set(RELEASE_SPEED);
+        return m_grabTalon.getSensorCollection().isRevLimitSwitchClosed();
+    }
+
+    public void stopGrabber()
+    {
+        m_grabTalon.set(0.0);
+    }
+
+    public void deployGrabber()
+    {
+        m_deployTalon.set(DEPLOY_SPEED);
+    }
+
+    public boolean retractGrabber()
+    {
+        m_deployTalon.set(RETRACT_SPEED);
+        if (m_deployTalon.getSensorCollection().isFwdLimitSwitchClosed())
+        {
+            m_grabberDeployed = false;
+            return true;
         }
-
-    public void stopHatchGrabber() {
-            Controller_HatchGrabber.stopMotor();
-            hatchGrabberState = 0;
+        else
+            return false;
     }
 
-    public void setHatchActuator(double speed, int direction) {
-        Controller_HatchActuator.set(speed * (double)direction);
-            hatchActuatorState = true;
-    }
-    
-    public void stopHatchActuator() {
-        Controller_HatchActuator.stopMotor();
-        hatchActuatorState = false;
+    public void stopDeploy()
+    {
+        m_deployTalon.set(0.0);
     }
 
-    public int getHatcherGrabberState() {
-        return hatchGrabberState;
+    public boolean isGrabberDeployed()
+    {
+        return m_grabberDeployed;
     }
 
-    public boolean getHatchActuatorState() {
-        return hatchActuatorState;
+    public void setGrabberDeployed()
+    {
+        m_grabberDeployed = true;
     }
 
 }

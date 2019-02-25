@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ReleaseCargo extends Command
 {
 
-  private double m_releaseSpeed = 0.5;  // Default release speed
+  private double m_releaseSpeed = 1.0;  // Default release speed
 
   public ReleaseCargo()
   {
