@@ -73,7 +73,10 @@ public class CargoHold extends Subsystem
         m_closedLoopError = m_cargoHold.getClosedLoopError(0);
 
         if (loopCount++ > INTAKE_REPORTING_LOOP_COUNT)
+        {
             reportCargoHoldStats();
+            loopCount = 0;
+        }
     }
 
     public void releaseCargo(double speed)
