@@ -86,7 +86,7 @@ public class DriveBot extends Command {
 		
 		default:
 		case driveMode_Tank:
-			Robot.sub_drivetrain.driveTank(getControllerLeftStickY(), getControllerRightStickY());
+			Robot.sub_drivetrain.driveTank((-1.0)*getControllerLeftStickY(), (-1.0)*getControllerRightStickY());
 			break;
 		
 		case driveMode_Rocket:
@@ -101,7 +101,7 @@ public class DriveBot extends Command {
 			else if (backSpeed > 0.0)
 				speed = -1.0 * backSpeed;
 			
-			Robot.sub_drivetrain.drive(speed, getControllerLeftStickX(), (m_driveMode == driveMode_RocketSpin));
+			Robot.sub_drivetrain.drive(speed, (-1.0)*getControllerLeftStickX(), (m_driveMode == driveMode_RocketSpin));
 
 			Robot.sub_drivetrain.reportEncoders();
 			break;

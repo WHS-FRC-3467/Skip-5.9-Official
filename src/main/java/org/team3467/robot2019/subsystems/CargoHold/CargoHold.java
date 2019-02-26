@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CargoHold extends Subsystem
 {
-    private static final double CARGO_HOLD_STALL_CURRENT = 25.0;
+    private static final double CARGO_HOLD_STALL_CURRENT = 3.0;
     
     private TalonSRX m_cargoHold = new TalonSRX(RobotGlobal.CARGO_HOLD);
 
@@ -46,7 +46,7 @@ public class CargoHold extends Subsystem
         m_cargoHold.configAllowableClosedloopError(0, 0, 10);
 
         /* Config closed loop gains for Primary closed loop (Current) */
-        m_cargoHold.config_kP(0, 0.2, 10);
+        m_cargoHold.config_kP(0, 0.5, 10);
         m_cargoHold.config_kI(0, 0.0, 10);
         m_cargoHold.config_kD(0, 0.0, 10);
         m_cargoHold.config_kF(0, 0.0, 10);
@@ -66,7 +66,7 @@ public class CargoHold extends Subsystem
     public void intakeCargo()
     {
         /* Current Closed Loop */
-        m_cargoHold.set(ControlMode.Current, CARGO_HOLD_STALL_CURRENT);
+        m_cargoHold.set(ControlMode.Current, -CARGO_HOLD_STALL_CURRENT);
 
         m_motorCurrent = m_cargoHold.getOutputCurrent();
         m_percentOutput = m_cargoHold.getMotorOutputPercent();

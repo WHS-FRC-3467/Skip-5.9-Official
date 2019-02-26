@@ -34,12 +34,12 @@ public class Drivetrain extends Subsystem {
 	public Drivetrain() {
 
 		// Three motors per side -> three speed controllers per side
-        left_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_1);
-        left_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_2);
-        left_talon = new WPI_TalonSRX(RobotGlobal.DRIVEBASE_TALON_3);
-        right_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_4);
-        right_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_5);
-        right_talon = new WPI_TalonSRX(RobotGlobal.DRIVEBASE_TALON_6);
+        left_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_L1);
+        left_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_L2);
+        left_talon = new WPI_TalonSRX(RobotGlobal.DRIVEBASE_TALON_L);
+        right_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_R1);
+        right_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_R2);
+        right_talon = new WPI_TalonSRX(RobotGlobal.DRIVEBASE_TALON_R);
 
 		// Slave the extra Talons on each side
         left_victor_1.follow(left_talon);
@@ -51,12 +51,12 @@ public class Drivetrain extends Subsystem {
 		left_talon.setSensorPhase(true);
 		
 		// Invert all motors (until we figure out why controls are backward)
- 		left_talon.setInverted(true);
-		left_victor_1.setInverted(true);
-		left_victor_2.setInverted(true);
-		right_talon.setInverted(true);
-		right_victor_1.setInverted(true);
-		right_victor_2.setInverted(true);
+ 		left_talon.setInverted(false);
+		left_victor_1.setInverted(false);
+		left_victor_2.setInverted(false);
+		right_talon.setInverted(false);
+		right_victor_1.setInverted(false);
+		right_victor_2.setInverted(false);
 
 		// Turn off Brake mode
 		setTalonBrakes(false);
@@ -72,14 +72,16 @@ public class Drivetrain extends Subsystem {
 		m_drive = new DifferentialDrive(left_talon, right_talon);
 		
 		// DifferentialDrive Parameters
-		m_drive.setSafetyEnabled(true);
+		m_drive.setSafetyEnabled(false);
 		m_drive.setExpiration(1.0);
 		m_drive.setMaxOutput(1.0);
+
+
 	}
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new DriveBot(DriveBot.driveMode_Rocket, false));
+        //setDefaultCommand(new DriveBot(DriveBot.driveMode_Rocket, false));
     }
     
 	public WPI_TalonSRX getLeftTalon() {

@@ -3,6 +3,9 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.robot.Xbox.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Xbox.XboxController;
 import org.team3467.robot2019.robot.Xbox.XboxControllerButton;
+import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
+import org.team3467.robot2019.subsystems.CargoHold.ReleaseCargo;
+import org.team3467.robot2019.subsystems.CargoHold.StopCargoHold;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftToPosition;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
@@ -68,6 +71,12 @@ public class OI {
          new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L2));
          new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L3));
 
+         SmartDashboard.putData(new DriveBot(DriveBot.driveMode_Rocket, false));
+
+         SmartDashboard.putData(new IntakeCargo());
+         SmartDashboard.putData(new ReleaseCargo());
+         SmartDashboard.putData(new StopCargoHold());
+
 
     }
 
@@ -115,7 +124,7 @@ public class OI {
             SmartDashboard.putNumber("CARGO_INTAKE_ENCODER", Robot.sub_cargointake.getArmEncoderPosition());
 
 
-            SmartDashboard.putString("CARGO_INTAKE_ARM_ACTIVE_POS", Robot.sub_cargointake.getArmActivePosition().getSetpointName());
+            //SmartDashboard.putString("CARGO_INTAKE_ARM_ACTIVE_POS", Robot.sub_cargointake.getArmActivePosition().getSetpointName());
 
             SmartDashboard.putNumber("CARGO_INTAKE_ARM_STANDBY_POS", Robot.sub_cargointake.getArmEncoderPosition());
 

@@ -48,7 +48,7 @@ public class FourBarLift extends Subsystem {
             liftmotor.set(ControlMode.PercentOutput, 0.0);
             liftmotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-        new LiftManually(); //start the manual control command
+        //new LiftManually(); //start the manual control command
     }
     
     @Override

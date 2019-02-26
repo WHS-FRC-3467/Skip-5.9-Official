@@ -3,7 +3,6 @@ package org.team3467.robot2019.subsystems.CargoIntake;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import org.team3467.robot2019.robot.RobotGlobal;
 
@@ -16,7 +15,7 @@ public class CargoIntake extends Subsystem
 
     Cargo_TalonSRX m_intakeArm = new Cargo_TalonSRX(RobotGlobal.CARGO_INTAKE_ARM_1);
     TalonSRX        m_intakeArm_2 = new TalonSRX(RobotGlobal.CARGO_INTAKE_ARM_2);
-    VictorSPX       m_intakeRoller = new VictorSPX(RobotGlobal.CARGO_INTAKE_ROLLER);
+    TalonSRX       m_intakeRoller = new TalonSRX(RobotGlobal.CARGO_INTAKE_ROLLER);
 
     protected void initDefaultCommand()
     {

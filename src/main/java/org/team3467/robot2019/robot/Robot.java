@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
       public static HatchGrabber sub_hatchgrabber;
       //public static Gyro sub_gyro;
       public static FourBarLift sub_fourbarlift;
-      public static LEDSerial sub_led;
+      //public static LEDSerial sub_led;
 
       
       public static OI robot_oi;
@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     sub_hatchgrabber = new HatchGrabber();
     //sub_gyro = new Gyro();
     sub_fourbarlift = new FourBarLift();
-    sub_led = new LEDSerial();
+    //sub_led = new LEDSerial();
 
     robot_oi = new OI();
 
