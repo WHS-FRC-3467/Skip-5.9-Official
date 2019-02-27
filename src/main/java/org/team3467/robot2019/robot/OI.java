@@ -9,6 +9,9 @@ import org.team3467.robot2019.subsystems.CargoHold.StopCargoHold;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftToPosition;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
+import org.team3467.robot2019.subsystems.Hatch.DriveHatchDeployment;
+import org.team3467.robot2019.subsystems.Hatch.GrabHatch;
+import org.team3467.robot2019.subsystems.Hatch.ReleaseHatch;
 import org.team3467.robot2019.subsystems.Limelight.Limelight;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
 
@@ -71,11 +74,17 @@ public class OI {
          new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L2));
          new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L3));
 
+         new XboxControllerButton(operatorController, XboxController.Button.kB).whenPressed(new GrabHatch());
+         new XboxControllerButton(operatorController, XboxController.Button.kY).whenPressed(new ReleaseHatch());
+         
+
+
          SmartDashboard.putData(new DriveBot(DriveBot.driveMode_Rocket, false));
 
          SmartDashboard.putData(new IntakeCargo());
          SmartDashboard.putData(new ReleaseCargo());
          SmartDashboard.putData(new StopCargoHold());
+         SmartDashboard.putData(new DriveHatchDeployment());
 
 
     }

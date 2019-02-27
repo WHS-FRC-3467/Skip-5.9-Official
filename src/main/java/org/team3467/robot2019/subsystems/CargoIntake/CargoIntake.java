@@ -19,7 +19,7 @@ public class CargoIntake extends Subsystem
 
     protected void initDefaultCommand()
     {
-        setDefaultCommand(new DriveCargoIntakeRoller());
+        //setDefaultCommand(new DriveCargoIntakeRoller());
     }
 
     public enum eCargoIntakeArmPosition

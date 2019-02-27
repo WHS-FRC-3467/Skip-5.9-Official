@@ -14,10 +14,10 @@ public class HatchGrabber extends Subsystem {
     public static final double DEPLOY_TIME = 1.0;
     public static final double RETRACT_TIME = 1.0;
     
-    private static final double GRAB_SPEED = 0.9;
-    private static final double RELEASE_SPEED = 0.9;
-    private static final double DEPLOY_SPEED = 0.9;
-    private static final double RETRACT_SPEED = 0.9;
+    private static final double GRAB_SPEED = -1.0;
+    private static final double RELEASE_SPEED = 1.0;
+    private static final double DEPLOY_SPEED = 0.3;
+    private static final double RETRACT_SPEED = 0.3;
 
     private WPI_TalonSRX m_grabTalon;
     private WPI_TalonSRX m_deployTalon;
@@ -48,13 +48,13 @@ public class HatchGrabber extends Subsystem {
     public boolean grabHatch()
     {
         m_grabTalon.set(GRAB_SPEED);
-        return m_grabTalon.getSensorCollection().isFwdLimitSwitchClosed();
+        return m_grabTalon.getSensorCollection().isRevLimitSwitchClosed();
     }
 
     public boolean releaseHatch()
     {
         m_grabTalon.set(RELEASE_SPEED);
-        return m_grabTalon.getSensorCollection().isRevLimitSwitchClosed();
+        return m_grabTalon.getSensorCollection().isFwdLimitSwitchClosed();
     }
 
     public void stopGrabber()
@@ -62,6 +62,11 @@ public class HatchGrabber extends Subsystem {
         m_grabTalon.set(0.0);
     }
 
+    public void driveDeployment(double speed)
+    {
+        m_deployTalon.set(speed);
+    }
+    
     public void deployGrabber()
     {
         m_deployTalon.set(DEPLOY_SPEED);
