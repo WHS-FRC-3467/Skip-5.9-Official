@@ -4,6 +4,7 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
+import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
 import org.team3467.robot2019.subsystems.LED.LEDSerial;
@@ -11,6 +12,7 @@ import org.team3467.robot2019.subsystems.LED.LEDSerial;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Robot extends TimedRobot {
@@ -75,6 +77,7 @@ public void teleopInit() {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     robot_oi.log();
+    SmartDashboard.putNumber("FBLEncoder", Robot.sub_fourbarlift.getEncoder());
 
 
   }

@@ -56,7 +56,8 @@ public class DriveBot extends Command {
 	 * Constructor - no args
 	 */
 	public DriveBot() {
-        super(Robot.sub_drivetrain);
+		super(Robot.sub_drivetrain);
+		
 
         m_driveMode = driveMode_Rocket;
         m_precision = false;

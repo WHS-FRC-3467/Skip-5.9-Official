@@ -20,6 +20,8 @@ public class LiftManually extends Command {
     @Override
     protected void execute() {
 
+        System.out.println("MANUAL OPERATION");
+
         double fSpeed = OI.getOperatorRightTrigger();
         double rSpeed = OI.getOperatorLeftTrigger();
 

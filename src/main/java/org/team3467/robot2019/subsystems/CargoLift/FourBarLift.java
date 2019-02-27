@@ -5,12 +5,13 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2019.robot.RobotGlobal;
+import org.team3467.robot2019.subsystems.MagicTalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class FourBarLift extends Subsystem {
 
-    FBL_TalonSRX liftmotor = new FBL_TalonSRX(RobotGlobal.CARGO_LIFT);
+    MagicTalonSRX liftmotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0);
     
     private eFourBarLiftPosition moveToPosition;
 
@@ -46,9 +47,7 @@ public class FourBarLift extends Subsystem {
     public FourBarLift() {
             liftmotor.setSensorPhase(true);
             liftmotor.set(ControlMode.PercentOutput, 0.0);
-            liftmotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-        //new LiftManually(); //start the manual control command
     }
     
     @Override
@@ -65,7 +64,7 @@ public class FourBarLift extends Subsystem {
     }
 
     public int getEncoder() {
-        return liftmotor.getSelectedSensorPosition();
+        return liftmotor.getSelectedSensorPosition(0);
     }
     public void zeroEncoder() {
         liftmotor.setSelectedSensorPosition(0,0,0);
