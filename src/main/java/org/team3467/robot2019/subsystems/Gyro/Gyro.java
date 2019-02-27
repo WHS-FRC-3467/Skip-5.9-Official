@@ -39,7 +39,7 @@ public class Gyro extends Subsystem {
 	}
 	
     // Set the default command for a subsystem here.
-    public void initDefaultCommand() {
+    protected void initDefaultCommand() {
         setDefaultCommand(new Gyro_ReportStatus());
     }
     

@@ -3,15 +3,22 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.robot.Xbox.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Xbox.XboxController;
 import org.team3467.robot2019.robot.Xbox.XboxControllerButton;
+import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
 import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
 import org.team3467.robot2019.subsystems.CargoHold.ReleaseCargo;
 import org.team3467.robot2019.subsystems.CargoHold.StopCargoHold;
+import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
+import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeArm;
+import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
+import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftToPosition;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
+import org.team3467.robot2019.subsystems.Hatch.DeployGrabber;
 import org.team3467.robot2019.subsystems.Hatch.DriveHatchDeployment;
 import org.team3467.robot2019.subsystems.Hatch.GrabHatch;
 import org.team3467.robot2019.subsystems.Hatch.ReleaseHatch;
+import org.team3467.robot2019.subsystems.Hatch.StowGrabber;
 import org.team3467.robot2019.subsystems.Limelight.Limelight;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
 
@@ -61,35 +68,62 @@ public class OI {
 		// The "X" button activates "turn in place" while held down
 		new XboxControllerButton(driverController, XboxController.Button.kX).whileActive(new DriveBot(DriveBot.driveMode_RocketSpin, false));
 
+		// The "B" button grabs the hatch cover
+        new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new GrabHatch());
+        // The "Y" button releases the hatch cover
+        new XboxControllerButton(driverController, XboxController.Button.kY).whenPressed(new ReleaseHatch());
+        
+        // The "LeftBumper" button retracts the hatch mechanism
+        new XboxControllerButton(driverController, XboxController.Button.kBumperLeft).whenPressed(new StowGrabber());
+		// The "RightBumper" button deploys the hatch mechanism
+        new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
 
 		/*
 		 * 
 		 * Operator Controller
 		 * 
 		 */
+        // Cargo Hold
+        // Pressing down the Left Stick will toggle Cargo Hold Roller control on/off
+        new XboxControllerButton(operatorController, XboxController.Button.kStickLeft).whenPressed(new DriveCargoHoldRollers());
+                
+        // Cargo Lift
+        new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new LiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L1));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L2));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L3));
         
-         new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new LiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE));
-         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
-         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L1));
-         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L2));
-         new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L3));
+         // Cargo Intake Arm
+		// The "X" button will Stow the Arm
+        new XboxControllerButton(operatorController, XboxController.Button.kX)
+            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
 
-         new XboxControllerButton(operatorController, XboxController.Button.kB).whenPressed(new GrabHatch());
-         new XboxControllerButton(operatorController, XboxController.Button.kY).whenPressed(new ReleaseHatch());
-         
+        // The "Y" button will move the Arm to Collect position
+        new XboxControllerButton(operatorController, XboxController.Button.kY)
+            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.INTAKE));
+
+		// The "B" button will move the Arm to Lift and Crawl position
+        new XboxControllerButton(operatorController, XboxController.Button.kB)
+            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.CRAWL));
+
+        // Cargo Intake Roller
+        // Pressing down the Right Stick will toggle Cargo Intake Roller control on/off
+         new XboxControllerButton(operatorController, XboxController.Button.kStickRight).whenPressed(new DriveCargoIntakeRoller());
 
 
+        // Commands to drag onto the ShuffleBoard
          SmartDashboard.putData(new DriveBot(DriveBot.driveMode_Rocket, false));
-
          SmartDashboard.putData(new IntakeCargo());
          SmartDashboard.putData(new ReleaseCargo());
          SmartDashboard.putData(new StopCargoHold());
          SmartDashboard.putData(new DriveHatchDeployment());
+         SmartDashboard.putData(new DriveCargoIntakeArm());
 
 
     }
 
-        //Easier access to xbox controller
+    //Easier access to xbox controller
 
     public static XboxController getDriverController() {
         return driverController;
@@ -118,6 +152,18 @@ public class OI {
         return driverController.getTriggerAxis(Hand.kLeft);
     }
 
+    public static double getOperatorLeftY() {
+        return operatorController.getY(Hand.kLeft);
+    }
+
+    public static double getOperatorRightX() {
+        return operatorController.getX(Hand.kRight);
+    }
+
+    public static double getOperatorRightY() {
+        return operatorController.getY(Hand.kRight);
+    }
+
     public static double getOperatorLeftTrigger() {
         return operatorController.getTriggerAxis(Hand.kRight);
     }
@@ -130,14 +176,7 @@ public class OI {
     public void log() {
 
             SmartDashboard.putNumber("FOUR_BAR_LIFT_ENCODER", Robot.sub_fourbarlift.getEncoder());
-            SmartDashboard.putNumber("CARGO_INTAKE_ENCODER", Robot.sub_cargointake.getArmEncoderPosition());
-
-
-            //SmartDashboard.putString("CARGO_INTAKE_ARM_ACTIVE_POS", Robot.sub_cargointake.getArmActivePosition().getSetpointName());
-
-            SmartDashboard.putNumber("CARGO_INTAKE_ARM_STANDBY_POS", Robot.sub_cargointake.getArmEncoderPosition());
-
-
+    
       }
 
       public void shuffleboardUpdate() {

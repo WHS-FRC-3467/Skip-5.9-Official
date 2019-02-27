@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class StowGrabber extends Command {
 
-    private boolean m_motionStopped;
+    private boolean m_isStowed;
     
     public StowGrabber() {
     // Use requires() here to declare subsystem dependencies
@@ -18,20 +18,17 @@ public class StowGrabber extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        m_motionStopped = Robot.sub_hatchgrabber.isGrabberDeployed();
+        m_isStowed = !(Robot.sub_hatchgrabber.isGrabberDeployed());
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if (m_motionStopped)
-            Robot.sub_hatchgrabber.setGrabberDeployed();
-        else
-            m_motionStopped = Robot.sub_hatchgrabber.releaseHatch();
-
+        if (!m_isStowed)
+            m_isStowed = Robot.sub_hatchgrabber.stowGrabber();
     }
 
     protected boolean isFinished() {
-        return m_motionStopped;
+        return (m_isStowed);
     }
     
     // Called once after timeout

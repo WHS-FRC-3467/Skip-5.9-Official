@@ -79,9 +79,9 @@ public class Drivetrain extends Subsystem {
 
 	}
 	
-    public void initDefaultCommand() {
+    protected void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new DriveBot(DriveBot.driveMode_Rocket, false));
+        setDefaultCommand(new DriveBot());
     }
     
 	public WPI_TalonSRX getLeftTalon() {

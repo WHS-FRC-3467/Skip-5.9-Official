@@ -53,13 +53,22 @@ public class DriveBot extends Command {
 	double m_lastCtrlRightTrig = 0.0;
 	
 	/**
+	 * Constructor - no args
+	 */
+	public DriveBot() {
+        super(Robot.sub_drivetrain);
+
+        m_driveMode = driveMode_Rocket;
+        m_precision = false;
+    }
+    
+    /**
 	 * Constructor
 	 * @param driveMode - (int) drive control mode
 	 * @param precisionMode - (boolean) Scale inputs down for finer precision
 	 */
 	public DriveBot(int driveMode, boolean precisionMode) {
-		requires(Robot.sub_drivetrain);
-		this.setInterruptible(true);
+        this();
 	
 		m_precision = precisionMode;
 		if (m_precision == false) {

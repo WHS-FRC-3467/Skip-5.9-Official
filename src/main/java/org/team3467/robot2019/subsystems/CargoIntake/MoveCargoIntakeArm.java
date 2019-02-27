@@ -7,45 +7,47 @@
 
 package org.team3467.robot2019.subsystems.CargoIntake;
 
-import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class DriveCargoIntakeArm extends Command {
-  
-    public DriveCargoIntakeArm() {
-        // Use requires() here to declare subsystem dependencies
+public class MoveCargoIntakeArm extends InstantCommand {
+
+    private CargoIntake.eCargoIntakeArmPosition m_position;
+
+    public MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition pos) {
+        super();
         requires(Robot.sub_cargointake);
+
+        m_position = pos;
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
+//
+//  TODO: Add logic to make sure Cargo Lift is out of the way when moving the Cargo Intake Arm.
+//
+//
     @Override
     protected void execute() {
 
-        double speed = OI.getOperatorRightX();
-        Robot.sub_hatchgrabber.driveDeployment(speed);
+        //System.out.println("THE WIZARD IS MOVING YOUR MOTOR");
+        Robot.sub_cargointake.moveArmToPosition(m_position);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.sub_cargointake.isArmOnTarget();
     }
 
-    // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.sub_hatchgrabber.driveDeployment(0.0);
+        Robot.sub_cargointake.driveArmManually(0.0);
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+
     @Override
     protected void interrupted() {
         end();

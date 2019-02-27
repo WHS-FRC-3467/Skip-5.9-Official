@@ -1,19 +1,17 @@
-package org.team3467.robot2019.subsystems.CargoIntake;
+package org.team3467.robot2019.subsystems.CargoHold;
 
 import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveCargoIntakeRoller extends Command {
-
-    private static final double INTAKE_SPEED = 0.5;
+public class DriveCargoHoldRollers extends Command {
 
     static boolean m_isRollerOn = false;
     boolean m_finished = false;
 
-    public DriveCargoIntakeRoller() {
-        requires(Robot.sub_cargointake);
+    public DriveCargoHoldRollers() {
+        requires(Robot.sub_cargohold);
     }
 
     protected void initialize()
@@ -24,15 +22,15 @@ public class DriveCargoIntakeRoller extends Command {
  
     protected void execute() {
 
-        double speed = (-1.0) * OI.getOperatorRightY();
+        double speed = (-1.0) * OI.getOperatorLeftY();
 
-        if ((speed > 0.1) || (speed < -0.5))
+        if (speed > 0.1)
         {
-            Robot.sub_cargointake.driveRollerManually(speed);
+            Robot.sub_cargohold.intakeCargo();
         }
-        else
+        else if (speed < -0.5)
         {
-            Robot.sub_cargointake.driveRollerManually(INTAKE_SPEED);
+            Robot.sub_cargohold.releaseCargo(1.0);
         }
 
     }
@@ -42,7 +40,7 @@ public class DriveCargoIntakeRoller extends Command {
     }
 
     protected void end() {
-        Robot.sub_cargointake.driveRollerManually(0.0);
+        Robot.sub_cargohold.stop();
 	}
 
 	protected void interrupted() {

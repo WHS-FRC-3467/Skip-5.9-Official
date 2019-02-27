@@ -72,7 +72,7 @@ public class HatchGrabber extends Subsystem {
         m_deployTalon.set(DEPLOY_SPEED);
     }
 
-    public boolean retractGrabber()
+    public boolean stowGrabber()
     {
         m_deployTalon.set(RETRACT_SPEED);
         if (m_deployTalon.getSensorCollection().isFwdLimitSwitchClosed())
