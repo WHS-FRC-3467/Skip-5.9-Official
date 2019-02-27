@@ -29,7 +29,7 @@ public class DriveCargoIntakeArm extends Command {
     protected void execute() {
 
         double speed = OI.getOperatorRightX();
-        Robot.sub_hatchgrabber.driveDeployment(speed);
+        Robot.sub_cargointake.driveArmManually(speed * 0.2);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -41,7 +41,7 @@ public class DriveCargoIntakeArm extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.sub_hatchgrabber.driveDeployment(0.0);
+        Robot.sub_cargointake.driveArmManually(0.0);
     }
 
     // Called when another command which requires one or more of the same
