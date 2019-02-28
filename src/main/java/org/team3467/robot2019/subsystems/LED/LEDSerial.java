@@ -28,8 +28,16 @@ public class LEDSerial extends Subsystem {
 
     int currentPattern = -1;
 
+    // Static subsystem reference
+    private static LEDSerial lSInstance = new LEDSerial();
 
-    public LEDSerial() {
+    public static LEDSerial getInstance() {
+        return LEDSerial.lSInstance;
+    }
+
+    //LEDSerial class constructor
+    protected LEDSerial()
+    {
         serialPort = new SerialPort(9600, Port.kUSB);
         serialPort.setTimeout(10);
 

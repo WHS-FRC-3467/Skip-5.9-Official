@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import org.team3467.robot2019.robot.RobotGlobal;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HatchGrabber extends Subsystem {
 
@@ -16,14 +17,22 @@ public class HatchGrabber extends Subsystem {
     
     private static final double GRAB_SPEED = -1.0;
     private static final double RELEASE_SPEED = 1.0;
-    private static final double DEPLOY_SPEED = 0.3;
-    private static final double RETRACT_SPEED = 0.3;
+    private static final double DEPLOY_SPEED = -0.5;
+    private static final double RETRACT_SPEED = 0.5;
 
     private WPI_TalonSRX m_grabTalon;
     private WPI_TalonSRX m_deployTalon;
     private boolean      m_grabberDeployed;
 
-    public HatchGrabber()
+    // Static subsystem reference
+	private static HatchGrabber hGInstance = new HatchGrabber();
+
+	public static HatchGrabber getInstance() {
+		return HatchGrabber.hGInstance;
+	}
+	
+	//HatchGrabber class constructor
+	protected HatchGrabber()
     {
         
         m_grabberDeployed = false;
@@ -91,6 +100,9 @@ public class HatchGrabber extends Subsystem {
 
     public boolean isGrabberDeployed()
     {
+        boolean hit = m_deployTalon.getSensorCollection().isFwdLimitSwitchClosed();
+        SmartDashboard.putBoolean("Hatch Stowed", hit);
+
         return m_grabberDeployed;
     }
 

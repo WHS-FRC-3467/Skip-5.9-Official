@@ -14,15 +14,15 @@ public final class RobotGlobal {
     public final static int DRIVEBASE_VICTOR_L1 = 7;
     public final static int DRIVEBASE_VICTOR_L2 = 8;
     
-    public final static int CARGO_INTAKE_ARM_1 = 4;
+    public final static int CARGO_INTAKE_ARM_1 = 9;
     public final static int CARGO_INTAKE_ROLLER = 5;
-    public final static int CARGO_INTAKE_ARM_2 = 9;
+    public final static int CARGO_INTAKE_ARM_2 = 4;
 
     public final static int HATCH_GRABBER = 10;
-    public final static int HATCH_ACTUATOR = 11;
+    public final static int HATCH_ACTUATOR = 13;
 
+    public final static int CARGO_HOLD = 11;
     public final static int CARGO_LIFT = 12;
-    public final static int CARGO_HOLD =  13;
 
     public final static int GYRO = 11;
 
@@ -54,4 +54,21 @@ M12: 1 talon for 4-bar, port 5 on PDP(30)
 M13: 1 talon for cargo hold, port 4 on PDP(30)
 
 
+
+Issues:
+Limelight
+MS Cam
+Shuffleboard
+
+ToDo:
+
+CargoIntake:
+CargoIntake.java:
+    - Set encoder readingss for position enum
+    - Tune PID params
+
+CargoLift:
+LiftToPosition.java:
+    - Make a regualr Command (not Instant)
+    - Report stats
 */

@@ -7,8 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveCargoHoldRollers extends Command {
 
-    static boolean m_isRollerOn = false;
-    boolean m_finished = false;
 
     public DriveCargoHoldRollers() {
         requires(Robot.sub_cargohold);
@@ -16,8 +14,6 @@ public class DriveCargoHoldRollers extends Command {
 
     protected void initialize()
     {
-        m_finished = m_isRollerOn;
-        m_isRollerOn = !(m_isRollerOn);  
     }
  
     protected void execute() {
@@ -36,7 +32,10 @@ public class DriveCargoHoldRollers extends Command {
     }
    
     protected boolean isFinished() {
-        return m_finished;
+        if (OI.getOperatorButtonBack())
+            return true;
+        else
+            return false;
     }
 
     protected void end() {

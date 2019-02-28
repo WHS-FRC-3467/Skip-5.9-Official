@@ -43,10 +43,18 @@ public class FourBarLift extends Subsystem {
     }
     
     
+    // Static subsystem reference
+    private static FourBarLift fBInstance = new FourBarLift();
 
-    public FourBarLift() {
-            liftmotor.setSensorPhase(true);
-            liftmotor.set(ControlMode.PercentOutput, 0.0);
+    public static FourBarLift getInstance() {
+        return FourBarLift.fBInstance;
+    }
+
+    //FourBarLift class constructor
+    protected FourBarLift()
+    {
+        liftmotor.setSensorPhase(true);
+        liftmotor.set(ControlMode.PercentOutput, 0.0);
 
     }
     

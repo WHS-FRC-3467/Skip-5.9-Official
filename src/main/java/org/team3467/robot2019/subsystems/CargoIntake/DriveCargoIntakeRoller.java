@@ -7,19 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveCargoIntakeRoller extends Command {
 
-    private static final double INTAKE_SPEED = 0.5;
-
-    static boolean m_isRollerOn = false;
-    boolean m_finished = false;
+    private static final double INTAKE_SPEED = 0.7;
 
     public DriveCargoIntakeRoller() {
-        requires(Robot.sub_cargointake);
+        // Don't require subsystem, so roller can turn while arm is moving
+        //requires(Robot.sub_cargointake);
     }
 
     protected void initialize()
     {
-        m_finished = m_isRollerOn;
-        m_isRollerOn = !(m_isRollerOn);  
     }
  
     protected void execute() {
@@ -34,11 +30,14 @@ public class DriveCargoIntakeRoller extends Command {
         {
             Robot.sub_cargointake.driveRollerManually(INTAKE_SPEED);
         }
-
     }
    
     protected boolean isFinished() {
-        return m_finished;
+
+        if (OI.getOperatorButtonA())
+            return true;
+        else
+            return false;
     }
 
     protected void end() {

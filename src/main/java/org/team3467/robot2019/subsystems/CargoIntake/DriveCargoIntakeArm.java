@@ -29,7 +29,12 @@ public class DriveCargoIntakeArm extends Command {
     protected void execute() {
 
         double speed = OI.getOperatorRightX();
-        Robot.sub_cargointake.driveArmManually(speed * 0.2);
+        if (speed > 0.15 || speed < -0.15)
+            Robot.sub_cargointake.driveArmManually(speed);
+        else
+            Robot.sub_cargointake.driveArmManually(0.0);
+
+        Robot.sub_cargointake.reportEncoder();
     }
 
     // Make this return true when this Command no longer needs to run execute()

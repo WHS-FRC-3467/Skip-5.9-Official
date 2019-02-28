@@ -101,17 +101,28 @@ public class DriveBot extends Command {
 		
 		case driveMode_Rocket:
 		case driveMode_RocketSpin:
+			
 			double speed = 0.0;
+
 			double backSpeed = getControllerLeftTrigger();
 			double fwdSpeed = getControllerRightTrigger();
+			double curve  = getControllerLeftStickX();
+
 			if (backSpeed != 0.0 && fwdSpeed != 0.0)
+			{
 				speed = 0.0;
+			}
 			else if (fwdSpeed > 0.0)
+			{
 				speed = fwdSpeed;
+			}
 			else if (backSpeed > 0.0)
-				speed = -1.0 * backSpeed;
+			{
+				curve = (-1.0)*curve;
+				speed = (-1.0)*backSpeed;
+			}
 			
-			Robot.sub_drivetrain.drive(speed, (-1.0)*getControllerLeftStickX(), (m_driveMode == driveMode_RocketSpin));
+			Robot.sub_drivetrain.drive(speed, curve, (m_driveMode == driveMode_RocketSpin));
 
 			Robot.sub_drivetrain.reportEncoders();
 			break;

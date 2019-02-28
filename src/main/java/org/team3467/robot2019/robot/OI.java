@@ -85,7 +85,10 @@ public class OI {
 		 * 
 		 */
         // Cargo Hold
-        // Pressing down the Left Stick will toggle Cargo Hold Roller control on/off
+        // Pressing down the Left Stick will turn the Cargo Hold Roller ON
+        //
+        //  PRESS "Back" Button to turn it OFF!
+        //
         new XboxControllerButton(operatorController, XboxController.Button.kStickLeft).whenPressed(new DriveCargoHoldRollers());
                 
         // Cargo Lift
@@ -111,7 +114,10 @@ public class OI {
             .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.CRAWL));
 
         // Cargo Intake Roller
-        // Pressing down the Right Stick will toggle Cargo Intake Roller control on/off
+        // Pressing down the Right Stick will turn Cargo Intake Roller control on
+        //
+        //  PRESS "A" Button to turn it OFF!
+        //
          new XboxControllerButton(operatorController, XboxController.Button.kStickRight).whenPressed(new DriveCargoIntakeRoller());
 
 
@@ -165,6 +171,14 @@ public class OI {
 
     public static double getOperatorRightY() {
         return operatorController.getY(Hand.kRight);
+    }
+
+    public static boolean getOperatorButtonA() {
+        return operatorController.getAButtonPressed();
+    }
+
+    public static boolean getOperatorButtonBack() {
+        return operatorController.getBackButtonPressed();
     }
 
     public static double getOperatorLeftTrigger() {

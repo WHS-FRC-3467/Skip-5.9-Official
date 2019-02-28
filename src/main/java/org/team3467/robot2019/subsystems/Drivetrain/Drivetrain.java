@@ -7,7 +7,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import org.team3467.robot2019.robot.RobotGlobal;
-import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
+//import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -31,7 +31,9 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	//Drivetrain class constructor
-	public Drivetrain() {
+	protected Drivetrain() {
+
+		super();
 
 		// Three motors per side -> three speed controllers per side
         left_victor_1 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_L1);
@@ -72,7 +74,7 @@ public class Drivetrain extends Subsystem {
 		m_drive = new DifferentialDrive(left_talon, right_talon);
 		
 		// DifferentialDrive Parameters
-		m_drive.setSafetyEnabled(false);
+		m_drive.setSafetyEnabled(true);
 		m_drive.setExpiration(1.0);
 		m_drive.setMaxOutput(1.0);
 
@@ -80,9 +82,10 @@ public class Drivetrain extends Subsystem {
 	}
 	
     protected void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-		//setDefaultCommand(new DriveBot());
-		
+	
+		// Set the default command for a subsystem here.
+		setDefaultCommand(new DriveBot());
+	
     }
     
 	public WPI_TalonSRX getLeftTalon() {

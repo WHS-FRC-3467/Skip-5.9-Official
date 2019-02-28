@@ -9,11 +9,12 @@ package org.team3467.robot2019.subsystems.CargoIntake;
 
 import org.team3467.robot2019.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveCargoIntakeArm extends InstantCommand {
+public class MoveCargoIntakeArm extends Command {
 
     private CargoIntake.eCargoIntakeArmPosition m_position;
+    private int counter;
 
     public MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition pos) {
         super();
@@ -24,6 +25,7 @@ public class MoveCargoIntakeArm extends InstantCommand {
 
     @Override
     protected void initialize() {
+        counter = 0;
     }
 
 //
@@ -34,12 +36,16 @@ public class MoveCargoIntakeArm extends InstantCommand {
     protected void execute() {
 
         //System.out.println("THE WIZARD IS MOVING YOUR MOTOR");
-        Robot.sub_cargointake.moveArmToPosition(m_position);
+        if (counter++ > 25) {
+            counter = 0; // report stats when counter == 0 
+		}
+        Robot.sub_cargointake.moveArmToPosition(m_position, (counter == 0));
+
     }
 
     @Override
     protected boolean isFinished() {
-        return Robot.sub_cargointake.isArmOnTarget();
+        return Robot.sub_cargointake.isArmOnTarget(m_position);
     }
 
     @Override

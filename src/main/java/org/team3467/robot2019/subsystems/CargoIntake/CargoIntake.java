@@ -52,10 +52,18 @@ public class CargoIntake extends Subsystem
 
     private int m_cruiseVelocity = 300;
     private int m_acceleration = 150;
-    private int m_tolerance = 30;
+    private int m_tolerance = 10;
     private int m_slot = 0;
 
-    public CargoIntake()
+    // Static subsystem reference
+	private static CargoIntake cIInstance = new CargoIntake();
+
+	public static CargoIntake getInstance() {
+		return CargoIntake.cIInstance;
+	}
+	
+	//CargoIntake class constructor
+	protected CargoIntake()
     {
         m_intakeArm.setNeutralMode(NeutralMode.Brake);
         m_intakeArm_2.setNeutralMode(NeutralMode.Brake);
@@ -87,7 +95,8 @@ public class CargoIntake extends Subsystem
 
     protected void initDefaultCommand()
     {
-        setDefaultCommand(new ReportStats());
+        //setDefaultCommand(new ReportStats());
+        setDefaultCommand(new DriveCargoIntakeArm());
     }
 
     //#region Roller System
@@ -110,17 +119,20 @@ public class CargoIntake extends Subsystem
         m_intakeArm.set(ControlMode.PercentOutput, speed);
     }
 
-    public void stopArm() {
-        m_intakeArm.set(ControlMode.PercentOutput, 0.0);
-    }
-        
     /*
      * Closed Loop Motion Control
      */
-    public void moveArmToPosition(eCargoIntakeArmPosition position)
+    public void moveArmToPosition(eCargoIntakeArmPosition position, boolean reportStats)
     {
         activeIntakeArmPosition = position;
         moveMagically(position.getSetpoint());
+
+        if (reportStats)
+        {
+            SmartDashboard.putString("Cargo Intake Arm Position", getArmActivePosition().getSetpointName());
+            reportEncoder();
+            reportTalonStats();
+        }
     }
 
     public void moveMagically (int setPoint) {
@@ -133,15 +145,23 @@ public class CargoIntake extends Subsystem
         m_intakeArm.runMotionMagic();
     }
     
-    public boolean isArmOnTarget() {
+    public boolean isArmOnTarget(eCargoIntakeArmPosition m_position) {
         
-        int error = m_intakeArm.getClosedLoopError(0);
-        int allowable = m_intakeArm.getTolerance();
-        
-        return (((error >= 0 && error <= allowable) ||
-            (error < 0 && error >= (-1.0) * allowable))
-            );
-
+        // We only want to stop the Cargo Arm PID loop from running when
+        // we reach the RETRACTED state; otherwise, keep it going
+        if (m_position == eCargoIntakeArmPosition.RETRACTED)
+        {
+            int error = m_intakeArm.getClosedLoopError(0);
+            int allowable = m_intakeArm.getTolerance();
+            
+            return (((error >= 0 && error <= allowable) ||
+                (error < 0 && error >= (-1.0) * allowable))
+                );
+        } 
+        else
+        {
+            return false;
+        }
     }
     
     public void setArmSetpointFromDashboard() {

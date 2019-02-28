@@ -4,15 +4,12 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
-import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
-import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Robot extends TimedRobot {
@@ -21,25 +18,23 @@ public class Robot extends TimedRobot {
       public static CargoHold sub_cargohold;
       public static CargoIntake sub_cargointake;
       public static HatchGrabber sub_hatchgrabber;
-      //public static Gyro sub_gyro;
       public static FourBarLift sub_fourbarlift;
+      //public static Gyro sub_gyro;
       //public static LEDSerial sub_led;
-
       
       public static OI robot_oi;
-
     
 
   @Override
   public void robotInit() {
   
-    sub_drivetrain = new Drivetrain();
-    sub_cargohold = new CargoHold();
-    sub_cargointake = new CargoIntake();
-    sub_hatchgrabber = new HatchGrabber();
-    //sub_gyro = new Gyro();
-    sub_fourbarlift = new FourBarLift();
-    //sub_led = new LEDSerial();
+    sub_drivetrain = Drivetrain.getInstance();
+    sub_cargohold = CargoHold.getInstance();
+    sub_cargointake = CargoIntake.getInstance();
+    sub_hatchgrabber = HatchGrabber.getInstance();
+    sub_fourbarlift = FourBarLift.getInstance();
+    //sub_gyro = Gyro.getInstance();
+    //sub_led = LEDSerial.getInstance();
 
     robot_oi = new OI();
 
@@ -48,8 +43,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    robot_oi.shuffleboardUpdate();
-
+   //robot_oi.shuffleboardUpdate();
+   
   }
 
   @Override
@@ -76,8 +71,8 @@ public void teleopInit() {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    robot_oi.log();
-    SmartDashboard.putNumber("FBLEncoder", Robot.sub_fourbarlift.getEncoder());
+  //  robot_oi.log();
+  //  SmartDashboard.putNumber("FBLEncoder", Robot.sub_fourbarlift.getEncoder());
 
 
   }

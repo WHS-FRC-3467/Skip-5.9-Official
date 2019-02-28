@@ -29,6 +29,7 @@ public class DeployGrabber extends TimedCommand {
     @Override
     protected void end() {
         Robot.sub_hatchgrabber.stopDeploy();
+        Robot.sub_hatchgrabber.setGrabberDeployed();
     }
 
     // Called when another command which requires one or more of the same

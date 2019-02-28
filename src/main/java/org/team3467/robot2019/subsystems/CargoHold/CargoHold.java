@@ -28,7 +28,15 @@ public class CargoHold extends Subsystem
     private static final int INTAKE_REPORTING_LOOP_COUNT = 20;
     private int loopCount = 0;
 
-    public CargoHold()
+    // Static subsystem reference
+	private static CargoHold cHInstance = new CargoHold();
+
+	public static CargoHold getInstance() {
+		return CargoHold.cHInstance;
+	}
+	
+	//CargoHold class constructor
+	protected CargoHold()
     {
         m_cargoHold.configFactoryDefault();
 

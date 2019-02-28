@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class LiftManually extends Command {
 
+    static final double SPEED_REDUCTION = 0.5;
+
     public LiftManually() {
         requires(Robot.sub_fourbarlift);
     }
@@ -22,8 +24,8 @@ public class LiftManually extends Command {
 
         System.out.println("MANUAL OPERATION");
 
-        double fSpeed = OI.getOperatorRightTrigger();
-        double rSpeed = OI.getOperatorLeftTrigger();
+        double fSpeed = OI.getOperatorRightTrigger() * SPEED_REDUCTION;
+        double rSpeed = OI.getOperatorLeftTrigger() * SPEED_REDUCTION;
 
         if(fSpeed > 0) {
             Robot.sub_fourbarlift.driveManual(fSpeed, RobotGlobal.DIRECTION_NORMAL);

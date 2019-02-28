@@ -214,25 +214,28 @@ public class MagicTalonSRX extends TalonSRX {
     
 	public void reportMotionToDashboard() {
 
+		
+		
 		// These are things that we cannot change on SDB; just report their current values
 		if (m_debugging) {
 			SmartDashboard.putString(m_name + " ControlMode", getTalonControlMode());
 	    	SmartDashboard.putNumber(m_name + " Position", getSelectedSensorPosition(0));
 			SmartDashboard.putNumber(m_name + " Velocity", getSelectedSensorVelocity(0));
-			SmartDashboard.putNumber(m_name + " ClosedLoopTarget", getClosedLoopTarget(0));
-	    	SmartDashboard.putNumber(m_name + " ClosedLoopError", getClosedLoopError(0));
 	    	SmartDashboard.putNumber(m_name + " MotorOutputPercent", getMotorOutputPercent());
 			
-			/* check if we are motion-magic-ing */
-/*
+		/* check if we are motion-magic-ing */
  			if (getControlMode() == ControlMode.MotionMagic) {
  
+				SmartDashboard.putNumber(m_name + " ClosedLoopTarget", getClosedLoopTarget(0));
+				SmartDashboard.putNumber(m_name + " ClosedLoopError", getClosedLoopError(0));
+
+		/*
 				// Print the Active Trajectory Point Motion Magic is servoing towards
 	    		SmartDashboard.putNumber(m_name + " ActTrajVelocity", getActiveTrajectoryVelocity());
 	    		SmartDashboard.putNumber(m_name + " ActTrajPosition", getActiveTrajectoryPosition());
 	    		SmartDashboard.putNumber(m_name + " ActTrajHeading", getActiveTrajectoryHeading());
+		*/
 			}
-*/
 		}
 	}
 	
