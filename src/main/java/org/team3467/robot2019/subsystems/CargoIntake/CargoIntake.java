@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.RobotGlobal;
 import org.team3467.robot2019.subsystems.MagicTalonSRX;
 
@@ -44,6 +45,8 @@ public class CargoIntake extends Subsystem
     TalonSRX        m_intakeArm_2 = new TalonSRX(RobotGlobal.CARGO_INTAKE_ARM_2);
     TalonSRX        m_intakeRoller = new TalonSRX(RobotGlobal.CARGO_INTAKE_ROLLER);
 
+    private static final double CRAWL_SPEED = 0.5;
+    
     private double m_P = 0.3;
     private double m_I = 0.0;
     private double m_D = 0.0;
@@ -147,9 +150,14 @@ public class CargoIntake extends Subsystem
     
     public boolean isArmOnTarget(eCargoIntakeArmPosition m_position) {
         
+        if (OI.getOperatorButtonA())
+        {
+            // Pressing A Button stops PID control
+            return true;
+        }
         // We only want to stop the Cargo Arm PID loop from running when
-        // we reach the RETRACTED state; otherwise, keep it going
-        if (m_position == eCargoIntakeArmPosition.RETRACTED)
+        // we reach the RETRACTED state; otherwise, keep it going to hold arm position
+        else if (m_position == eCargoIntakeArmPosition.RETRACTED)
         {
             int error = m_intakeArm.getClosedLoopError(0);
             int allowable = m_intakeArm.getTolerance();
@@ -157,6 +165,23 @@ public class CargoIntake extends Subsystem
             return (((error >= 0 && error <= allowable) ||
                 (error < 0 && error >= (-1.0) * allowable))
                 );
+        } 
+        // When lowering arm to crawl on HAB, start rollers once the arm gets close
+        // to the position; Keep PID going to hold position
+        else if (m_position == eCargoIntakeArmPosition.CRAWL)
+        {
+            int error = m_intakeArm.getClosedLoopError(0);
+            int allowable = 5;
+            
+            if ((error >= 0 && error <= allowable) ||
+                (error < 0 && error >= (-1.0) * allowable))
+            {
+                driveRollerManually(CRAWL_SPEED);
+            }
+            else
+                driveRollerManually(0.0);
+
+            return (false);
         } 
         else
         {

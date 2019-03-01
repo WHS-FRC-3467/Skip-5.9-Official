@@ -14,31 +14,23 @@ public final class RobotGlobal {
     public final static int DRIVEBASE_VICTOR_L1 = 7;
     public final static int DRIVEBASE_VICTOR_L2 = 8;
     
-    public final static int CARGO_INTAKE_ARM_1 = 9;
+    public final static int CARGO_INTAKE_ARM_1 = 9;  // Encoder attached
     public final static int CARGO_INTAKE_ROLLER = 5;
     public final static int CARGO_INTAKE_ARM_2 = 4;
 
-    public final static int HATCH_GRABBER = 10;
-    public final static int HATCH_ACTUATOR = 13;
+    public final static int HATCH_GRABBER = 10; // Fwd/Back limit switches
+    public final static int HATCH_ACTUATOR = 13; // Fwd limi switch
 
-    public final static int CARGO_HOLD = 11;
-    public final static int CARGO_LIFT = 12;
+    public final static int CARGO_HOLD = 11; // Gyro attached
+    public final static int CARGO_LIFT = 12; // Encoder attached
 
     public final static int GYRO = 11;
 
-    //Motor direction constants
-    public static final int DIRECTION_NORMAL = 1;
-    public static final int DIRECTION_REVERSE = -1;
-
-    //Side constants
-    public static final int SIDE_LEFT = 0;
-    public static final int SIDE_RIGHT = 1;
-
-
+    
 }
 
 /*
-
+Viv's original list (no longer accurate)
 M1: Talon for right drivebase, controlling the two left DB victors, 40 amp, 1 BOB
 M2: 1st right DB victor, 40
 M3: 2nd right DB victor, 40

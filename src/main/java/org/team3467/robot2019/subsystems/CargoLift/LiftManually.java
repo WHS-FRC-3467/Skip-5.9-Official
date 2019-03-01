@@ -22,16 +22,16 @@ public class LiftManually extends Command {
     @Override
     protected void execute() {
 
-        System.out.println("MANUAL OPERATION");
+        //System.out.println("MANUAL OPERATION");
 
         double fSpeed = OI.getOperatorRightTrigger() * SPEED_REDUCTION;
         double rSpeed = OI.getOperatorLeftTrigger() * SPEED_REDUCTION;
 
         if(fSpeed > 0) {
-            Robot.sub_fourbarlift.driveManual(fSpeed, RobotGlobal.DIRECTION_NORMAL);
+            Robot.sub_fourbarlift.driveManual(fSpeed);
 
         } else {
-            Robot.sub_fourbarlift.driveManual(rSpeed, RobotGlobal.DIRECTION_REVERSE);
+            Robot.sub_fourbarlift.driveManual((-1.0) * rSpeed);
 
         }
 

@@ -54,7 +54,7 @@ public class CargoHold extends Subsystem
         m_cargoHold.configAllowableClosedloopError(0, 0, 10);
 
         /* Config closed loop gains for Primary closed loop (Current) */
-        m_cargoHold.config_kP(0, 0.5, 10);
+        m_cargoHold.config_kP(0, 0.4, 10);
         m_cargoHold.config_kI(0, 0.0, 10);
         m_cargoHold.config_kD(0, 0.0, 10);
         m_cargoHold.config_kF(0, 0.0, 10);
@@ -89,7 +89,7 @@ public class CargoHold extends Subsystem
 
     public void releaseCargo(double speed)
     {
-        m_cargoHold.set(ControlMode.PercentOutput,-speed);
+        m_cargoHold.set(ControlMode.PercentOutput,(-1.0) * speed);
     }
 
     public void stop()

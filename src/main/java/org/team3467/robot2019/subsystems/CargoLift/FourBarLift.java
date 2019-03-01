@@ -2,18 +2,16 @@ package org.team3467.robot2019.subsystems.CargoLift;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2019.robot.RobotGlobal;
 import org.team3467.robot2019.subsystems.MagicTalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FourBarLift extends Subsystem {
-
-    MagicTalonSRX liftmotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0);
-    
-    private eFourBarLiftPosition moveToPosition;
 
     //TODO implement encoder values here
     public enum eFourBarLiftPosition {
@@ -38,10 +36,23 @@ public class FourBarLift extends Subsystem {
         public String getName() {
             return this.name;
         }
-
-        
     }
     
+    MagicTalonSRX m_liftMotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0);
+    
+    private eFourBarLiftPosition moveToPosition;
+    
+    private double m_P = 0.3;
+    private double m_I = 0.0;
+    private double m_D = 0.0;
+    private double m_F = 0.0;
+    private double m_iZone = 0;
+
+    private int m_cruiseVelocity = 300;
+    private int m_acceleration = 150;
+    private int m_tolerance = 10;
+    private int m_slot = 0;
+
     
     // Static subsystem reference
     private static FourBarLift fBInstance = new FourBarLift();
@@ -53,8 +64,29 @@ public class FourBarLift extends Subsystem {
     //FourBarLift class constructor
     protected FourBarLift()
     {
-        liftmotor.setSensorPhase(true);
-        liftmotor.set(ControlMode.PercentOutput, 0.0);
+        // Run in brake mode
+        m_liftMotor.setNeutralMode(NeutralMode.Brake);
+
+        // Flip Motor Directions?
+        m_liftMotor.setInverted(false);
+            
+        // Flip sensors so they count positive in the positive control direction?
+        m_liftMotor.setSensorPhase(false);
+
+        // Configure PIDF constants
+        m_liftMotor.configPIDF(m_slot, m_P, m_I, m_D, m_F);
+        
+        // Configure motion constants
+        m_liftMotor.configMotion(m_cruiseVelocity, m_acceleration, m_tolerance);
+
+        // Stop all motion (for now)
+        m_liftMotor.set(ControlMode.PercentOutput, 0.0);
+            
+        // Zero the encoder
+        zeroLiftEncoder();
+        
+        // Assuming this is Starting Position; if not, then need to change it
+        setLiftPosition(eFourBarLiftPosition.INTAKE);
 
     }
     
@@ -63,46 +95,96 @@ public class FourBarLift extends Subsystem {
 
     }
 
-    public eFourBarLiftPosition getPosition() {
-        return moveToPosition;
+    /*
+     * Manual Motor Control
+     */
+    public void driveManual(double speed) {
+        m_liftMotor.set(ControlMode.PercentOutput, speed);
     }
-    public void setPosition(eFourBarLiftPosition position) {
+
+    /*
+     * Closed Loop Motion Control
+     */
+    public void moveLiftToPosition(eFourBarLiftPosition position, boolean reportStats)
+    {
         moveToPosition = position;
+        moveMagically(position.getSetpoint());
 
-    }
-
-    public int getEncoder() {
-        return liftmotor.getSelectedSensorPosition(0);
-    }
-    public void zeroEncoder() {
-        liftmotor.setSelectedSensorPosition(0,0,0);
-    }
-
-    public void moveMagically() {
-        liftmotor.set(ControlMode.MotionMagic, moveToPosition.getSetpoint());
-    }
-
-    public void moveMagically(eFourBarLiftPosition pos) {
-        if(safetyCheck()) {
-            liftmotor.set(ControlMode.MotionMagic, pos.getSetpoint());
-            moveToPosition = pos;
+        if (reportStats)
+        {
+            SmartDashboard.putString("FBL Position", getLiftPosition().getName());
+            reportEncoder();
+            reportTalonStats();
         }
     }
 
-    public void driveManual(double speed, int direction) {
-        liftmotor.set(ControlMode.PercentOutput, speed*(double)direction);
+    public void moveMagically (int setPoint) {
+
+        m_liftMotor.runMotionMagic(setPoint);
     }
-
-  
-    private boolean safetyCheck() {
-        boolean passed = true;
-
-        System.out.println("Safety check at FBL passed? : " + passed);
-        return passed;
-    }
-
-
     
+    public void moveMagically () {
 
+        m_liftMotor.runMotionMagic();
+    }
+    
+    public boolean isLiftOnTarget(eFourBarLiftPosition m_position) {
+        
+        // We only want to stop the Cargo Lift PID loop from running when
+        // we reach the INTAKE state; otherwise, keep it going to hold arm position
+        if (m_position == eFourBarLiftPosition.INTAKE)
+        {
+            int error = m_liftMotor.getClosedLoopError(0);
+            int allowable = m_liftMotor.getTolerance();
+            
+            return (((error >= 0 && error <= allowable) ||
+                (error < 0 && error >= (-1.0) * allowable))
+                );
+        } 
+        else
+        {
+            return false;
+        }
+    }
+    
+    /*
+     * Setter / Getter Methods
+     */
+    
+    public int getLiftEncoder() {
+        return m_liftMotor.getSelectedSensorPosition(0);
+    }
+    public void zeroLiftEncoder() {
+        m_liftMotor.setSelectedSensorPosition(0,0,0);
+    }
 
+    public eFourBarLiftPosition getLiftPosition() {
+        return moveToPosition;
+    }
+
+    public void setLiftPosition(eFourBarLiftPosition pos) {
+        moveToPosition = pos;
+    }
+
+    public void setArmSetpointFromDashboard() {
+        m_liftMotor.updateSetpointFromDashboard();
+    }
+    
+  
+    /*
+     * SmartDashbord Update Methods
+     */
+
+     public void reportTalonStats() {
+        m_liftMotor.reportMotionToDashboard();
+    }
+    
+    public void updateTalonStats() {
+        m_liftMotor.updateStats();
+    }
+    
+    public void reportEncoder() {
+        SmartDashboard.putNumber("FBL Encoder", getLiftEncoder());
+    }
+ 
 }

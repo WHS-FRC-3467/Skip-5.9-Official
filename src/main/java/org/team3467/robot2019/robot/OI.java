@@ -189,23 +189,16 @@ public class OI {
         return operatorController.getTriggerAxis(Hand.kLeft);
     }
 
-
-    public void log() {
-
-            SmartDashboard.putNumber("FBLEncoder", Robot.sub_fourbarlift.getEncoder());
+    public void shuffleboardUpdate() {
     
-      }
-
-      public void shuffleboardUpdate() {
         boolean buttonvalue = Robot.robot_oi.shuffle_led.getBoolean(false);
-
 
         if(buttonvalue) {
             Limelight.setLedMode(LightMode.eOn);
         } else {
             Limelight.setLedMode(LightMode.eOff);
         }
-      }
+    }
 
 
 

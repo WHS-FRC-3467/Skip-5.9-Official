@@ -32,18 +32,17 @@ public class MoveCargoLift extends Command {
         if (counter++ > 25) {
             counter = 0; // report stats when counter == 0 
 		}
-       // Robot.sub_fourbarlift.moveArmToPosition(m_position, (counter == 0));
+        Robot.sub_fourbarlift.moveLiftToPosition(m_position, (counter == 0));
 
     }
 
     @Override
     protected boolean isFinished() {
-        //return Robot.sub_fourbarlift.isArmOnTarget(m_position);
-        return true;
+        return Robot.sub_fourbarlift.isLiftOnTarget(m_position);
     }
 
     protected void end() {
-        //Robot.sub_fourbarlift.driveArmManually(0.0);
+        Robot.sub_fourbarlift.driveManual(0.0);
     }
     
     protected void interrupted() {

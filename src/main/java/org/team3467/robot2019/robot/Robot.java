@@ -1,4 +1,3 @@
-
 package org.team3467.robot2019.robot;
 
 import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
@@ -12,81 +11,66 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-
 public class Robot extends TimedRobot {
 
-      public static FieldCamera fieldCamera;
+    public static FieldCamera fieldCamera;
 
-      public static Drivetrain sub_drivetrain;
-      public static CargoHold sub_cargohold;
-      public static CargoIntake sub_cargointake;
-      public static HatchGrabber sub_hatchgrabber;
-      public static FourBarLift sub_fourbarlift;
-      //public static Gyro sub_gyro;
-      //public static LEDSerial sub_led;
-      
-      public static OI robot_oi;
-    
+    public static Drivetrain sub_drivetrain;
+    public static CargoHold sub_cargohold;
+    public static CargoIntake sub_cargointake;
+    public static HatchGrabber sub_hatchgrabber;
+    public static FourBarLift sub_fourbarlift;
+    //public static Gyro sub_gyro;
+    //public static LEDSerial sub_led;
 
-  @Override
-  public void robotInit() {
+    public static OI robot_oi;
 
-    // Start the FieldCamera
-		fieldCamera = new FieldCamera();
-      
-    sub_drivetrain = Drivetrain.getInstance();
-    sub_cargohold = CargoHold.getInstance();
-    sub_cargointake = CargoIntake.getInstance();
-    sub_hatchgrabber = HatchGrabber.getInstance();
-    sub_fourbarlift = FourBarLift.getInstance();
-    //sub_gyro = Gyro.getInstance();
-    //sub_led = LEDSerial.getInstance();
+    @Override
+    public void robotInit() {
 
-    robot_oi = new OI();
+        // Start the FieldCamera
+        fieldCamera = new FieldCamera();
 
+        sub_drivetrain = Drivetrain.getInstance();
+        sub_cargohold = CargoHold.getInstance();
+        sub_cargointake = CargoIntake.getInstance();
+        sub_hatchgrabber = HatchGrabber.getInstance();
+        sub_fourbarlift = FourBarLift.getInstance();
+        //sub_gyro = Gyro.getInstance();
+        //sub_led = LEDSerial.getInstance();
 
-  }
+        robot_oi = new OI();
 
-  @Override
-  public void robotPeriodic() {
-   //robot_oi.shuffleboardUpdate();
-   
-  }
+    }
 
-  @Override
-  public void autonomousInit() {
-    Shuffleboard.selectTab("Sandstorm Period");
-    
-    robot_oi.log();
+    @Override
+    public void robotPeriodic() {
+        robot_oi.shuffleboardUpdate();
+    }
 
-  }
-@Override
-public void teleopInit() {
-  Shuffleboard.selectTab("Teleop Period");
+    @Override
+    public void autonomousInit() {
+        Shuffleboard.selectTab("Sandstorm Period");
+    }
 
-
-}
-
-  @Override
-  public void autonomousPeriodic() {
+    @Override
+    public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+    }
 
-  }
+    @Override
+    public void teleopInit() {
+        Shuffleboard.selectTab("Teleop Period");
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        Scheduler.getInstance().run();
+    }
 
 
-  @Override
-  public void teleopPeriodic() {
-    Scheduler.getInstance().run();
-  //  robot_oi.log();
-  //  SmartDashboard.putNumber("FBLEncoder", Robot.sub_fourbarlift.getEncoder());
+    @Override
+    public void testPeriodic() {
+    }
 
-
-  }
-
-
-  @Override
-  public void testPeriodic() {
-  }
-
-  
 }
