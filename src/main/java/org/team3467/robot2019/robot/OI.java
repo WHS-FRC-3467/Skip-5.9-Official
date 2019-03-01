@@ -13,7 +13,7 @@ import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
 import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
-import org.team3467.robot2019.subsystems.CargoLift.LiftToPosition;
+import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 import org.team3467.robot2019.subsystems.Hatch.DeployGrabber;
 import org.team3467.robot2019.subsystems.Hatch.DriveHatchDeployment;
@@ -94,11 +94,11 @@ public class OI {
         // Cargo Lift
         new XboxControllerButton(operatorController, XboxController.Button.kStart).whileHeld(new LiftManually());
 
-        new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new LiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L1));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L2));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new LiftToPosition(FourBarLift.eFourBarLiftPosition.L3));
+        new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.INTAKE));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
         
          // Cargo Intake Arm
 		// The "X" button will Stow the Arm

@@ -74,7 +74,7 @@ public class CargoHold extends Subsystem
     public void intakeCargo()
     {
         /* Current Closed Loop */
-        m_cargoHold.set(ControlMode.Current, -CARGO_HOLD_STALL_CURRENT);
+        m_cargoHold.set(ControlMode.Current, CARGO_HOLD_STALL_CURRENT);
 
         m_motorCurrent = m_cargoHold.getOutputCurrent();
         m_percentOutput = m_cargoHold.getMotorOutputPercent();
@@ -89,7 +89,7 @@ public class CargoHold extends Subsystem
 
     public void releaseCargo(double speed)
     {
-        m_cargoHold.set(ControlMode.PercentOutput,speed);
+        m_cargoHold.set(ControlMode.PercentOutput,-speed);
     }
 
     public void stop()

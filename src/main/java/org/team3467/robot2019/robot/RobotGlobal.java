@@ -71,4 +71,18 @@ CargoLift:
 LiftToPosition.java:
     - Make a regualr Command (not Instant)
     - Report stats
+
+
+    Changes to Drive Controls
+    Operator:
+         Right Stick XAxis : Manual control of Cargo Intake Arm (default)
+         Right Stick Press: Only turns on Cargo Arm Roller; Turn off with A button
+         A Button:
+            When Cargo Intake rollers are moving, stops movement
+            When Cargo Intake Arm is running under PID, drops back to manual mode
+         Left Stick Press: Only turns on Cargo Hold Roller; Turn off with Back button
+         Back button: Turn off Cargo Hold roller
+
+
+
 */

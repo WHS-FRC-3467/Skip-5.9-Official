@@ -5,6 +5,7 @@ import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
+import org.team3467.robot2019.subsystems.FieldCamera.FieldCamera;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 
 public class Robot extends TimedRobot {
+
+      public static FieldCamera fieldCamera;
 
       public static Drivetrain sub_drivetrain;
       public static CargoHold sub_cargohold;
@@ -27,7 +30,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-  
+
+    // Start the FieldCamera
+		fieldCamera = new FieldCamera();
+      
     sub_drivetrain = Drivetrain.getInstance();
     sub_cargohold = CargoHold.getInstance();
     sub_cargointake = CargoIntake.getInstance();
