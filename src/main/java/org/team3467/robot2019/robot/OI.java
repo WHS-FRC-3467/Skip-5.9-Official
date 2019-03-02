@@ -11,6 +11,7 @@ import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
 import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
+import org.team3467.robot2019.subsystems.CargoIntake.UpdateIntakeStats;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
@@ -21,9 +22,11 @@ import org.team3467.robot2019.subsystems.Hatch.GrabHatch;
 import org.team3467.robot2019.subsystems.Hatch.ReleaseHatch;
 import org.team3467.robot2019.subsystems.Hatch.StowGrabber;
 import org.team3467.robot2019.subsystems.Limelight.Limelight;
+import org.team3467.robot2019.subsystems.Limelight.Limelight.CameraMode;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -34,10 +37,12 @@ public class OI {
     private static XboxController driverController;
     private static XboxController operatorController;
 
-    private ShuffleboardTab tab_sandstorm = Shuffleboard.getTab("Sandstorm Period");
-    private ShuffleboardTab tab_teleop = Shuffleboard.getTab("Teleop Period");
+    //private ShuffleboardTab tab_sandstorm = Shuffleboard.getTab("Sandstorm Period");
+    //private ShuffleboardTab tab_teleop = Shuffleboard.getTab("Teleop Period");
 
-    private NetworkTableEntry shuffle_led = tab_teleop.add("Toggle LED", false).getEntry();
+    //private NetworkTableEntry shuffle_led = tab_teleop.add("Toggle LED", false).getEntry();
+    //private NetworkTableEntry shuffle_camMode = tab_teleop.add("Toggle Vision", false).getEntry();
+    //private NetworkTableEntry shuffle_stream = tab_teleop.add("Camera Stream Mode", false).getEntry();
 
     public OI() {
         init();
@@ -92,13 +97,13 @@ public class OI {
         new XboxControllerButton(operatorController, XboxController.Button.kStickLeft).whenPressed(new DriveCargoHoldRollers());
                 
         // Cargo Lift
-        new XboxControllerButton(operatorController, XboxController.Button.kStart).whileHeld(new LiftManually());
+        //new XboxControllerButton(operatorController, XboxController.Button.kStart).whileHeld(new LiftManually());
 
-        new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.INTAKE));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+        //new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.INTAKE));
+        //new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+        //new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+        //new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+        //new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
         
          // Cargo Intake Arm
 		// The "X" button will Stow the Arm
@@ -128,6 +133,7 @@ public class OI {
          SmartDashboard.putData(new StopCargoHold());
          SmartDashboard.putData(new DriveHatchDeployment());
          SmartDashboard.putData(new DriveCargoIntakeArm());
+         SmartDashboard.putData(new UpdateIntakeStats());
 
 
     }
@@ -191,13 +197,45 @@ public class OI {
 
     public void shuffleboardUpdate() {
     
-        boolean buttonvalue = Robot.robot_oi.shuffle_led.getBoolean(false);
-
-        if(buttonvalue) {
+        //boolean ledState = shuffle_led.getBoolean(false);
+        boolean ledState = false;
+        if(ledState) {
             Limelight.setLedMode(LightMode.eOn);
         } else {
             Limelight.setLedMode(LightMode.eOff);
         }
+
+        //boolean camMode = shuffle_camMode.getBoolean(false);
+        boolean camMode = false;
+        if (camMode) {
+            Limelight.setCameraMode(CameraMode.eVision);
+        } else {
+            Limelight.setCameraMode(CameraMode.eDriver);            
+        }
+
+        //double streamConfig = shuffle_stream.getNumber(0);
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(0);
+
+
+        /*
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(<value>);
+        
+        ledMode	Sets limelight’s LED state
+            0	use the LED Mode set in the current pipeline
+            1	force off
+            2	force blink
+            3	force on
+        camMode	Sets limelight’s operation mode
+            0	Vision processor
+            1	Driver Camera (Increases exposure, disables vision processing)
+        pipeline	Sets limelight’s current pipeline
+            0 .. 9	Select pipeline 0..9
+        stream	Sets limelight’s streaming mode
+            0	Standard - Side-by-side streams if a webcam is attached to Limelight
+            1	PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
+            2	PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary cam
+
+        */
     }
 
 

@@ -19,7 +19,7 @@ public class CargoIntake extends Subsystem
     public enum eCargoIntakeArmPosition
     { 
         CRAWL(0000,"CRAWL"),
-        INTAKE(0000, "INTAKE"),
+        INTAKE(1600, "INTAKE"),
         RETRACTED(0000, "RETRACTED");
 
         private int IntakeArmPosition;
@@ -47,14 +47,14 @@ public class CargoIntake extends Subsystem
 
     private static final double CRAWL_SPEED = 0.5;
     
-    private double m_P = 0.3;
-    private double m_I = 0.0;
-    private double m_D = 0.0;
+    private double m_P = 1.0;
+    private double m_I = 0.001;
+    private double m_D = 0.1;
     private double m_F = 0.0;
     private double m_iZone = 0;
 
-    private int m_cruiseVelocity = 300;
-    private int m_acceleration = 150;
+    private int m_cruiseVelocity = 1000;
+    private int m_acceleration = 500;
     private int m_tolerance = 10;
     private int m_slot = 0;
 
@@ -98,8 +98,8 @@ public class CargoIntake extends Subsystem
 
     protected void initDefaultCommand()
     {
-        //setDefaultCommand(new ReportStats());
-        setDefaultCommand(new DriveCargoIntakeArm());
+        setDefaultCommand(new ReportStats());
+        //setDefaultCommand(new DriveCargoIntakeArm());
     }
 
     //#region Roller System
@@ -160,7 +160,7 @@ public class CargoIntake extends Subsystem
         else if (m_position == eCargoIntakeArmPosition.RETRACTED)
         {
             int error = m_intakeArm.getClosedLoopError(0);
-            int allowable = m_intakeArm.getTolerance();
+            int allowable = 10; //m_intakeArm.getTolerance();
             
             return (((error >= 0 && error <= allowable) ||
                 (error < 0 && error >= (-1.0) * allowable))
@@ -173,13 +173,14 @@ public class CargoIntake extends Subsystem
             int error = m_intakeArm.getClosedLoopError(0);
             int allowable = 5;
             
-            if ((error >= 0 && error <= allowable) ||
+            /* if ((error >= 0 && error <= allowable) ||
                 (error < 0 && error >= (-1.0) * allowable))
             {
                 driveRollerManually(CRAWL_SPEED);
             }
             else
                 driveRollerManually(0.0);
+            */
 
             return (false);
         } 

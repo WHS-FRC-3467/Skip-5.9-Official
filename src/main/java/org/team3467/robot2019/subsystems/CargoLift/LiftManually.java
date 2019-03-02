@@ -1,5 +1,7 @@
 package org.team3467.robot2019.subsystems.CargoLift;
 
+import javax.lang.model.util.ElementScanner6;
+
 import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.robot.RobotGlobal;
@@ -28,13 +30,16 @@ public class LiftManually extends Command {
         double rSpeed = OI.getOperatorLeftTrigger() * SPEED_REDUCTION;
 
         if(fSpeed > 0) {
-            Robot.sub_fourbarlift.driveManual(fSpeed);
+            Robot.sub_fourbarlift.driveManual((-1.0) * fSpeed);
+
+        } else if (rSpeed > 0.0) {
+            Robot.sub_fourbarlift.driveManual(rSpeed);
 
         } else {
-            Robot.sub_fourbarlift.driveManual((-1.0) * rSpeed);
-
+            Robot.sub_fourbarlift.driveManual(0.0);
         }
 
+        Robot.sub_fourbarlift.reportEncoder();
     }
 
 }

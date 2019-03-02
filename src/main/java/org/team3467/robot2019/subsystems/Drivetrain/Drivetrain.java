@@ -52,13 +52,14 @@ public class Drivetrain extends Subsystem {
 		// Flip any sensors?
 		left_talon.setSensorPhase(true);
 		
-		// Invert all motors (until we figure out why controls are backward)
- 		left_talon.setInverted(false);
-		left_victor_1.setInverted(false);
-		left_victor_2.setInverted(false);
-		right_talon.setInverted(false);
-		right_victor_1.setInverted(false);
-		right_victor_2.setInverted(false);
+		// Invert all motors? (invert for driving backward)
+		boolean _inverted = false; 
+		left_talon.setInverted(_inverted);
+		left_victor_1.setInverted(_inverted);
+		left_victor_2.setInverted(_inverted);
+		right_talon.setInverted(_inverted);
+		right_victor_1.setInverted(_inverted);
+		right_victor_2.setInverted(_inverted);
 
 		// Turn off Brake mode
 		setTalonBrakes(false);

@@ -13,12 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class HatchGrabber extends Subsystem {
 
     public static final double DEPLOY_TIME = 1.0;
-    public static final double RETRACT_TIME = 1.0;
     
     private static final double GRAB_SPEED = -1.0;
     private static final double RELEASE_SPEED = 1.0;
-    private static final double DEPLOY_SPEED = -0.5;
-    private static final double RETRACT_SPEED = 0.5;
+    private static final double DEPLOY_SPEED = -0.7;
+    private static final double RETRACT_SPEED = 0.7;
 
     private WPI_TalonSRX m_grabTalon;
     private WPI_TalonSRX m_deployTalon;
@@ -57,13 +56,25 @@ public class HatchGrabber extends Subsystem {
     public boolean grabHatch()
     {
         m_grabTalon.set(GRAB_SPEED);
-        return m_grabTalon.getSensorCollection().isRevLimitSwitchClosed();
+        if ( m_grabTalon.getSensorCollection().isRevLimitSwitchClosed())
+        {
+            SmartDashboard.putBoolean("HatchGrabbed", true);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean releaseHatch()
     {
         m_grabTalon.set(RELEASE_SPEED);
-        return m_grabTalon.getSensorCollection().isFwdLimitSwitchClosed();
+        if ( m_grabTalon.getSensorCollection().isFwdLimitSwitchClosed())
+        {
+            SmartDashboard.putBoolean("HatchGrabbed", false);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void stopGrabber()

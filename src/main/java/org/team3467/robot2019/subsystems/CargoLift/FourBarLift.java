@@ -42,14 +42,14 @@ public class FourBarLift extends Subsystem {
     
     private eFourBarLiftPosition moveToPosition;
     
-    private double m_P = 0.3;
+    private double m_P = 0.0;
     private double m_I = 0.0;
     private double m_D = 0.0;
     private double m_F = 0.0;
     private double m_iZone = 0;
 
-    private int m_cruiseVelocity = 300;
-    private int m_acceleration = 150;
+    private int m_cruiseVelocity = 0;
+    private int m_acceleration = 0;
     private int m_tolerance = 10;
     private int m_slot = 0;
 
@@ -92,7 +92,7 @@ public class FourBarLift extends Subsystem {
     
     @Override
     protected void initDefaultCommand() {
-
+        setDefaultCommand(new LiftManually());
     }
 
     /*

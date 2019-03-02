@@ -48,21 +48,20 @@ M13: 1 talon for cargo hold, port 4 on PDP(30)
 
 
 Issues:
-Limelight
-MS Cam
-Shuffleboard
+Limelight Image on ShuffleBoard
+Shuffleboard management
 
 ToDo:
 
 CargoIntake:
 CargoIntake.java:
-    - Set encoder readingss for position enum
+    - Set encoder readings for position enum
     - Tune PID params
 
 CargoLift:
-LiftToPosition.java:
-    - Make a regualr Command (not Instant)
-    - Report stats
+FourBarLift.java:
+    - Set encoder readings for position enum
+    - Tune PID params
 
 
     Changes to Drive Controls

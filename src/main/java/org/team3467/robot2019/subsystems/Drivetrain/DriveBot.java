@@ -108,6 +108,10 @@ public class DriveBot extends Command {
 			double fwdSpeed = getControllerRightTrigger();
 			double curve  = getControllerLeftStickX();
 
+			// Uncomment this line for driving backwards
+
+			curve = (-1.0)*curve;
+
 			if (backSpeed != 0.0 && fwdSpeed != 0.0)
 			{
 				speed = 0.0;
@@ -118,7 +122,6 @@ public class DriveBot extends Command {
 			}
 			else if (backSpeed > 0.0)
 			{
-				curve = (-1.0)*curve;
 				speed = (-1.0)*backSpeed;
 			}
 			
