@@ -15,11 +15,11 @@ public class FourBarLift extends Subsystem {
 
     //TODO implement encoder values here
     public enum eFourBarLiftPosition {
-        L1(0, "ROCKET LEVEL ONE"),
-        L2(1, "ROCKET LEVEL TWO"),
-        L3(2, "ROCKET LEVEL THREE"),
-        CARGO_SHIP(3,  "CARGO SHIP"),
-        INTAKE(4, "INTAKE");
+        L1(5547, "ROCKET LEVEL ONE"),
+        L2(11505, "ROCKET LEVEL TWO"),
+        L3(14512, "ROCKET LEVEL THREE"),
+        CARGO_SHIP(7828,  "CARGO SHIP"),
+        INTAKE(0, "INTAKE");
 
         private final int setpoint;
         private final String name;
@@ -42,14 +42,14 @@ public class FourBarLift extends Subsystem {
     
     private eFourBarLiftPosition moveToPosition;
     
-    private double m_P = 0.0;
+    private double m_P = 2.2;
     private double m_I = 0.0;
     private double m_D = 0.0;
     private double m_F = 0.0;
     private double m_iZone = 0;
 
-    private int m_cruiseVelocity = 0;
-    private int m_acceleration = 0;
+    private int m_cruiseVelocity = 1400;
+    private int m_acceleration = 1300;
     private int m_tolerance = 10;
     private int m_slot = 0;
 
@@ -71,7 +71,7 @@ public class FourBarLift extends Subsystem {
         m_liftMotor.setInverted(false);
             
         // Flip sensors so they count positive in the positive control direction?
-        m_liftMotor.setSensorPhase(false);
+        m_liftMotor.setSensorPhase(true);
 
         // Configure PIDF constants
         m_liftMotor.configPIDF(m_slot, m_P, m_I, m_D, m_F);
@@ -92,7 +92,7 @@ public class FourBarLift extends Subsystem {
     
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new LiftManually());
+       // setDefaultCommand(new LiftManually());
     }
 
     /*

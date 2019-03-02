@@ -42,4 +42,15 @@ public class LiftManually extends Command {
         Robot.sub_fourbarlift.reportEncoder();
     }
 
+    @Override
+    protected void end() {
+        Robot.sub_fourbarlift.driveManual(0.0);
+        
+    }
+    @Override
+    protected void interrupted() {
+        
+        end();
+    }
+
 }

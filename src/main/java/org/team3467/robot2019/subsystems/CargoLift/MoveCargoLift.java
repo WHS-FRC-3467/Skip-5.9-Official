@@ -16,6 +16,13 @@ public class MoveCargoLift extends Command {
 
         m_position = pos;
     }
+    public MoveCargoLift() {
+        super();
+        requires(Robot.sub_fourbarlift);
+
+        m_position = FourBarLift.eFourBarLiftPosition.L2;
+    }
+
 
     protected void initialize() {
         counter = 0;
