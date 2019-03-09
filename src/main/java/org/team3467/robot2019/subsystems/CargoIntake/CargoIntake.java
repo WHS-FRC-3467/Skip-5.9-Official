@@ -18,9 +18,9 @@ public class CargoIntake extends Subsystem
 
     public enum eCargoIntakeArmPosition
     { 
-        CRAWL(0000,"CRAWL"),
+        CRAWL(1800,"CRAWL"),
         INTAKE(1600, "INTAKE"),
-        RETRACTED(0000, "RETRACTED");
+        RETRACTED(400, "RETRACTED");
 
         private int IntakeArmPosition;
         private String IntakeArmPositionName;

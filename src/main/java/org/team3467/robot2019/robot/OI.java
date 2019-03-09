@@ -1,8 +1,11 @@
 package org.team3467.robot2019.robot;
 
-import org.team3467.robot2019.robot.Xbox.XBoxControllerDPad;
-import org.team3467.robot2019.robot.Xbox.XboxController;
-import org.team3467.robot2019.robot.Xbox.XboxControllerButton;
+import org.team3467.robot2019.robot.Control.ButtonBox;
+import org.team3467.robot2019.robot.Control.ButtonBoxButton;
+import org.team3467.robot2019.robot.Control.TestMe;
+import org.team3467.robot2019.robot.Control.XBoxControllerDPad;
+import org.team3467.robot2019.robot.Control.XboxController;
+import org.team3467.robot2019.robot.Control.XboxControllerButton;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
 import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
 import org.team3467.robot2019.subsystems.CargoHold.ReleaseCargo;
@@ -13,10 +16,9 @@ import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
 import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoIntake.UpdateIntakeStats;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
-
-import org.team3467.robot2019.subsystems.CargoLift.UpdateLiftStats;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
+import org.team3467.robot2019.subsystems.CargoLift.UpdateLiftStats;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 import org.team3467.robot2019.subsystems.Hatch.DeployGrabber;
 import org.team3467.robot2019.subsystems.Hatch.DriveHatchDeployment;
@@ -27,17 +29,15 @@ import org.team3467.robot2019.subsystems.Limelight.Limelight;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.CameraMode;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OI {
 
     private static XboxController driverController;
     private static XboxController operatorController;
+	private static ButtonBox buttonBox;
 
     //private ShuffleboardTab tab_sandstorm = Shuffleboard.getTab("Sandstorm Period");
     //private ShuffleboardTab tab_teleop = Shuffleboard.getTab("Teleop Period");
@@ -53,6 +53,7 @@ public class OI {
     public void init() {
         driverController = new XboxController(0);
         operatorController = new XboxController(1);
+        buttonBox = new ButtonBox(2);
         bindControllerCommands();
     }
 
@@ -118,7 +119,7 @@ public class OI {
 
 		// The "B" button will move the Arm to Lift and Crawl position
         new XboxControllerButton(operatorController, XboxController.Button.kB)
-            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.CRAWL));
+            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
 
         // Cargo Intake Roller
         // Pressing down the Right Stick will turn Cargo Intake Roller control on
@@ -126,6 +127,20 @@ public class OI {
         //  PRESS "A" Button to turn it OFF!
         //
          new XboxControllerButton(operatorController, XboxController.Button.kStickRight).whenPressed(new DriveCargoIntakeRoller());
+
+
+
+         // BUTTON BOX BUTTONS
+         new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+         new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+         new ButtonBoxButton(buttonBox, ButtonBox.Button.k3).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+         new ButtonBoxButton(buttonBox, ButtonBox.Button.k4).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+
+         new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new DriveCargoHoldRollers());
+         new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new DriveCargoHoldRollers());
+
+
+
 
 
         // Commands to drag onto the ShuffleBoard
@@ -197,6 +212,10 @@ public class OI {
 
     public static double getOperatorRightTrigger() {
         return operatorController.getTriggerAxis(Hand.kLeft);
+    }
+
+    public static ButtonBox getButtonBox() {
+        return buttonBox;
     }
 
     public void shuffleboardUpdate() {

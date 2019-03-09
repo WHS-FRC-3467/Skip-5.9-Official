@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2019.robot.Xbox;
+package org.team3467.robot2019.robot.Control;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 

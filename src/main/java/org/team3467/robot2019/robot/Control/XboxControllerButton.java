@@ -1,4 +1,4 @@
-package org.team3467.robot2019.robot.Xbox;
+package org.team3467.robot2019.robot.Control;
 
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2008-2017 FIRST. All Rights Reserved.                        */

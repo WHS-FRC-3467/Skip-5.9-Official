@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CargoHold extends Subsystem
 {
-    private static final double CARGO_HOLD_STALL_CURRENT = 3.5;
+    private static final double CARGO_HOLD_STALL_CURRENT = 5;
     
     private TalonSRX m_cargoHold = new TalonSRX(RobotGlobal.CARGO_HOLD);
 

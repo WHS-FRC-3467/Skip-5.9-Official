@@ -165,6 +165,7 @@ public class MagicTalonSRX extends TalonSRX {
 			SmartDashboard.putNumber(m_name + " D", configGetParameter(ParamEnum.eProfileParamSlot_D, m_slotNum, 0));
 			SmartDashboard.putNumber(m_name + " F", configGetParameter(ParamEnum.eProfileParamSlot_F, m_slotNum, 0));
 			SmartDashboard.putNumber(m_name + " I*100", (configGetParameter(ParamEnum.eProfileParamSlot_I, m_slotNum, 0))*100);
+			SmartDashboard.putNumber(m_name + " Current Draw", getOutputCurrent());
 		}
     }
 
