@@ -6,6 +6,7 @@ import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
 import org.team3467.robot2019.subsystems.FieldCamera.FieldCamera;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
+import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -22,7 +23,7 @@ public class Robot extends TimedRobot {
     public static HatchGrabber sub_hatchgrabber;
     public static FourBarLift sub_fourbarlift;
     //public static Gyro sub_gyro;
-    //public static LEDSerial sub_led;
+    public static LEDSerial sub_led;
 
     public static OI robot_oi;
 
@@ -38,7 +39,7 @@ public class Robot extends TimedRobot {
         sub_hatchgrabber = HatchGrabber.getInstance();
         sub_fourbarlift = FourBarLift.getInstance();
         //sub_gyro = Gyro.getInstance();
-        //sub_led = LEDSerial.getInstance();
+        sub_led = LEDSerial.getInstance();
 
         robot_oi = new OI();
 

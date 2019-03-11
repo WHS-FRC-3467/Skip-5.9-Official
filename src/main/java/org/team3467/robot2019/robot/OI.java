@@ -3,6 +3,8 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.robot.Control.ButtonBox;
 import org.team3467.robot2019.robot.Control.ButtonBoxButton;
 import org.team3467.robot2019.robot.Control.TestMe;
+import org.team3467.robot2019.robot.Control.TestMe2;
+
 import org.team3467.robot2019.robot.Control.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Control.XboxController;
 import org.team3467.robot2019.robot.Control.XboxControllerButton;
@@ -52,8 +54,8 @@ public class OI {
 
     public void init() {
         driverController = new XboxController(0);
-        operatorController = new XboxController(1);
-        buttonBox = new ButtonBox(2);
+        operatorController = new XboxController(2);
+        buttonBox = new ButtonBox(1);
         bindControllerCommands();
     }
 
@@ -131,13 +133,16 @@ public class OI {
 
 
          // BUTTON BOX BUTTONS
-         new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
-         new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
-         new ButtonBoxButton(buttonBox, ButtonBox.Button.k3).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
-         new ButtonBoxButton(buttonBox, ButtonBox.Button.k4).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k3).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k4).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
 
-         new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new DriveCargoHoldRollers());
-         new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new DriveCargoHoldRollers());
+        // new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new DriveCargoHoldRollers());
+
+            new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenPressed(new TestMe());
+            new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenPressed(new TestMe2());
+
 
 
 

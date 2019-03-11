@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 /**
  * Add your docs here.
  */
-public class TestMe extends InstantCommand {
+public class TestMe2 extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public TestMe() {
+  public TestMe2() {
     super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -34,7 +34,7 @@ public class TestMe extends InstantCommand {
   protected void execute() {
     System.out.println("Test Successful!");
 
-    Robot.sub_led.setLEDPattern(LEDSerial.P_RAINBOW_FADE);
+    Robot.sub_led.setLEDPattern(3);
 
   }
 }

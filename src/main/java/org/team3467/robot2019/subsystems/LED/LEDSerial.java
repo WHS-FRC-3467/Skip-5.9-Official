@@ -13,9 +13,14 @@ public class LEDSerial extends Subsystem {
 //#region Patterns
 
     //Basic patterns
-    public static final int PATTERN_FLASHING_RED = 0;
-    public static final int PATTERN_FLASHING_GREEN = 1;
-    public static final int PATTERN_FLASHING_BLUE = 2;
+    public static final int P_LIMELIGHT_LINEUP = 0;
+    public static final int P_LIMELIGHT_DONE = 1;
+    public static final int P_RAINBOW_FADE = 2;
+    public static final int P_MURICA = 3;
+    public static final int P_CARGO_INTAKE_IN = 4;
+    public static final int P_CARGO_INTAKE_OUT = 5;
+
+
 
     //4 bar lift feedback
 
@@ -41,7 +46,6 @@ public class LEDSerial extends Subsystem {
         serialPort = new SerialPort(9600, Port.kUSB);
         serialPort.setTimeout(10);
 
-        setLEDPattern(PATTERN_FLASHING_GREEN);
         
     }
 
