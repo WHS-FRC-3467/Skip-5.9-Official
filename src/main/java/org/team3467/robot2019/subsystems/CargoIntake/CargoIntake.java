@@ -68,6 +68,10 @@ public class CargoIntake extends Subsystem
 	//CargoIntake class constructor
 	protected CargoIntake()
     {
+        // Set plain Talons to default config
+        m_intakeArm_2.configFactoryDefault();
+        m_intakeRoller.configFactoryDefault();
+        
         m_intakeArm.setNeutralMode(NeutralMode.Brake);
         m_intakeArm_2.setNeutralMode(NeutralMode.Brake);
         m_intakeArm_2.follow(m_intakeArm);

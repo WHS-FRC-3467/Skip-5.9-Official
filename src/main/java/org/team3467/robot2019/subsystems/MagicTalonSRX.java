@@ -80,7 +80,10 @@ public class MagicTalonSRX extends TalonSRX {
 		m_name = name;
 		m_slotNum = slotNum;
 	
-		// Turn on Brake mode
+        // Set all configuration parameters to factory defaults
+        configFactoryDefault();
+        
+        // Turn on Brake mode
 		setNeutralMode(NeutralMode.Brake);
 
  		// Set Grayhill encoder as default feedback device

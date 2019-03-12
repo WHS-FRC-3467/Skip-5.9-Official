@@ -24,6 +24,8 @@ public final class RobotGlobal {
     public final static int CARGO_HOLD = 11; // Gyro attached
     public final static int CARGO_LIFT = 12; // Encoder attached
 
+    public final static int CLIMBER_STILT = 20; // Climber w/ Neo Brushless & Spark Max controller
+
     public final static int GYRO = 11;
 
     

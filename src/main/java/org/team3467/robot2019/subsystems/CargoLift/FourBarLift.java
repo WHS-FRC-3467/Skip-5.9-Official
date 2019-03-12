@@ -72,6 +72,9 @@ public class FourBarLift extends Subsystem {
         // Flip Motor Directions?
         m_liftMotor.setInverted(false);
             
+        // Configure to use CTRE MagEncoder (built into Versaplanetary Encoder Slice)
+        m_liftMotor.configFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
         // Flip sensors so they count positive in the positive control direction?
         m_liftMotor.setSensorPhase(true);
 

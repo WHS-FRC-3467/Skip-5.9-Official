@@ -43,6 +43,13 @@ public class Drivetrain extends Subsystem {
         right_victor_2 = new WPI_VictorSPX(RobotGlobal.DRIVEBASE_VICTOR_R2);
         right_talon = new WPI_TalonSRX(RobotGlobal.DRIVEBASE_TALON_R);
 
+        left_victor_1.configFactoryDefault();
+        left_victor_2.configFactoryDefault();
+        left_talon.configFactoryDefault();
+        right_victor_1.configFactoryDefault();
+        right_victor_2.configFactoryDefault();
+        right_talon.configFactoryDefault();
+
 		// Slave the extra Talons on each side
         left_victor_1.follow(left_talon);
         left_victor_2.follow(left_talon);
