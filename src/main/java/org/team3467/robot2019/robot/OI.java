@@ -4,7 +4,6 @@ import org.team3467.robot2019.robot.Control.ButtonBox;
 import org.team3467.robot2019.robot.Control.ButtonBoxButton;
 import org.team3467.robot2019.robot.Control.TestMe;
 import org.team3467.robot2019.robot.Control.TestMe2;
-
 import org.team3467.robot2019.robot.Control.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Control.XboxController;
 import org.team3467.robot2019.robot.Control.XboxControllerButton;
@@ -32,6 +31,7 @@ import org.team3467.robot2019.subsystems.Limelight.Limelight.CameraMode;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -217,6 +217,16 @@ public class OI {
 
     public static double getOperatorRightTrigger() {
         return operatorController.getTriggerAxis(Hand.kLeft);
+    }
+
+    public static void setOperatorRumble(boolean rumbleOn) {
+        operatorController.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleOn ? 1 : 0);
+        operatorController.setRumble(GenericHID.RumbleType.kRightRumble, rumbleOn ? 1 : 0);
+    }
+
+    public static void setOperatorRumble(double rumbleValue) {
+        operatorController.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleValue);
+        operatorController.setRumble(GenericHID.RumbleType.kRightRumble, rumbleValue);
     }
 
     public static ButtonBox getButtonBox() {

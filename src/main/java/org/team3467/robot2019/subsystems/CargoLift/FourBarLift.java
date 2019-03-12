@@ -3,7 +3,6 @@ package org.team3467.robot2019.subsystems.CargoLift;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2019.robot.RobotGlobal;
 import org.team3467.robot2019.subsystems.MagicTalonSRX;
@@ -136,10 +135,12 @@ public class FourBarLift extends Subsystem {
     public boolean isLiftOnTarget(eFourBarLiftPosition m_position) {
         
         // We only want to stop the Cargo Lift PID loop from running when
-        // we reach the INTAKE state; otherwise, keep it going to hold arm position
-        if (m_position == eFourBarLiftPosition.INTAKE)
+        // we reach the ZERO state; otherwise, keep it going to hold arm position
+        if (m_position == eFourBarLiftPosition.ZERO)
         {
-            int error = m_liftMotor.getClosedLoopError(0);
+            // Get current target and determine how far we are from it (error)
+            int target = (int) m_liftMotor.getClosedLoopTarget();
+            int error = target - m_liftMotor.getSelectedSensorPosition();
             int allowable = m_liftMotor.getTolerance();
             
             return (((error >= 0 && error <= allowable) ||

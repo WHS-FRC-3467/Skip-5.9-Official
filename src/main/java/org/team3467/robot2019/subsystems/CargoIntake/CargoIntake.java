@@ -163,7 +163,9 @@ public class CargoIntake extends Subsystem
         // we reach the RETRACTED state; otherwise, keep it going to hold arm position
         else if (m_position == eCargoIntakeArmPosition.RETRACTED)
         {
-            int error = m_intakeArm.getClosedLoopError(0);
+            // Get current target and determine how far we are from it (error)
+            int target = (int) m_intakeArm.getClosedLoopTarget();
+            int error = target - m_intakeArm.getSelectedSensorPosition();
             int allowable = 10; //m_intakeArm.getTolerance();
             
             return (((error >= 0 && error <= allowable) ||
@@ -174,18 +176,18 @@ public class CargoIntake extends Subsystem
         // to the position; Keep PID going to hold position
         else if (m_position == eCargoIntakeArmPosition.CRAWL)
         {
-            int error = m_intakeArm.getClosedLoopError(0);
+            int target = (int) m_intakeArm.getClosedLoopTarget();
+            int error = target - m_intakeArm.getSelectedSensorPosition();
             int allowable = 5;
             
-            /* if ((error >= 0 && error <= allowable) ||
+            if ((error >= 0 && error <= allowable) ||
                 (error < 0 && error >= (-1.0) * allowable))
             {
                 driveRollerManually(CRAWL_SPEED);
             }
             else
                 driveRollerManually(0.0);
-            */
-
+            
             return (false);
         } 
         else

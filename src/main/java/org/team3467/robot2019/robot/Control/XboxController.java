@@ -34,11 +34,7 @@ public class XboxController extends GenericHID {
     kX(3),
     kY(4),
     kBack(7),
-    kStart(8),
-    kDPadUp(30),
-    kDPadDown(30),
-    kDPadLeft(30),
-    kDPadRight(30);
+    kStart(8);
 
     public final int value;
 
