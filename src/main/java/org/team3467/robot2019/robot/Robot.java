@@ -50,6 +50,22 @@ public class Robot extends TimedRobot {
         robot_oi.shuffleboardUpdate();
     }
 
+    /**
+	 * This function is called once each time the robot enters Disabled mode. You
+	 * can use it to reset any subsystem information you want to clear when the
+	 * robot is disabled.
+	 */
+	@Override
+	public void disabledInit() {
+
+	}
+
+	@Override
+	public void disabledPeriodic() {
+		Scheduler.getInstance().run();
+	}
+
+
     @Override
     public void autonomousInit() {
         Shuffleboard.selectTab("Sandstorm Period");
@@ -63,6 +79,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+
+        // Remove any commands letover from prior runs
+        Scheduler.getInstance().removeAll();
+
         Shuffleboard.selectTab("Teleop Period");
         robot_oi.shuffleboardUpdate();
     }
@@ -70,7 +90,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("FBL Encoder2" , sub_fourbarlift.getLiftEncoder());
+        
+        //SmartDashboard.putNumber("FBL Encoder2" , sub_fourbarlift.getLiftEncoder());
     }
 
 

@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CargoIntake extends Subsystem
 {
 
+    public static final double CARGO_INTAKE_ROLLER_SPEED = 0.6;
+
     public enum eCargoIntakeArmPosition
     { 
         CRAWL(1800,"CRAWL"),
@@ -163,25 +165,13 @@ public class CargoIntake extends Subsystem
         // we reach the RETRACTED state; otherwise, keep it going to hold arm position
         else if (m_position == eCargoIntakeArmPosition.RETRACTED)
         {
-            // Get current target and determine how far we are from it (error)
-            int target = (int) m_intakeArm.getClosedLoopTarget();
-            int error = target - m_intakeArm.getSelectedSensorPosition();
-            int allowable = 10; //m_intakeArm.getTolerance();
-            
-            return (((error >= 0 && error <= allowable) ||
-                (error < 0 && error >= (-1.0) * allowable))
-                );
+            return (checkArmOnTarget(m_position));
         } 
         // When lowering arm to crawl on HAB, start rollers once the arm gets close
         // to the position; Keep PID going to hold position
         else if (m_position == eCargoIntakeArmPosition.CRAWL)
         {
-            int target = (int) m_intakeArm.getClosedLoopTarget();
-            int error = target - m_intakeArm.getSelectedSensorPosition();
-            int allowable = 5;
-            
-            if ((error >= 0 && error <= allowable) ||
-                (error < 0 && error >= (-1.0) * allowable))
+            if (checkArmOnTarget(m_position))
             {
                 driveRollerManually(CRAWL_SPEED);
             }
@@ -196,6 +186,16 @@ public class CargoIntake extends Subsystem
         }
     }
     
+    public boolean checkArmOnTarget(eCargoIntakeArmPosition m_position) {
+        
+        // Get current target and determine how far we are from it (error)
+        int target = (int) m_intakeArm.getClosedLoopTarget();
+        int error = target - m_intakeArm.getSelectedSensorPosition();
+        int allowable = 10; //m_intakeArm.getTolerance();
+        
+        return (Math.abs(error) <= allowable);
+    } 
+
     public void setArmSetpointFromDashboard() {
         m_intakeArm.updateSetpointFromDashboard();
     }

@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveCargoIntakeRoller extends Command {
 
-    private static final double INTAKE_SPEED = 0.6;
 
     public DriveCargoIntakeRoller() {
         // Don't require subsystem, so roller can turn while arm is moving
@@ -28,7 +27,7 @@ public class DriveCargoIntakeRoller extends Command {
         }
         else
         {
-            Robot.sub_cargointake.driveRollerManually(INTAKE_SPEED);
+            Robot.sub_cargointake.driveRollerManually(CargoIntake.CARGO_INTAKE_ROLLER_SPEED);
         }
     }
    

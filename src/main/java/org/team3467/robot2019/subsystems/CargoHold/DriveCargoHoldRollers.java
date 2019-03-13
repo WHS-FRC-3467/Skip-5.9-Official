@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveCargoHoldRollers extends Command {
 
+    private double m_currentLevel;
 
     public DriveCargoHoldRollers() {
         requires(Robot.sub_cargohold);
@@ -14,6 +15,8 @@ public class DriveCargoHoldRollers extends Command {
 
     protected void initialize()
     {
+        m_currentLevel = CargoHold.CARGO_HOLD_PICKUP_CURRENT;
+        Robot.sub_cargohold.cargoIsHeld(false);
     }
  
     protected void execute() {
@@ -22,11 +25,18 @@ public class DriveCargoHoldRollers extends Command {
 
         if (speed > 0.1)
         {
-            Robot.sub_cargohold.intakeCargo();
+            // Returns True if current is met or exceeded
+            if (Robot.sub_cargohold.intakeCargo(m_currentLevel))
+            {
+                m_currentLevel = CargoHold.CARGO_HOLD_STALL_CURRENT;
+                Robot.sub_cargohold.cargoIsHeld(true);
+            }
         }
         else if (speed < -0.5)
         {
             Robot.sub_cargohold.releaseCargo(1.0);
+            m_currentLevel = CargoHold.CARGO_HOLD_PICKUP_CURRENT;
+            Robot.sub_cargohold.cargoIsHeld(false);
         }
 
     }

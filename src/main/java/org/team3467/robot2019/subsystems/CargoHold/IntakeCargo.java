@@ -10,20 +10,27 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class IntakeCargo extends Command {
 
-    
+    private double m_currentLevel;
+
     public IntakeCargo() {
         requires(Robot.sub_cargohold);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
+        m_currentLevel = CargoHold.CARGO_HOLD_PICKUP_CURRENT;
+        Robot.sub_cargohold.cargoIsHeld(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        Robot.sub_cargohold.intakeCargo();
+        // Returns True if current is met or exceeded
+        if (Robot.sub_cargohold.intakeCargo(m_currentLevel))
+        {
+            m_currentLevel = CargoHold.CARGO_HOLD_STALL_CURRENT;
+            Robot.sub_cargohold.cargoIsHeld(true);
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

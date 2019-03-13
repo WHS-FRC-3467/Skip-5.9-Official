@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CargoHold extends Subsystem
 {
-    private static final double CARGO_HOLD_STALL_CURRENT = 5;
+    // Public current levels for operation of the Cargo Hold
+    public static final double CARGO_HOLD_PICKUP_CURRENT = 6.0;
+    public static final double CARGO_HOLD_STALL_CURRENT = 3.0;
     
     private TalonSRX m_cargoHold = new TalonSRX(RobotGlobal.CARGO_HOLD);
 
@@ -27,6 +29,7 @@ public class CargoHold extends Subsystem
 
     private static final int INTAKE_REPORTING_LOOP_COUNT = 20;
     private int loopCount = 0;
+    private boolean m_haveCargo;
 
     // Static subsystem reference
 	private static CargoHold cHInstance = new CargoHold();
@@ -59,6 +62,9 @@ public class CargoHold extends Subsystem
         m_cargoHold.config_kD(0, 0.0, 10);
         m_cargoHold.config_kF(0, 0.0, 10);
         m_cargoHold.config_IntegralZone(0, 0, 10);
+
+        // No Cargo Yet!
+        m_haveCargo = false;
     }
 
     @Override
@@ -70,11 +76,13 @@ public class CargoHold extends Subsystem
 
     /**
      * Inake Cargo while checking current draw
+     * @param double currentLevel - max current draw (in Amps) allowed
+     * @return boolean - if currentLevel was met or exceeded
      */
-    public void intakeCargo()
+    public boolean intakeCargo(double currentLevel)
     {
         /* Current Closed Loop */
-        m_cargoHold.set(ControlMode.Current, CARGO_HOLD_STALL_CURRENT);
+        m_cargoHold.set(ControlMode.Current, currentLevel);
 
         m_motorCurrent = m_cargoHold.getOutputCurrent();
         m_percentOutput = m_cargoHold.getMotorOutputPercent();
@@ -85,16 +93,31 @@ public class CargoHold extends Subsystem
             reportCargoHoldStats();
             loopCount = 0;
         }
+
+        // Return TRUE if currentLevel was met or exceeded on this pass
+        return (m_motorCurrent >= currentLevel);
+    }
+
+    public void cargoIsHeld(boolean holdState)
+    {
+        m_haveCargo = holdState;
+    }
+
+    public boolean isCargoHeld()
+    {
+        return m_haveCargo;
     }
 
     public void releaseCargo(double speed)
     {
         m_cargoHold.set(ControlMode.PercentOutput,(-1.0) * speed);
+        m_haveCargo = false;
     }
 
     public void stop()
     {
         m_cargoHold.set(ControlMode.PercentOutput,0.0);
+        m_haveCargo = false;
     }
 
     private void reportCargoHoldStats()
@@ -102,6 +125,7 @@ public class CargoHold extends Subsystem
         SmartDashboard.putNumber("CargoHold Current Draw", m_motorCurrent);
         SmartDashboard.putNumber("CargoHold Percent Output", m_percentOutput);
         SmartDashboard.putNumber("CargoHold Closed Loop Error", m_closedLoopError);
+        SmartDashboard.putBoolean("CargoHold Holding?", m_haveCargo);
     }
 
 

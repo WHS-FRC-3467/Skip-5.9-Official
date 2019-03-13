@@ -12,14 +12,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FourBarLift extends Subsystem {
 
-    //TODO implement encoder values here
+    //TODO implement Hatch level encoder values here
     public enum eFourBarLiftPosition {
-        L1(5547, "ROCKET LEVEL ONE"),
-        L2(11505, "ROCKET LEVEL TWO"),
-        L3(14512, "ROCKET LEVEL THREE"),
-        CARGO_SHIP(7828,  "CARGO SHIP"),
+        ZERO(10, "ZERO"),
         INTAKE(501, "INTAKE"),
-        ZERO(10, "ZERO");
+        HATCH_1(4500, "HATCH LEVEL ONE"),
+        L1(5547, "ROCKET LEVEL ONE"),
+        OUTOFTHEWAY(6644,  "OUT OF THE WAY"),
+        CARGO_SHIP(7828,  "CARGO SHIP"),
+        HATCH_2(8000, "HATCH LEVEL TWO"),
+        L2(11505, "ROCKET LEVEL TWO"),
+        HATCH_3(13000, "HATCH LEVEL THREE"),
+        L3(14512, "ROCKET LEVEL THREE");
 
 
         private final int setpoint;
@@ -90,7 +94,7 @@ public class FourBarLift extends Subsystem {
         zeroLiftEncoder();
         
         // Assuming this is Starting Position; if not, then need to change it
-        setLiftPosition(eFourBarLiftPosition.INTAKE);
+        setLiftPosition(eFourBarLiftPosition.ZERO);
 
     }
     
@@ -138,21 +142,22 @@ public class FourBarLift extends Subsystem {
         // we reach the ZERO state; otherwise, keep it going to hold arm position
         if (m_position == eFourBarLiftPosition.ZERO)
         {
-            // Get current target and determine how far we are from it (error)
-            int target = (int) m_liftMotor.getClosedLoopTarget();
-            int error = target - m_liftMotor.getSelectedSensorPosition();
-            int allowable = m_liftMotor.getTolerance();
-            
-            return (((error >= 0 && error <= allowable) ||
-                (error < 0 && error >= (-1.0) * allowable))
-                );
-        } 
-        else
-        {
-            return false;
+            return (checkLiftOnTarget(m_position));
         }
+        else
+            return false;
     }
-    
+
+    public boolean checkLiftOnTarget(eFourBarLiftPosition m_position) {
+        
+        // Get current target and determine how far we are from it (error)
+        int target = (int) m_liftMotor.getClosedLoopTarget();
+        int error = target - m_liftMotor.getSelectedSensorPosition();
+        int allowable = m_liftMotor.getTolerance();
+        
+        return (Math.abs(error) <= allowable);
+    } 
+
     /*
      * Setter / Getter Methods
      */
