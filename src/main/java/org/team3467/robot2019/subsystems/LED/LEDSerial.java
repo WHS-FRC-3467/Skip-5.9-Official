@@ -43,8 +43,12 @@ public class LEDSerial extends Subsystem {
     //LEDSerial class constructor
     protected LEDSerial()
     {
+        try {
         serialPort = new SerialPort(9600, Port.kUSB);
         serialPort.setTimeout(10);
+        } catch(Exception e) {
+            System.out.print("no leds connected");
+        }
 
         
     }

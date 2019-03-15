@@ -15,6 +15,7 @@ import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
 import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
+import org.team3467.robot2019.subsystems.CargoIntake.PrepareToIntakeCargo;
 import org.team3467.robot2019.subsystems.CargoIntake.UpdateIntakeStats;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
@@ -133,7 +134,129 @@ public class OI {
 
 
          // BUTTON BOX BUTTONS
-       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+
+        //  Button 1 = Collect Cargo
+            //Function: Intakes cargo from floor
+            //Assumes: All appendages are in starting configuaration
+            //Step 1: 4 Bar raises up
+            //Step 2: Intake arm moves to floor intake setpoint
+            //Step 3: 4 Bar moves down to intake setpoint
+            //Step 4: Cargo Intake turns on
+            //Step 4: Cargo Hold turns on
+            //Step 5: Wait for current spike on Cargo Hold then initialize Cargo Hold low speed
+        //  Button 2 = Stow Cargo
+            //Function: Brings all cargo appendages into the robot
+            //Assumes: Robot is in "Collect Cargo" configuration
+            //Step 1: 4 Bar raises up
+            //Step 2: Cargo Intake returns to Home position
+            //Step 3: 4 Bar moves down to Home setpoint
+        //  Button 3 = Spit Cargo
+            //Function: Cargo Hold motor reverses to release ball
+            //Assumes: We have a piece of Cargo in a scoring position
+            //Step 1: Cargo Hold motor spins in reverse direction
+        //  Button 4 = Collect Hatch
+            //Function: Lowers Hatch Grabberto HP height
+            //Assumes: Hatch Grabber is in the upright/stowed position
+            //Step 1: Hatch Arm lowers to Level 1 height (bottoms out)
+            //Step 2: If Limit Switch is pressed then pulse driver gamepad once
+        //  Button 5 = Release Hatch
+            //Function: Fingers that hold the Hatch are moved inward
+            //Assumes: We have a Hatch in a scoring position
+            //Hatch Finger Servo moves position
+        //  Button 6 = Stow Hatch
+            //Function: Raises Hatch Grabber to upright/stowed position
+            //Assumes: Hatch Grabber is in the HP height
+            //Step 1: Raises Hatch Arm to stowed/starting position
+        //  Button 7 = Lift to Cargo 1
+            //Function: Raises Cargo Hold to rocket level 1
+            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. The Cargo Hold is in the stowed position.
+            //Step 1: Lift the Cargo Hold to Rocket 1
+            //Step 2: Stow Cargo Intake
+            //Step 3: Spit Cargo
+            //Step 4: Deploy Cargo Intake to prepare for another Cargo
+            //Step 5: Stow Cargo Hold
+        //  Button 8 = Lift to Cargo 2
+            //Function: Raises Cargo Hold to level 2
+            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
+            //Step 1: Lift the Cargo Hold to Rocket level 2
+            //Step 2: Stow Cargo Intake
+            //Step 3: Spit Cargo
+            //Step 4: Deploy Cargo Intake to prepare for another Cargo
+            //Step 5: Stow Cargo Hold
+        //  Button 9 = Lift to Cargo 3
+            //Function: Raises Cargo Hold to rocket level 3
+            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
+            //Step 1: Lift the Cargo Hold to Rocket level 3
+            //Step 2: Stow Cargo Intake
+            //Step 3: Spit Cargo
+            //Step 4: Deploy Cargo Intake to prepare for another Cargo
+            //Step 5: Stow Cargo Hold
+        //  Button 10 = Lift to Ship
+            //Function: Raises Cargo Hold to Cargo Bay level
+            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
+            //Step 1: Lift the Cargo Hold to Rocket Cargo Bay level
+            //Step 2: Stow Cargo Intake
+            //Step 3: Spit Cargo
+            //Step 4: Deploy Cargo Intake to prepare for another Cargo
+            //Step 5: Stow Cargo Hold
+        //  Button 11 = Lift to Hatch 1
+            //Function: Raises Hatch Handler to Rocket level 1
+            //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
+            //Step 1: Lift the Hatch Handler to Rocket level 1
+            //Step 2: Release Hatch
+            //Step 3: Stow Hatch Handler
+        //  Button 12 = Lift to Hatch 2
+            //Function: Raises Hatch Handler to Rocket level 2
+            //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
+            //Step 1: Lift the Hatch Handler to Rocket level 2
+            //Step 2: Release Hatch
+            //Step 3: Stow Hatch Handler
+        //  Button 13 = Lift to Hatch 3
+            //Function: Raises Hatch Handler to Rocket level 3
+            //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
+            //Step 1: Lift the Hatch Handler to Rocket level 3
+            //Step 2: Release Hatch
+            //Step 3: Stow Hatch Handler
+        //  Button 14 = Lift to Ship Hatch
+            //Function: Raises Hatch Handler to Cargo Bay level
+            //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
+            //Step 1: Lift the Hatch Handler to Rocket Cargo Bay level
+            //Step 2: Release Hatch
+            //Step 3: Stow Hatch Handler
+        //  Button 15 = Queue Climber
+            //Function: Moves Cargo Intake to vertical: ready to climb
+            //Assumes: All Cargo Appendages are in the Stowed position
+            //Step 1: 4 Bar moves up
+            //Step 2: Cargo Intake moves to setpoint clear of 4 bar
+            //Step 3: 4 Bar returns to Home setpoint
+            //Step 4: Cargo Intake rotates back into a vertical position
+        //  Button 16 = Climb to Hab 2
+            //Function: Climbs to Hab 2
+            //Assumes: Lined up against the Hab platform prepared to climb
+            //Step 1: Cargo Intake comes down onto Hab 2
+            //Step 2: Cargo Intake pushes down to lift front of robot
+            //Step 3: Cargo Intake crawls (Wheels on Cargo Intake and Drivebase are moving)
+            //Step 4: Robot is on top of Hab 2
+        //  Button 17 = Climb to Hab 3
+            //Function: Climbs to Hab 3
+            //Assumes: Lined up against the Hab platform prepared to climb (On level 1 in front of Hab 3)
+            //Step 1: Cargo Intake comes down until touches Hab 3
+            //Step 2: Continue to move Cargo Intake down while raising Polejack in back of robot
+            //Step 3: Start Crawl mode and pull robot onto Hab 3
+        //  Button 18 = Climb Retract
+            //Function: Retract Polejack and return Cargo Intake
+            //Assumes: Drivebase wheels are on Hab 3 and Polejack and Cargo Intake are fully deployed
+            //Step 1: Retract both Polejack and Cargo Intake
+        //  Button 19 = Climb Crawl
+            //Function: Pull Drivebase onto Hab level 2 or 3
+            //Assumes: Intake is touching Hab level and linec up
+            //Step 1: Turn on Cargo Intake and slowly pull onto Hab level
+        //  Button 20 = Auto Line Up
+            //Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
+            //Assumes: Robot is within range for LimeLight to obtain and track target
+            //Step 1: 
+
+        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k3).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k4).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
@@ -158,6 +281,7 @@ public class OI {
          SmartDashboard.putData(new UpdateIntakeStats());
          SmartDashboard.putData(new MoveCargoLift());
          SmartDashboard.putData(new UpdateLiftStats());
+         SmartDashboard.putData(new PrepareToIntakeCargo());
 
 
     }
