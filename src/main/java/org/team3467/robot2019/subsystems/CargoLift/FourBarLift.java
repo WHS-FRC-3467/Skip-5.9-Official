@@ -1,8 +1,8 @@
 package org.team3467.robot2019.subsystems.CargoLift;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import org.team3467.robot2019.robot.RobotGlobal;
 import org.team3467.robot2019.subsystems.MagicTalonSRX;
@@ -14,7 +14,7 @@ public class FourBarLift extends Subsystem {
 
     //TODO implement Hatch level encoder values here
     public enum eFourBarLiftPosition {
-        ZERO(10, "ZERO"),
+        HOME(10, "ZERO"),
         INTAKE(501, "INTAKE"),
         HATCH_1(4500, "HATCH LEVEL ONE"),
         L1(5547, "ROCKET LEVEL ONE"),
@@ -43,15 +43,21 @@ public class FourBarLift extends Subsystem {
         }
     }
     
+    // Last "commanded" Lift position
+    private eFourBarLiftPosition m_moveToPosition;
+    
+    // Actual encoder position - updated everytime the lift is moved
+    // Save this because we want the default command to run MotionMagic at the current position,
+    // which will avoid sudden movements upon re-enabling the robot.
+    private int m_actualEncoderPosition;
+
     MagicTalonSRX m_liftMotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0);
-    
-    private eFourBarLiftPosition moveToPosition;
-    
+        
     private double m_P = 2.2;
     private double m_I = 0.0;
     private double m_D = 0.0;
     private double m_F = 0.0;
-    private double m_iZone = 0;
+    //private double m_iZone = 0;
 
     private int m_cruiseVelocity = 1400;
     private int m_acceleration = 1300;
@@ -94,20 +100,25 @@ public class FourBarLift extends Subsystem {
         zeroLiftEncoder();
         
         // Assuming this is Starting Position; if not, then need to change it
-        setLiftPosition(eFourBarLiftPosition.ZERO);
-
+        m_moveToPosition = eFourBarLiftPosition.HOME;
+        updatePosition();
     }
     
     @Override
     protected void initDefaultCommand() {
-       // setDefaultCommand(new LiftManually());
+        // setDefaultCommand(new LiftManually());
+        /*
+            Continue MotionMagic with setpoint at current position
+        */
+        setDefaultCommand(new HoldMagicallyInPlace());
     }
 
     /*
-     * Manual Motor Control
+     * Manual Lift Control
      */
     public void driveManual(double speed) {
         m_liftMotor.set(ControlMode.PercentOutput, speed);
+        updatePosition();
     }
 
     /*
@@ -115,32 +126,34 @@ public class FourBarLift extends Subsystem {
      */
     public void moveLiftToPosition(eFourBarLiftPosition position, boolean reportStats)
     {
-        moveToPosition = position;
-        moveMagically(position.getSetpoint());
+        m_moveToPosition = position;
+        m_liftMotor.runMotionMagic(position.getSetpoint());
+        updatePosition();
 
         if (reportStats)
         {
-            SmartDashboard.putString("FBL Position", getLiftPosition().getName());
-            reportEncoder();
-            reportTalonStats();
+            reportStats();
         }
     }
 
-    public void moveMagically (int setPoint) {
+    // Use current position as setpoint
+    public void holdMagically (boolean reportStats) {
 
-        m_liftMotor.runMotionMagic(setPoint);
-    }
-    
-    public void moveMagically () {
+        m_liftMotor.runMotionMagic(m_actualEncoderPosition);
+        updatePosition();
 
-        m_liftMotor.runMotionMagic();
+        if (reportStats)
+        {
+            reportStats();
+        }
+
     }
     
     public boolean isLiftOnTarget(eFourBarLiftPosition m_position) {
         
         // We only want to stop the Cargo Lift PID loop from running when
-        // we reach the ZERO state; otherwise, keep it going to hold arm position
-        if (m_position == eFourBarLiftPosition.ZERO)
+        // we reach the HOME state; otherwise, keep it going to hold arm position
+        if (m_position == eFourBarLiftPosition.HOME)
         {
             return (checkLiftOnTarget(m_position));
         }
@@ -162,30 +175,43 @@ public class FourBarLift extends Subsystem {
      * Setter / Getter Methods
      */
     
-    public int getLiftEncoder() {
-        return m_liftMotor.getSelectedSensorPosition(0);
-    }
+    public void updatePosition() {
+        m_actualEncoderPosition = m_liftMotor.getSelectedSensorPosition();
+    } 
+
     public void zeroLiftEncoder() {
         m_liftMotor.setSelectedSensorPosition(0,0,0);
+        updatePosition();
     }
 
     public eFourBarLiftPosition getLiftPosition() {
-        return moveToPosition;
-    }
-
-    public void setLiftPosition(eFourBarLiftPosition pos) {
-        moveToPosition = pos;
+        return m_moveToPosition;
     }
 
     public void setArmSetpointFromDashboard() {
         m_liftMotor.updateSetpointFromDashboard();
     }
     
+    public void setTolerance(int tol) {
+        m_liftMotor.setTolerance(tol);
+    }
+
   
     /*
      * SmartDashbord Update Methods
      */
+    public void reportStats() {
 
+        SmartDashboard.putString("FBL Position", getLiftPosition().getName());
+        reportEncoder();
+        reportTalonStats();
+
+    }
+    
+    public void reportEncoder() {
+        SmartDashboard.putNumber("FBL Encoder", m_liftMotor.getSelectedSensorPosition(0));
+    }
+ 
      public void reportTalonStats() {
         m_liftMotor.reportMotionToDashboard();
     }
@@ -194,8 +220,4 @@ public class FourBarLift extends Subsystem {
         m_liftMotor.updateStats();
     }
     
-    public void reportEncoder() {
-        SmartDashboard.putNumber("FBL Encoder", getLiftEncoder());
-    }
- 
 }

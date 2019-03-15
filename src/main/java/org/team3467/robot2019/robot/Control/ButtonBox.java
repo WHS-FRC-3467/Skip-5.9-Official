@@ -47,13 +47,13 @@ public class ButtonBox extends GenericHID {
 
 @Override
 public double getX(Hand hand) {
-	// TODO Auto-generated method stub
+	// Auto-generated method stub
 	return 0;
 }
 
 @Override
 public double getY(Hand hand) {
-	// TODO Auto-generated method stub
+	// Auto-generated method stub
 	return 0;
 }
 

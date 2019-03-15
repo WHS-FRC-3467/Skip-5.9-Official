@@ -28,11 +28,7 @@ public class MoveCargoLift extends Command {
         counter = 0;
     }
 
-//
-//  TODO: Add logic to make sure Cargo Lift is out of the way when moving the Cargo Intake Arm.
-//
-//
-    @Override
+   @Override
     protected void execute() {
 
         //System.out.println("THE WIZARD IS MOVING YOUR MOTOR");

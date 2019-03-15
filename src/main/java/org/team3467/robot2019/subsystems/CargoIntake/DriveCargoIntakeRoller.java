@@ -21,7 +21,7 @@ public class DriveCargoIntakeRoller extends Command {
 
         double speed = (-1.0) * OI.getOperatorRightY();
 
-        if (((speed > 0.1) || (speed < -0.5) ) || (!Robot.robot_oi.getButtonBox().getRawButton(10)))
+        if (((speed > 0.1) || (speed < -0.5) ) || (!OI.getButtonBox().getRawButton(10)))
         {
             Robot.sub_cargointake.driveRollerManually(speed);
         }

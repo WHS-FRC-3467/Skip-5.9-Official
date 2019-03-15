@@ -215,11 +215,13 @@ public class MagicTalonSRX extends TalonSRX {
     public int getTolerance() {
     	return m_tolerance;
     }
-    
+
+    public void setTolerance(int allowable) {
+        m_tolerance = allowable;
+    }
+
 	public void reportMotionToDashboard() {
 
-		
-		
 		// These are things that we cannot change on SDB; just report their current values
 		if (m_debugging) {
 			SmartDashboard.putString(m_name + " ControlMode", getTalonControlMode());

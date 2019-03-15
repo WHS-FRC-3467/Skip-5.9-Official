@@ -5,6 +5,7 @@ import org.opencv.core.Mat;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -29,10 +30,15 @@ public class FieldCamera extends Subsystem {
     
     private void runOne() {
     	
-		UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-        camera1.setResolution(320, 240);
-        camera1.setFPS(15);
-    
+		UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture("MS Lifecam Camera", 0);
+        //camera1.setResolution(320, 240);
+        //camera1.setFPS(15);
+        camera1.setResolution(640, 480);
+        camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        
+        // These settings should be less than 1mbps streaming to Shuffleboard.
+        // Make sure that you don’t change anything on the Shuffleboard side, just leave the defaults and
+        // -1 as the compression so you don’t waste CPU cycles re-compressing the mjpg stream.
     }
     
     private void runTwo() {

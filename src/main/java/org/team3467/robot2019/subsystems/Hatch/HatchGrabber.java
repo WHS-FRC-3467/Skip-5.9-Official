@@ -52,7 +52,6 @@ public class HatchGrabber extends Subsystem {
 
     }
 
-    // TODO: Confirm proper limit switch directions to use here
     public boolean grabHatch()
     {
         m_grabTalon.set(GRAB_SPEED);

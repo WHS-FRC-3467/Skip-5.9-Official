@@ -71,7 +71,7 @@ public class CargoHold extends Subsystem
     protected void initDefaultCommand()
     { 
         // Set the default command for a subsystem here.
-        setDefaultCommand(new StopCargoHold());
+        setDefaultCommand(new HoldCargo());
     }
 
     /**
@@ -118,6 +118,13 @@ public class CargoHold extends Subsystem
     {
         m_cargoHold.set(ControlMode.PercentOutput,0.0);
         m_haveCargo = false;
+
+        if (loopCount++ > INTAKE_REPORTING_LOOP_COUNT)
+        {
+            reportCargoHoldStats();
+            loopCount = 0;
+        }
+
     }
 
     private void reportCargoHoldStats()

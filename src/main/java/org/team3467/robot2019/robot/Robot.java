@@ -11,7 +11,6 @@ import org.team3467.robot2019.subsystems.LED.LEDSerial;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
@@ -57,12 +56,24 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
-	}
+    
+        // TODO: Think about what happens if we remove all currently running commands upon Disablement
+        // ?: Will this be detrimental when the shift from Sandstorm -> Disabled -> Teleop happens?
+        // This will be useful when testing or practicing and robot is Disabled while a command is running
+        
+        // Scheduler.getInstance().removeAll();
+    }
 
 	@Override
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
+
+        // Keep the Intake Arm and 4Bar Lift positions updated even when Disabled
+        // We set the target closed-loop setpoints to the current position when reEnabled
+        // so as to minimize any movement of the arms 
+        sub_cargointake.updatePosition();
+        sub_fourbarlift.updatePosition();
+
+        Scheduler.getInstance().run();
 	}
 
 

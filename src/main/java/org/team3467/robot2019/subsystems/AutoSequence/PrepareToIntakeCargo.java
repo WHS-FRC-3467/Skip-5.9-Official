@@ -5,9 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2019.subsystems.CargoIntake;
+package org.team3467.robot2019.subsystems.AutoSequence;
 
 import org.team3467.robot2019.robot.Robot;
+import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 
@@ -34,11 +35,10 @@ public class PrepareToIntakeCargo extends Command
 
         // Command States
 	public enum eCmdState {
-        LiftUp(1.0),
-        IntakeOut(1.0),
+        LiftUp(0.0),
+        IntakeOut(0.0),
         LiftToIntake(0.0),
-        TurnOnIntakes(0.0),
-        WaitForCapture(60.0);
+        WaitForCapture(0.0);
         
 		private final double time;
 		
@@ -53,6 +53,7 @@ public class PrepareToIntakeCargo extends Command
 
     private eCmdState m_currentState;
     private boolean m_isFinished;
+    //private double m_stateStartTime;
 
     private double m_cargoHoldCurrent;
 
@@ -70,6 +71,12 @@ public class PrepareToIntakeCargo extends Command
         m_currentState = eCmdState.LiftUp;
         m_isFinished = false;
         m_cargoHoldCurrent = CargoHold.CARGO_HOLD_PICKUP_CURRENT;
+
+        // Set default closed loop tolerances for this command sequence
+        Robot.sub_cargointake.setTolerance(20);
+        Robot.sub_fourbarlift.setTolerance(50);
+
+        //m_stateStartTime = this.timeSinceInitialized();
     }
 
     protected void execute()
@@ -88,7 +95,6 @@ public class PrepareToIntakeCargo extends Command
                 // .. and if so, start the Intake Arm position
                 m_currentState  = eCmdState.IntakeOut;
             }
-        
             break;
         
         case IntakeOut:
@@ -102,7 +108,6 @@ public class PrepareToIntakeCargo extends Command
                 // .. and if so, start the Lift position
                 m_currentState  = eCmdState.LiftToIntake;
             }
-        
             break;
         
         case LiftToIntake:
@@ -114,26 +119,19 @@ public class PrepareToIntakeCargo extends Command
             if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.INTAKE))
             {
                 // .. and if so, start the Intake rollers
-                m_currentState  = eCmdState.TurnOnIntakes;
+                m_currentState  = eCmdState.WaitForCapture;
             }
-        
             break;
         
-        case TurnOnIntakes:
+        case WaitForCapture:
 
             Robot.sub_cargointake.driveRollerManually(CargoIntake.CARGO_INTAKE_ROLLER_SPEED);
     
             if (Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent))
             {
                 m_cargoHoldCurrent = CargoHold.CARGO_HOLD_STALL_CURRENT;
-            }
+                Robot.sub_cargohold.cargoIsHeld(true);
 
-            break;
-        
-        case WaitForCapture:
-            
-            if (Robot.sub_cargohold.isCargoHeld())
-            {
                 // cargo detected - we're done
                 m_isFinished = true;
             }
@@ -142,7 +140,6 @@ public class PrepareToIntakeCargo extends Command
         default:
             break;
         }
-
     }
 
     protected boolean isFinished()
@@ -152,11 +149,21 @@ public class PrepareToIntakeCargo extends Command
 
     protected void end()
     {
-    
+        // Stop the Intake rollers
+        Robot.sub_cargointake.driveRollerManually(0.0);
+
+        /*
+            This command will end with:
+            1) CargoHold holding a Cargo (unless interrupted() is called)
+            2) 4BarLift at INTAKE position and holding via MotionMagic
+            3) CargoIntake deployed to INTAKE position and holding via MotionMagic
+            4) CargoIntake rollers off
+         */
     }
 
     protected void interrupted()
     {
+        // NOTE: If this command is interrupted, we may not have a Cargo in the Hold yet
         end();
     }
 }

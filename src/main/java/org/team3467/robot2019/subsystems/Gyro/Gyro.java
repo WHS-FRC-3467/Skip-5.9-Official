@@ -1,7 +1,5 @@
 package org.team3467.robot2019.subsystems.Gyro;
 
-import org.team3467.robot2019.robot.Robot;
-
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 

@@ -1,7 +1,5 @@
 package org.team3467.robot2019.subsystems.Gyro;
 
-import org.team3467.robot2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Gyro_ReportStatus extends Command {

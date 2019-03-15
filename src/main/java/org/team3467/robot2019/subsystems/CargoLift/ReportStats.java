@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2019.subsystems.CargoIntake;
+package org.team3467.robot2019.subsystems.CargoLift;
 
 import org.team3467.robot2019.robot.Robot;
 
@@ -19,7 +19,7 @@ public class ReportStats extends Command {
 	private int counter;
 	
 	public ReportStats() {
-		requires(Robot.sub_cargointake);
+		requires(Robot.sub_fourbarlift);
 	}
 	
 	protected void initialize() {
@@ -30,7 +30,7 @@ public class ReportStats extends Command {
 
         if (counter++ > 25) {
             
-            Robot.sub_cargointake.reportStats();
+            Robot.sub_fourbarlift.reportStats();
             counter = 0;
 		}
 	}

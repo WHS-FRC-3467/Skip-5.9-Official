@@ -9,7 +9,6 @@ import org.team3467.robot2019.robot.RobotGlobal;
 import org.team3467.robot2019.subsystems.MagicTalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -17,6 +16,7 @@ public class CargoIntake extends Subsystem
 {
 
     public static final double CARGO_INTAKE_ROLLER_SPEED = 0.6;
+    private static final double CRAWL_SPEED = 0.5;
 
     public enum eCargoIntakeArmPosition
     { 
@@ -41,19 +41,23 @@ public class CargoIntake extends Subsystem
         }
     }
 
-    private eCargoIntakeArmPosition activeIntakeArmPosition;
+    // Last "commanded" arm position
+    private eCargoIntakeArmPosition m_activeIntakeArmPosition;
+    
+    // Actual encoder position - updated everytime the arm is moved
+    // Save this because we want the default command to run MotionMagic at the current position,
+    // which will avoid sudden movements upon re-enabling the robot.
+    private int m_actualEncoderPosition;
 
     MagicTalonSRX   m_intakeArm = new MagicTalonSRX("Cargo Intake", RobotGlobal.CARGO_INTAKE_ARM_1, 0);
     TalonSRX        m_intakeArm_2 = new TalonSRX(RobotGlobal.CARGO_INTAKE_ARM_2);
     TalonSRX        m_intakeRoller = new TalonSRX(RobotGlobal.CARGO_INTAKE_ROLLER);
 
-    private static final double CRAWL_SPEED = 0.5;
-    
     private double m_P = 1.0;
     private double m_I = 0.001;
     private double m_D = 0.1;
     private double m_F = 0.0;
-    private double m_iZone = 0;
+    // private double m_iZone = 0;
 
     private int m_cruiseVelocity = 1000;
     private int m_acceleration = 500;
@@ -99,18 +103,22 @@ public class CargoIntake extends Subsystem
         zeroArmEncoder();
         
         // Assuming this is Starting Position; if not, then need to change it
-        setArmActivePosition(eCargoIntakeArmPosition.RETRACTED);
+        m_activeIntakeArmPosition = eCargoIntakeArmPosition.RETRACTED;
+        updatePosition();
     }
 
     protected void initDefaultCommand()
     {
-        setDefaultCommand(new ReportStats());
+        //setDefaultCommand(new ReportStats());
         //setDefaultCommand(new DriveCargoIntakeArm());
+
+        /*
+            Continue MotionMagic with setpoint at current position
+        */
+        setDefaultCommand(new HoldMagicallyInPlace());
     }
 
     //#region Roller System
-
-    //TODO make this an enum for crawl, intake speeds
 
     public void driveRollerManually(double speed) {
         m_intakeRoller.set(ControlMode.PercentOutput, speed);
@@ -126,6 +134,7 @@ public class CargoIntake extends Subsystem
      */
     public void driveArmManually(double speed) {
         m_intakeArm.set(ControlMode.PercentOutput, speed);
+        updatePosition();
     }
 
     /*
@@ -133,98 +142,109 @@ public class CargoIntake extends Subsystem
      */
     public void moveArmToPosition(eCargoIntakeArmPosition position, boolean reportStats)
     {
-        activeIntakeArmPosition = position;
-        moveMagically(position.getSetpoint());
+        m_activeIntakeArmPosition = position;
+        m_intakeArm.runMotionMagic(position.getSetpoint());
+        updatePosition();
 
         if (reportStats)
         {
-            SmartDashboard.putString("Cargo Intake Arm Position", getArmActivePosition().getSetpointName());
-            reportEncoder();
-            reportTalonStats();
+            reportStats();
         }
     }
 
-    public void moveMagically (int setPoint) {
+    // Use current position as setpoint
+    public void holdMagically (boolean reportStats) {
 
-        m_intakeArm.runMotionMagic(setPoint);
+        m_intakeArm.runMotionMagic(m_actualEncoderPosition);
+        updatePosition();
+
+        if (reportStats)
+        {
+            reportStats();
+        }
     }
     
-    public void moveMagically () {
-
-        m_intakeArm.runMotionMagic();
-    }
-    
-    public boolean isArmOnTarget(eCargoIntakeArmPosition m_position) {
+    public boolean isArmOnTarget(eCargoIntakeArmPosition position) {
         
         if (OI.getOperatorButtonA())
         {
             // Pressing A Button stops PID control
             return true;
         }
+
         // We only want to stop the Cargo Arm PID loop from running when
         // we reach the RETRACTED state; otherwise, keep it going to hold arm position
-        else if (m_position == eCargoIntakeArmPosition.RETRACTED)
+        if (position == eCargoIntakeArmPosition.RETRACTED)
         {
-            return (checkArmOnTarget(m_position));
+            return (checkArmOnTarget(position));
         } 
+        
         // When lowering arm to crawl on HAB, start rollers once the arm gets close
         // to the position; Keep PID going to hold position
-        else if (m_position == eCargoIntakeArmPosition.CRAWL)
+        if (position == eCargoIntakeArmPosition.CRAWL)
         {
-            if (checkArmOnTarget(m_position))
+            if (checkArmOnTarget(position))
             {
                 driveRollerManually(CRAWL_SPEED);
             }
             else
                 driveRollerManually(0.0);
-            
-            return (false);
         } 
-        else
-        {
-            return false;
-        }
+    
+        return false;
     }
     
-    public boolean checkArmOnTarget(eCargoIntakeArmPosition m_position) {
+    public boolean checkArmOnTarget(eCargoIntakeArmPosition position) {
         
         // Get current target and determine how far we are from it (error)
         int target = (int) m_intakeArm.getClosedLoopTarget();
         int error = target - m_intakeArm.getSelectedSensorPosition();
-        int allowable = 10; //m_intakeArm.getTolerance();
+        int allowable = m_intakeArm.getTolerance();
         
         return (Math.abs(error) <= allowable);
     } 
 
-    public void setArmSetpointFromDashboard() {
-        m_intakeArm.updateSetpointFromDashboard();
-    }
-    
     /*
      * Setter / Getter Methods
      */
     
+    public void updatePosition() {
+        m_actualEncoderPosition = m_intakeArm.getSelectedSensorPosition();
+    } 
+
     public void zeroArmEncoder() {
         m_intakeArm.setSelectedSensorPosition(0,0,0);
-    }
-
-    public int getArmEncoderPosition() {
-        return m_intakeArm.getSelectedSensorPosition();
+        updatePosition();
     }
 
     public eCargoIntakeArmPosition getArmActivePosition() {
-            return activeIntakeArmPosition;
+        return m_activeIntakeArmPosition;
     }
     
-    public void setArmActivePosition(eCargoIntakeArmPosition pos) {
-        activeIntakeArmPosition = pos;
+    public void setArmSetpointFromDashboard() {
+        m_intakeArm.updateSetpointFromDashboard();
+    }
+    
+    public void setTolerance(int tol) {
+        m_intakeArm.setTolerance(tol);
     }
 
     /*
      * SmartDashbord Update Methods
      */
+    public void reportStats() {
 
-     public void reportTalonStats() {
+        SmartDashboard.putString("Cargo Intake Arm Position", getArmActivePosition().getSetpointName());
+        reportEncoder();
+        reportTalonStats();
+
+    }
+
+    public void reportEncoder() {
+        SmartDashboard.putNumber("Cargo Arm Encoder", m_intakeArm.getSelectedSensorPosition());
+    }
+
+    public void reportTalonStats() {
         m_intakeArm.reportMotionToDashboard();
     }
     
@@ -232,9 +252,6 @@ public class CargoIntake extends Subsystem
         m_intakeArm.updateStats();
     }
     
-    public void reportEncoder() {
-        SmartDashboard.putNumber("Cargo Arm Encoder", getArmEncoderPosition());
-    }
         
         
     //#endregion

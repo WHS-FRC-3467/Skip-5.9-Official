@@ -7,6 +7,8 @@ import org.team3467.robot2019.robot.Control.TestMe2;
 import org.team3467.robot2019.robot.Control.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Control.XboxController;
 import org.team3467.robot2019.robot.Control.XboxControllerButton;
+import org.team3467.robot2019.subsystems.AutoSequence.PrepareToIntakeCargo;
+import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
 import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
 import org.team3467.robot2019.subsystems.CargoHold.ReleaseCargo;
@@ -15,7 +17,6 @@ import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
 import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
-import org.team3467.robot2019.subsystems.CargoIntake.PrepareToIntakeCargo;
 import org.team3467.robot2019.subsystems.CargoIntake.UpdateIntakeStats;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
@@ -95,24 +96,37 @@ public class OI {
 		 * Operator Controller
 		 * 
 		 */
+        
+         //
         // Cargo Hold
-        // Pressing down the Left Stick will turn the Cargo Hold Roller ON
         //
-        //  PRESS "Back" Button to turn it OFF!
+        // Pressing down the Left Stick will turn the Cargo Hold Roller ON
+        // PRESS "Back" Button to turn it OFF!
         //
         new XboxControllerButton(operatorController, XboxController.Button.kStickLeft).whenPressed(new DriveCargoHoldRollers());
                 
+        //
         // Cargo Lift
+        //
+        // Press and hold the "Start" button to drive the Cargo Lift manually using the Left (down) and Right (up) Triggers
         new XboxControllerButton(operatorController, XboxController.Button.kStart).whileHeld(new LiftManually());
 
-        new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft).whenPressed(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.INTAKE));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+        // Go directly to Cargo setpoints using Left Bumper and DPad
+        new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft)
+            .whenPressed(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.INTAKE));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown)
+            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft)
+            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight)
+            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp)
+            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
         
-         // Cargo Intake Arm
-		// The "X" button will Stow the Arm
+        //
+        // Cargo Intake Arm
+        //
+        // The "X" button will Stow the Arm
         new XboxControllerButton(operatorController, XboxController.Button.kX)
             .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
 
@@ -124,18 +138,24 @@ public class OI {
         new XboxControllerButton(operatorController, XboxController.Button.kB)
             .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
 
-        // Cargo Intake Roller
-        // Pressing down the Right Stick will turn Cargo Intake Roller control on
+        // Press and hold the "A" button to drive the Intake Arm angle with the Right Stick X-Axis
+        new XboxControllerButton(operatorController, XboxController.Button.kA).whileHeld(new DriveCargoIntakeArm());
+
+
         //
-        //  PRESS "A" Button to turn it OFF!
+        // Cargo Intake Roller
+        //
+        // Pressing down the Right Stick will turn Cargo Intake Roller control on
+        // PRESS "A" Button to turn it OFF!
         //
          new XboxControllerButton(operatorController, XboxController.Button.kStickRight).whenPressed(new DriveCargoIntakeRoller());
 
 
-
-         // BUTTON BOX BUTTONS
-
-        //  Button 1 = Collect Cargo
+        //
+        // BUTTON BOX BUTTONS
+        //
+        
+        //  Button 1 = PrepareToIntakeCargo
             //Function: Intakes cargo from floor
             //Assumes: All appendages are in starting configuaration
             //Step 1: 4 Bar raises up
@@ -144,21 +164,28 @@ public class OI {
             //Step 4: Cargo Intake turns on
             //Step 4: Cargo Hold turns on
             //Step 5: Wait for current spike on Cargo Hold then initialize Cargo Hold low speed
-        //  Button 2 = Stow Cargo
+            //Step 6; Cargo Intake turns off
+            //  END
+
+        //  Button 2 = StowCargo
             //Function: Brings all cargo appendages into the robot
             //Assumes: Robot is in "Collect Cargo" configuration
             //Step 1: 4 Bar raises up
             //Step 2: Cargo Intake returns to Home position
-            //Step 3: 4 Bar moves down to Home setpoint
+            //Step 3: 4 Bar moves down to Home/Intake setpoint (depending on Cargo held)
+            //  END
+
         //  Button 3 = Spit Cargo
             //Function: Cargo Hold motor reverses to release ball
             //Assumes: We have a piece of Cargo in a scoring position
             //Step 1: Cargo Hold motor spins in reverse direction
+        
         //  Button 4 = Collect Hatch
             //Function: Lowers Hatch Grabberto HP height
             //Assumes: Hatch Grabber is in the upright/stowed position
             //Step 1: Hatch Arm lowers to Level 1 height (bottoms out)
             //Step 2: If Limit Switch is pressed then pulse driver gamepad once
+        
         //  Button 5 = Release Hatch
             //Function: Fingers that hold the Hatch are moved inward
             //Assumes: We have a Hatch in a scoring position
@@ -281,7 +308,9 @@ public class OI {
          SmartDashboard.putData(new UpdateIntakeStats());
          SmartDashboard.putData(new MoveCargoLift());
          SmartDashboard.putData(new UpdateLiftStats());
+
          SmartDashboard.putData(new PrepareToIntakeCargo());
+         SmartDashboard.putData(new StowCargo());
 
 
     }

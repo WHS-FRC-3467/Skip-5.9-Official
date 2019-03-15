@@ -5,52 +5,50 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2019.subsystems.CargoIntake;
+package org.team3467.robot2019.subsystems.CargoHold;
 
 import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveCargoIntakeArm extends Command {
-
-    private CargoIntake.eCargoIntakeArmPosition m_position;
-    private int counter;
-
-    public MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition pos) {
-        super();
-        requires(Robot.sub_cargointake);
-
-        m_position = pos;
+public class HoldCargo extends Command {
+    public HoldCargo() {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.sub_cargohold);
     }
 
+    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        counter = 0;
     }
 
+    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
-        //System.out.println("THE WIZARD IS MOVING YOUR MOTOR");
-        if (counter++ > 25) {
-            counter = 0; // report stats when counter == 0 
-		}
-        Robot.sub_cargointake.moveArmToPosition(m_position, (counter == 0));
-
+        if (Robot.sub_cargohold.isCargoHeld())
+        {
+            Robot.sub_cargohold.intakeCargo(CargoHold.CARGO_HOLD_STALL_CURRENT);
+        }
+        else
+        {
+            Robot.sub_cargohold.stop();
+        }
     }
 
+    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Robot.sub_cargointake.isArmOnTarget(m_position);
+    return false;
     }
 
+    // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.sub_cargointake.driveArmManually(0.0);
     }
 
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        end();
     }
 }

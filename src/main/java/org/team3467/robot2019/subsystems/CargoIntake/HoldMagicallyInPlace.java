@@ -7,14 +7,16 @@
 
 package org.team3467.robot2019.subsystems.CargoIntake;
 
-import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveCargoIntakeArm extends Command {
-  
-    public DriveCargoIntakeArm() {
+
+public class HoldMagicallyInPlace extends Command {
+
+    private int m_counter;
+
+    public HoldMagicallyInPlace() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.sub_cargointake);
     }
@@ -22,19 +24,22 @@ public class DriveCargoIntakeArm extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        m_counter = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
-        double speed = OI.getOperatorRightX();
-        if (speed > 0.2 || speed < -0.2)
-            Robot.sub_cargointake.driveArmManually(speed * 0.5);
-        else
+        
+        if (m_counter++ > 25) {
+            m_counter = 0; // report stats when counter == 0 
+		}
+        
+        // If arm is in "Retracted" position, then no need to run closed loop; just let it rest
+        if (Robot.sub_cargointake.getArmActivePosition() == CargoIntake.eCargoIntakeArmPosition.RETRACTED)
             Robot.sub_cargointake.driveArmManually(0.0);
-
-        Robot.sub_cargointake.reportEncoder();
+        else
+            Robot.sub_cargointake.holdMagically((m_counter == 0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -46,13 +51,11 @@ public class DriveCargoIntakeArm extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.sub_cargointake.driveArmManually(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        end();
     }
 }

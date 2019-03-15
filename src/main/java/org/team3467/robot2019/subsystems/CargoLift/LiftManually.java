@@ -1,10 +1,7 @@
 package org.team3467.robot2019.subsystems.CargoLift;
 
-import javax.lang.model.util.ElementScanner6;
-
 import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
-import org.team3467.robot2019.robot.RobotGlobal;
 
 import edu.wpi.first.wpilibj.command.Command;
 
