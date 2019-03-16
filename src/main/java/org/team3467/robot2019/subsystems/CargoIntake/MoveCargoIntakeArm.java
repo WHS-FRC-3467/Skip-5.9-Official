@@ -30,8 +30,7 @@ public class MoveCargoIntakeArm extends Command {
 
     @Override
     protected void execute() {
-
-        //System.out.println("THE WIZARD IS MOVING YOUR MOTOR");
+        System.out.println("THE WIZARD IS MOVING YOUR MOTOR");
         if (counter++ > 25) {
             counter = 0; // report stats when counter == 0 
 		}

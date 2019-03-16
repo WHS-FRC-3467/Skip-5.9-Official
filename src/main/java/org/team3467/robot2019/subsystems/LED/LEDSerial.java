@@ -60,8 +60,13 @@ public class LEDSerial extends Subsystem {
     }
 
     public void setLEDPattern(int ledPattern) {
-        serialPort.writeString(Integer.toString(ledPattern));
-        currentPattern = ledPattern;
+        try {
+            serialPort.writeString(Integer.toString(ledPattern));
+            currentPattern = ledPattern;
+        } catch(Exception e1) {
+            System.out.println("that didnt work :/");
+        }
+      
     }
 
     public int getLEDPattern() {

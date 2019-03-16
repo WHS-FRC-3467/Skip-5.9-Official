@@ -22,7 +22,7 @@ public class CargoIntake extends Subsystem
     { 
         CRAWL(1800,"CRAWL"),
         INTAKE(1600, "INTAKE"),
-        RETRACTED(400, "RETRACTED");
+        RETRACTED(0, "RETRACTED");
 
         private int IntakeArmPosition;
         private String IntakeArmPositionName;

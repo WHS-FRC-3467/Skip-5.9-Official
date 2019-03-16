@@ -56,7 +56,7 @@ public class OI {
 
     public void init() {
         driverController = new XboxController(0);
-        operatorController = new XboxController(2);
+        operatorController = new XboxController(1);
         buttonBox = new ButtonBox(1);
         bindControllerCommands();
     }

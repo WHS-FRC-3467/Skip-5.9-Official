@@ -18,6 +18,7 @@ public class HoldMagicallyInPlace extends Command {
     public HoldMagicallyInPlace() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.sub_cargointake);
+        requires(Robot.sub_fourbarlift);
     }
 
     // Called just before this Command runs the first time
