@@ -57,7 +57,7 @@ public class OI {
     public void init() {
         driverController = new XboxController(0);
         operatorController = new XboxController(1);
-        buttonBox = new ButtonBox(1);
+        buttonBox = new ButtonBox(2);
         bindControllerCommands();
     }
 
@@ -156,6 +156,7 @@ public class OI {
         //
         
         //  Button 1 = PrepareToIntakeCargo
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenPressed(new PrepareToIntakeCargo());
             //Function: Intakes cargo from floor
             //Assumes: All appendages are in starting configuaration
             //Step 1: 4 Bar raises up
@@ -168,6 +169,7 @@ public class OI {
             //  END
 
         //  Button 2 = StowCargo
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenPressed(new StowCargo());
             //Function: Brings all cargo appendages into the robot
             //Assumes: Robot is in "Collect Cargo" configuration
             //Step 1: 4 Bar raises up
@@ -283,15 +285,12 @@ public class OI {
             //Assumes: Robot is within range for LimeLight to obtain and track target
             //Step 1: 
 
-        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
-       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
-       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k3).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
-       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.k4).whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+      
 
         // new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new DriveCargoHoldRollers());
 
-            new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenPressed(new TestMe());
-            new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenPressed(new TestMe2());
+            //new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenPressed(new TestMe());
+            //new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenPressed(new TestMe2());
 
 
 
