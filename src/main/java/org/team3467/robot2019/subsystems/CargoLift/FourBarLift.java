@@ -17,13 +17,13 @@ public class FourBarLift extends Subsystem {
         HOME(10, "ZERO"),
         INTAKE(501, "INTAKE"),
         HATCH_1(4500, "HATCH LEVEL ONE"),
-        L1(5547, "ROCKET LEVEL ONE"),
+        L1(5300, "ROCKET LEVEL ONE"),
         OUTOFTHEWAY(6644,  "OUT OF THE WAY"),
-        CARGO_SHIP(7828,  "CARGO SHIP"),
+        CARGO_SHIP(8800,  "CARGO SHIP"),
         HATCH_2(8000, "HATCH LEVEL TWO"),
-        L2(11505, "ROCKET LEVEL TWO"),
+        L2(11681, "ROCKET LEVEL TWO"),
         HATCH_3(13000, "HATCH LEVEL THREE"),
-        L3(14512, "ROCKET LEVEL THREE");
+        L3(17350, "ROCKET LEVEL THREE");
 
 
         private final int setpoint;
