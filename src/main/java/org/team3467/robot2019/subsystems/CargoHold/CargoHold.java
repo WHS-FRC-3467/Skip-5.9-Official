@@ -95,7 +95,7 @@ public class CargoHold extends Subsystem
         }
 
         // Return TRUE if currentLevel was met or exceeded on this pass
-        return (m_motorCurrent >= currentLevel);
+        return (m_motorCurrent >= (currentLevel*1.3));
     }
 
     public void cargoIsHeld(boolean holdState)

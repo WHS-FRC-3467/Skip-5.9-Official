@@ -11,6 +11,7 @@ import org.team3467.robot2019.subsystems.LED.LEDSerial;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class Robot extends TimedRobot {
 
@@ -25,6 +26,9 @@ public class Robot extends TimedRobot {
     public static LEDSerial sub_led;
 
     public static OI robot_oi;
+
+    ShuffleboardTab sandstorm_tab = Shuffleboard.getTab("Sandstorm Period");
+    ShuffleboardTab teleop_tab = Shuffleboard.getTab("Teleop Period");
 
     @Override
     public void robotInit() {
