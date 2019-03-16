@@ -198,14 +198,14 @@ public class OI {
         
         //  Button 6 = StowGrabber
         //Don't know if this is being used
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k6).whenPressed(new StowGrabber());
+ //       new ButtonBoxButton(buttonBox, ButtonBox.Button.k6).whenPressed(new StowGrabber());
             //Function: Raises Hatch Grabber to upright/stowed position
             //Assumes: Hatch Grabber is in the HP height
             //Step 1: Raises Hatch Arm to stowed/starting position
         
         //  Button 7 = LiftCargo1
         //need to figure out what to call this
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k7).whenPressed(new LiftCargo1());
+ //       new ButtonBoxButton(buttonBox, ButtonBox.Button.k7).whenPressed(new LiftCargo1());
             //Function: Raises Cargo Hold to rocket level 1
             //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. The Cargo Hold is in the stowed position.
             //Step 1: Lift the Cargo Hold to Rocket 1
@@ -215,7 +215,7 @@ public class OI {
             //Step 5: Stow Cargo Hold
         
         //  Button 8 = LiftCargo2
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k8).whenPressed(new LiftCargo2());
+ //       new ButtonBoxButton(buttonBox, ButtonBox.Button.k8).whenPressed(new LiftCargo2());
             //Function: Raises Cargo Hold to level 2
             //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
             //Step 1: Lift the Cargo Hold to Rocket level 2
@@ -225,7 +225,7 @@ public class OI {
             //Step 5: Stow Cargo Hold
         
         //  Button 9 = LiftCargoShip
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k9).whenPressed(new LiftCargoShip());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k9).whenPressed(new LiftCargoShip());
             //Function: Raises Cargo Hold to rocket level 3
             //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
             //Step 1: Lift the Cargo Hold to Rocket level 3
@@ -235,7 +235,7 @@ public class OI {
             //Step 5: Stow Cargo Hold
         
         //  Button 10 = LiftCargoShip
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k10).whenPressed(new LiftCargoShip());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k10).whenPressed(new LiftCargoShip());
             //Function: Raises Cargo Hold to Cargo Bay level
             //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
             //Step 1: Lift the Cargo Hold to Rocket Cargo Bay level
@@ -245,7 +245,7 @@ public class OI {
             //Step 5: Stow Cargo Hold
         
         //  Button 11 = LiftHatch1
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new LiftHatch1());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new LiftHatch1());
             //Function: Raises Hatch Handler to Rocket level 1
             //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
             //Step 1: Lift the Hatch Handler to Rocket level 1
@@ -253,7 +253,7 @@ public class OI {
             //Step 3: Stow Hatch Handler
         
         //  Button 12 = LiftHatch2
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k12).whenPressed(new LiftHatch2());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k12).whenPressed(new LiftHatch2());
             //Function: Raises Hatch Handler to Rocket level 2
             //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
             //Step 1: Lift the Hatch Handler to Rocket level 2
@@ -261,7 +261,7 @@ public class OI {
             //Step 3: Stow Hatch Handler
         
         //  Button 13 = LiftHatch3
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k13).whenPressed(new LiftHatch3());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k13).whenPressed(new LiftHatch3());
             //Function: Raises Hatch Handler to Rocket level 3
             //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
             //Step 1: Lift the Hatch Handler to Rocket level 3
@@ -269,7 +269,7 @@ public class OI {
             //Step 3: Stow Hatch Handler
         
         //  Button 14 = LiftHatchShip
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k14).whenPressed(new LiftHatchShip());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k14).whenPressed(new LiftHatchShip());
             //Function: Raises Hatch Handler to Cargo Bay level
             //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
             //Step 1: Lift the Hatch Handler to Rocket Cargo Bay level
@@ -277,7 +277,7 @@ public class OI {
             //Step 3: Stow Hatch Handler
         
         //  Button 15 = QueueClimber
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k15).whenPressed(new QueueClimber());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k15).whenPressed(new QueueClimber());
             //Function: Moves Cargo Intake to vertical: ready to climb
             //Assumes: All Cargo Appendages are in the Stowed position
             //Step 1: 4 Bar moves up
@@ -286,7 +286,7 @@ public class OI {
             //Step 4: Cargo Intake rotates back into a vertical position
         
         //  Button 16 = ClimbHab2
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k16).whenPressed(new ClimbHab2());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k16).whenPressed(new ClimbHab2());
             //Function: Climbs to Hab 2
             //Assumes: Lined up against the Hab platform prepared to climb
             //Step 1: Cargo Intake comes down onto Hab 2
@@ -295,7 +295,7 @@ public class OI {
             //Step 4: Robot is on top of Hab 2
         
         //  Button 17 = ClimbHab3
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k17).whenPressed(new ClimbHab3());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k17).whenPressed(new ClimbHab3());
             //Function: Climbs to Hab 3
             //Assumes: Lined up against the Hab platform prepared to climb (On level 1 in front of Hab 3)
             //Step 1: Cargo Intake comes down until touches Hab 3
@@ -303,19 +303,19 @@ public class OI {
             //Step 3: Start Crawl mode and pull robot onto Hab 3
         
         //  Button 18 = ClimbRetract
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k18).whenPressed(new ClimbRetract());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k18).whenPressed(new ClimbRetract());
             //Function: Retract Polejack and return Cargo Intake
             //Assumes: Drivebase wheels are on Hab 3 and Polejack and Cargo Intake are fully deployed
             //Step 1: Retract both Polejack and Cargo Intake
         
         //  Button 19 = ClimbCrawl
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k19).whenPressed(new ClimbCrawl());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k19).whenPressed(new ClimbCrawl());
             //Function: Pull Drivebase onto Hab level 2 or 3
             //Assumes: Intake is touching Hab level and linec up
             //Step 1: Turn on Cargo Intake and slowly pull onto Hab level
         
         //  Button 20 = AutoLineUp
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k20).whenPressed(new AutoLineUp());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k20).whenPressed(new AutoLineUp());
             //Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
             //Assumes: Robot is within range for LimeLight to obtain and track target
             //Step 1: 
