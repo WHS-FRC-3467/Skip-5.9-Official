@@ -59,8 +59,10 @@ public class StowCargo extends Command
     public StowCargo()
     {
         requires(Robot.sub_cargointake);
-        requires(Robot.sub_cargohold);
         requires(Robot.sub_fourbarlift);
+
+        // Don't require this here, as it will turn off the holding loop; simply querying the state does not necessitate requires()
+        //requires(Robot.sub_cargohold);
 
     }
 

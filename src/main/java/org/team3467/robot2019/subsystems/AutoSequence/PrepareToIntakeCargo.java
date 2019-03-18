@@ -112,26 +112,32 @@ public class PrepareToIntakeCargo extends Command
         
         case LiftToIntake:
 
+            // Go ahead and start the rollers here to avoid any issues with startup "surges" affecting the Hold sensing
+            Robot.sub_cargointake.driveRollerManually(CargoIntake.CARGO_INTAKE_ROLLER_SPEED);
+            Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent);
+
             // Start Lift movement
             Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE, false);
             
             // Check if Lift is in position...
             if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.INTAKE))
             {
-                // .. and if so, start the Intake rollers
+                // .. and if so, start the wait for a Cargo capture
                 m_currentState  = eCmdState.WaitForCapture;
             }
             break;
         
         case WaitForCapture:
 
-            Robot.sub_cargointake.driveRollerManually(CargoIntake.CARGO_INTAKE_ROLLER_SPEED);
-    
             if (Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent))
             {
+                // If IntakeCargo() returned true, then we know the current has spiked from holding a cargo.
+                // Immediately switch to a lower "holding" current, and say that we're done
                 m_cargoHoldCurrent = CargoHold.CARGO_HOLD_STALL_CURRENT;
                 Robot.sub_cargohold.cargoIsHeld(true);
 
+                // TODO: Light up the LED signal here to indicate "Cargo In Hand"
+                
                 // cargo detected - we're done
                 m_isFinished = true;
             }
@@ -154,7 +160,7 @@ public class PrepareToIntakeCargo extends Command
 
         /*
             This command will end with:
-            1) CargoHold holding a Cargo (unless interrupted() is called)
+            1) CargoHold holding a Cargo via Current closed-loop (unless interrupted() is called before we actually are holding it)
             2) 4BarLift at INTAKE position and holding via MotionMagic
             3) CargoIntake deployed to INTAKE position and holding via MotionMagic
             4) CargoIntake rollers off
