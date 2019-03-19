@@ -30,8 +30,10 @@ public class Robot extends TimedRobot {
     ShuffleboardTab sandstorm_tab = Shuffleboard.getTab("Sandstorm Period");
     ShuffleboardTab teleop_tab = Shuffleboard.getTab("Teleop Period");
 
+
     @Override
     public void robotInit() {
+        sub_led = LEDSerial.getInstance();
 
         // Start the FieldCamera
         fieldCamera = new FieldCamera();
@@ -42,15 +44,17 @@ public class Robot extends TimedRobot {
         sub_hatchgrabber = HatchGrabber.getInstance();
         sub_fourbarlift = FourBarLift.getInstance();
         //sub_gyro = Gyro.getInstance();
-        sub_led = LEDSerial.getInstance();
 
         robot_oi = new OI();
+
 
     }
 
     @Override
     public void robotPeriodic() {
         robot_oi.shuffleboardUpdate();
+
+       
     }
 
     /**
@@ -85,6 +89,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         Shuffleboard.selectTab("Sandstorm Period");
         robot_oi.shuffleboardUpdate();
+
     }
 
     @Override

@@ -15,13 +15,15 @@ public class LEDSerial extends Subsystem {
     //Basic patterns
     public static final int OFF = 0;
     public static final int P_RAINBOW_FADE = 2;
-    public static final int P_LIMELIGHT_TARGET_LOCKED = 4;
-    public static final int P_LIMELIGHT_LINING_UP = 5;
+    public static final int P_STARTUP = 3;
+    public static final int P_LIMELIGHT_TARGET_LININGUP= 4;
+    public static final int P_LIMELIGHT_LOCKED = 5;
     public static final int P_LIMELIGHT_INTERCEPTING = 99;
     public static final int P_AMERICA = 6;
     public static final int P_POLICE = 7;
     public static final int P_CARGO_IN = 8;
     public static final int P_CARGO_OUT = 9;
+    public static final String P_CARGO_HOLDING = "Q";
 
 
 //#endregion
@@ -58,6 +60,15 @@ public class LEDSerial extends Subsystem {
         try {
             arduino.writeString(Integer.toString(ledPattern));
             currentPattern = ledPattern;
+        } catch(Exception e1) {
+                // probably not connected to LEDs
+        }
+      
+    }
+
+    public void setLEDPattern(String ledPattern) {
+        try {
+            arduino.writeString(ledPattern);
         } catch(Exception e1) {
                 // probably not connected to LEDs
         }
