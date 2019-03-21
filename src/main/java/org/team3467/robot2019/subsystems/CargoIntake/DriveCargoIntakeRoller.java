@@ -7,10 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveCargoIntakeRoller extends Command {
 
+    double m_commandedSpeed;
 
     public DriveCargoIntakeRoller() {
         // Don't require subsystem, so roller can turn while arm is moving
         //requires(Robot.sub_cargointake);
+        m_commandedSpeed = 0;
+    }
+
+    public DriveCargoIntakeRoller(double speed) {
+        // Don't require subsystem, so roller can turn while arm is moving
+        //requires(Robot.sub_cargointake);
+        m_commandedSpeed = speed;
     }
 
     protected void initialize()
@@ -19,9 +27,14 @@ public class DriveCargoIntakeRoller extends Command {
  
     protected void execute() {
 
-        double speed = (-1.0) * OI.getOperatorRightY();
+        double speed;
+        
+        if (m_commandedSpeed == 0.0)
+            speed = (-1.0) * OI.getOperatorRightY();
+        else
+            speed = m_commandedSpeed;
 
-        if (((speed > 0.1) || (speed < -0.5) ) || (!OI.getButtonBox().getRawButton(10)))
+        if ((speed > 0.1) || (speed < -0.5))
         {
             Robot.sub_cargointake.driveRollerManually(speed);
         }

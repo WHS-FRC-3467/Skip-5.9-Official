@@ -1,9 +1,9 @@
 package org.team3467.robot2019.subsystems.FieldCamera;
 
-import org.opencv.core.Mat;
+//import org.opencv.core.Mat;
 
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
+//import edu.wpi.cscore.CvSink;
+//import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -41,7 +41,8 @@ public class FieldCamera extends Subsystem {
         // -1 as the compression so you don’t waste CPU cycles re-compressing the mjpg stream.
     }
     
-    private void runTwo() {
+ /*****
+     private void runTwo() {
        	
      	Thread t = new Thread(() -> {
 			
@@ -61,7 +62,7 @@ public class FieldCamera extends Subsystem {
 	        
 	        while(!Thread.interrupted()) {
 	        	
-// TODO: Need OI method to get camera switch
+// TO-DO: Need OI method to get camera switch
 //	        	if (CommandBase.oi.getGamepad().getRawButton(9)) {
 //	        		allowCam1 = !allowCam1;
 //	        	}
@@ -80,6 +81,7 @@ public class FieldCamera extends Subsystem {
 
 		t.start();
     }
-    
+******/
+
 }
 

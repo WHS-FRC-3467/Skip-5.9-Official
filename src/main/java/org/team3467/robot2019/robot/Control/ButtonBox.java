@@ -14,32 +14,37 @@ public class ButtonBox extends GenericHID {
    * Represents the digital buttons.
    */
   public enum Button {
-    k1(1),
-    k2(2),
-    k3(3),
-    k4(4),
-    k5(5),
-    k6(6),
-    k7(7),
-    k8(8),
-    k9(9),
-    k10(10),
-    k11(11),
-    k12(12),
-    k13(13),
-    k14(14),
-    k15(15),
-    k16(16),
-    k17(17),
-    k18(18),
-    k19(19),
-    k20(20);
+    kCollectCargo (1),
+    kStowCargo (2),
+	kSpitCargo (3),
+	kGrabHatch (4),
+	kReleaseHatch (5),
+	kStowHatch (6),
+	kLiftCargo1 (7),
+	kLiftCargo2 (8),
+	kLiftCargo3 (9),
+	kLiftCargoShip (10),
+	kLiftHatch1 (11),
+	kLiftHatch2 (12),
+	kLiftHatch3 (13),
+	kReverseIntakeRoller (14),
+	kQueueClimber (15),
+	kClimbHab2 (16),
+	kClimbHab3 (17),
+	kClimbRetract (18),
+	kClimbCrawl (19),
+	kAutoLineUp (20);
 
     public final int value;
 
     Button(int value) {
       this.value = value;
     }
+
+    public int getValue() {
+        return this.value;
+    }
+
   }
 
   /**

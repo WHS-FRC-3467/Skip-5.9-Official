@@ -14,7 +14,7 @@ public class FourBarLift extends Subsystem {
 
     //TODO implement Hatch level encoder values here
     public enum eFourBarLiftPosition {
-        HOME(10, "ZERO"),
+        HOME(10, "HOME"),
         INTAKE(501, "INTAKE"),
         HATCH_1(4500, "HATCH LEVEL ONE"),
         L1(5300, "ROCKET LEVEL ONE"),
@@ -186,6 +186,10 @@ public class FourBarLift extends Subsystem {
 
     public eFourBarLiftPosition getLiftPosition() {
         return m_moveToPosition;
+    }
+
+    public int getLiftEncoderPosition() {
+        return m_actualEncoderPosition;
     }
 
     public void setArmSetpointFromDashboard() {

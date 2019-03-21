@@ -33,8 +33,8 @@ public class StowCargo extends Command
     */
 
     // Command States
-	public enum eCmdState {
-        IntakeOff(0.0),
+	private enum eCmdState {
+        IntakeOut(0.0),
         LiftUp(0.0),
         IntakeIn(0.0),
         StowLift(0.0);
@@ -53,8 +53,7 @@ public class StowCargo extends Command
     private eCmdState m_currentState;
     private boolean m_isFinished;
     private eFourBarLiftPosition m_liftEndPosition;
-
-    //private double m_stateStartTime;
+    private ArmMonitor.eArmPositions m_armPos;
 
     public StowCargo()
     {
@@ -69,31 +68,64 @@ public class StowCargo extends Command
     protected void initialize()
     {
 
-        m_currentState = eCmdState.IntakeOff;
         m_isFinished = false;
 
         // Set default closed loop tolerances for this command sequence
         Robot.sub_cargointake.setTolerance(20);
         Robot.sub_fourbarlift.setTolerance(50);
 
+        // If a Cargo is being held, finish at the INTAKE position, not HOME
         if (Robot.sub_cargohold.isCargoHeld())
             m_liftEndPosition = FourBarLift.eFourBarLiftPosition.INTAKE;
         else
             m_liftEndPosition = FourBarLift.eFourBarLiftPosition.HOME;
         
-        //m_stateStartTime = this.timeSinceInitialized();
+        // Find out where the arms currently are
+        m_armPos = ArmMonitor.getArmPositions();
+
+        // Determine starting state
+        switch (m_armPos)
+        {
+        case INTAKE_VERTICAL_LIFT_IN:
+        default:
+            m_currentState = eCmdState.IntakeOut;
+            break;
+
+        case INTAKE_OUT_LIFT_IN:
+            m_currentState = eCmdState.LiftUp;
+            break;
+
+        case INTAKE_VERTICAL_LIFT_OUT:
+        case INTAKE_OUT_LIFT_OUT:
+            m_currentState = eCmdState.IntakeIn;
+            break;
+    
+        case INTAKE_IN_LIFT_IN:
+        case INTAKE_IN_LIFT_OUT:
+            m_currentState = eCmdState.StowLift;
+            break;
+        }
+
+        // Stop the Intake rollers
+        Robot.sub_cargointake.driveRollerManually(0.0);
+
     }
 
     protected void execute()
     {
         switch (m_currentState)
         {
-        case IntakeOff:
+        case IntakeOut:
+
+            // Start Intake Arm movement
+            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.INTAKE, false);
             
-            // Stop the Intake rollers
-            Robot.sub_cargointake.driveRollerManually(0.0);
-            
-            m_currentState = eCmdState.LiftUp;
+            // Check if Arm is in position...
+            if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.INTAKE))
+            {
+                // .. and if so, start the Lift position
+                m_currentState  = eCmdState.LiftUp;
+            }
             break;
 
         case LiftUp:    
