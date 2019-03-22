@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        robot_oi.shuffleboardUpdate();
+     //   robot_oi.shuffleboardUpdate();
 
        
     }
@@ -88,7 +88,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Shuffleboard.selectTab("Sandstorm Period");
-        robot_oi.shuffleboardUpdate();
 
     }
 
@@ -104,7 +103,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
 
         Shuffleboard.selectTab("Teleop Period");
-        robot_oi.shuffleboardUpdate();
     }
 
     @Override
