@@ -3,6 +3,7 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.robot.Control.ButtonBox;
 import org.team3467.robot2019.robot.Control.ButtonBoxButton;
 import org.team3467.robot2019.robot.Control.ComboBoxButton;
+import org.team3467.robot2019.robot.Control.LoneBoxButton;
 import org.team3467.robot2019.robot.Control.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Control.XboxController;
 import org.team3467.robot2019.robot.Control.XboxControllerButton;
@@ -181,7 +182,7 @@ public class OI {
 
         //  Button 3 = ReleaseCargo
         //  Function: Cargo Hold motor reverses to release ball
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kSpitCargo).whenPressed(new ReleaseCargo());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kSpitCargo).whileHeld(new ReleaseCargo());
         
         //  Button 4 = GrabHatch
         //  Function: Lowers Hatch Grabber to Feeding Station height
@@ -190,7 +191,7 @@ public class OI {
         
         //  Button 5 = ReleaseHatch
         //  Function: Release Hatch from grabber
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whileHeld(new ReleaseHatch());
         
         //  Button 6 = StowGrabber
         //Function: Raises Hatch Grabber to upright/stowed position
@@ -198,19 +199,19 @@ public class OI {
         
         //  Button 7 = LiftCargo1
         //  Function: Raises Cargo Hold to Rocket Level 1
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftCargo1).whenActive(new QuickCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargo1, ButtonBox.Button.kStowCargo).whenActive(new QuickCargoLift(FourBarLift.eFourBarLiftPosition.L1));
 
         //  Button 8 = LiftCargo2
         //  Function: Raises Cargo Hold to Rocket Level 2
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftCargo2).whenActive( new QuickCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargo2, ButtonBox.Button.kStowCargo).whenActive( new QuickCargoLift(FourBarLift.eFourBarLiftPosition.L2));
 
         //  Button 9 = LiftCargo3
         //  Function: Raises Cargo Hold to Rocket Level 3
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftCargo3).whenActive( new HighCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargo3, ButtonBox.Button.kStowCargo).whenActive( new HighCargoLift(FourBarLift.eFourBarLiftPosition.L3));
 
         //  Button 10 = LiftCargoShip
         //  Function: Raises Cargo Hold to Cargo Ship
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftCargoShip).whenActive( new QuickCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargoShip, ButtonBox.Button.kStowCargo).whenActive( new QuickCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
 
         
         //  Button 11 = LiftHatch1
@@ -237,13 +238,9 @@ public class OI {
             //Step 2: Release Hatch
             //Step 3: Stow Hatch Handler
         
-        //  Button 14 = LiftHatchShip
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k14).whenPressed(new LiftHatchShip());
-            //Function: Raises Hatch Handler to Cargo Bay level
-            //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
-            //Step 1: Lift the Hatch Handler to Rocket Cargo Bay level
-            //Step 2: Release Hatch
-            //Step 3: Stow Hatch Handler
+        //  Button 14 = Reverse Intake Roller
+        //  Function: Runs Cargo Intake in reverse to eject unwanted Cargo
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kReverseIntakeRoller, ButtonBox.Button.kStowCargo).whileActive(new DriveCargoIntakeRoller(-1.0));
         
         //  Button 15 = QueueClimber
 //        new ButtonBoxButton(buttonBox, ButtonBox.Button.k15).whenPressed(new QueueClimber());
