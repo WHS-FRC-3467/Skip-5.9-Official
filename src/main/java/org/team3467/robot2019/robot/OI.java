@@ -98,6 +98,9 @@ public class OI {
 		// The "RightBumper" button deploys the hatch mechanism
         new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
 
+
+        new XBoxControllerDPad(driverController, XboxController.DPad.kDPadLeft).whileActive(new AutoLineup());
+
 		/*
 		 * 
 		 * Operator Controller

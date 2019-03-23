@@ -40,7 +40,7 @@ public class AutoLineup extends Command {
 
     //step 1: get the most updated limelight/lidar data
 
-    double target_error = Limelight.getTx();
+    double target_error = Limelight.getTx()+0.2;
     System.out.println("Limelight Error: " + target_error);
 
 
@@ -50,7 +50,9 @@ public class AutoLineup extends Command {
 
     //step 3: move
 
-    Robot.sub_drivetrain.drive(0.4, target_error, true);
+    Robot.sub_drivetrain.drive(-0.5, (target_error*-0.02), true);
+
+    
 
     
 
