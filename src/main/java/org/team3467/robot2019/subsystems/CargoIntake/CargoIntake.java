@@ -20,9 +20,16 @@ public class CargoIntake extends Subsystem
 
     public enum eCargoIntakeArmPosition
     { 
-        CRAWL(1800,"CRAWL"),
+        // Fully retracted
+        RETRACTED(0, "RETRACTED"),
+        // Standing vertical inside bumper perimeter
+        VERTICAL(800,"VERTICAL"),   // TODO: Check this value
+        // Safely outside the Lift "swing zone"
+        OUTSIDE(1200, "OUTSIDE"),   // TODO: Check this value
+        // Cargo Intake position
         INTAKE(1500, "INTAKE"),
-        RETRACTED(0, "RETRACTED");
+        // HAB-top Crawling position
+        CRAWL(1800,"CRAWL");
 
         private int IntakeArmPosition;
         private String IntakeArmPositionName;
@@ -215,6 +222,10 @@ public class CargoIntake extends Subsystem
     public void zeroArmEncoder() {
         m_intakeArm.setSelectedSensorPosition(0,0,0);
         updatePosition();
+    }
+
+    public int getArmEncoderPosition() {
+        return m_actualEncoderPosition;
     }
 
     public eCargoIntakeArmPosition getArmActivePosition() {

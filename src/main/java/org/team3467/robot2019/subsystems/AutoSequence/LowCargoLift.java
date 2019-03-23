@@ -10,34 +10,17 @@ package org.team3467.robot2019.subsystems.AutoSequence;
 import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
-import org.team3467.robot2019.subsystems.CargoLift.FourBarLift.eFourBarLiftPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class StowCargo extends Command
-{
+public class LowCargoLift extends Command {
 
-    /*
-    * Steps to Follow:
-    *
-    * Turn OFF Intake
-    * Lift Up (OUTOFTHEWAY)
-        * Poll position until there
-    * Intake In (RETRACT)
-        * Poll position until there
-    * If Cargo held:
-        *Lift to Intake position (INTAKE)
-      else
-        *Lift to Home position (HOME)
-    * Exit command
-    */
-
-    // Command States
+     // Command States
 	private enum eCmdState {
         IntakeOut(0.0),
         LiftUp(0.0),
         IntakeIn(0.0),
-        StowLift(0.0);
+        LiftToTarget(0.0);
         
 		private final double time;
 		
@@ -52,17 +35,17 @@ public class StowCargo extends Command
 
     private eCmdState m_currentState;
     private boolean m_isFinished;
-    private eFourBarLiftPosition m_liftEndPosition;
     private ArmMonitor.eArmPositions m_armPos;
+    private FourBarLift.eFourBarLiftPosition m_target4BarPos;
 
-    public StowCargo()
-    {
+    //private double m_stateStartTime;
+
+    public LowCargoLift(FourBarLift.eFourBarLiftPosition barPos) {
+
         requires(Robot.sub_cargointake);
         requires(Robot.sub_fourbarlift);
 
-        // Don't require this here, as it will turn off the holding loop; simply querying the state does not necessitate requires()
-        //requires(Robot.sub_cargohold);
-
+        m_target4BarPos = barPos;
     }
 
     protected void initialize()
@@ -74,12 +57,6 @@ public class StowCargo extends Command
         Robot.sub_cargointake.setTolerance(20);
         Robot.sub_fourbarlift.setTolerance(50);
 
-        // If a Cargo is being held, finish at the INTAKE position, not HOME
-        if (Robot.sub_cargohold.isCargoHeld())
-            m_liftEndPosition = FourBarLift.eFourBarLiftPosition.INTAKE;
-        else
-            m_liftEndPosition = FourBarLift.eFourBarLiftPosition.HOME;
-        
         // Find out where the arms currently are
         m_armPos = ArmMonitor.getArmPositions();
 
@@ -90,7 +67,7 @@ public class StowCargo extends Command
         default:
             m_currentState = eCmdState.IntakeOut;
             break;
-
+            
         case INTAKE_OUT_LIFT_IN:
             m_currentState = eCmdState.LiftUp;
             break;
@@ -99,20 +76,17 @@ public class StowCargo extends Command
         case INTAKE_OUT_LIFT_OUT:
             m_currentState = eCmdState.IntakeIn;
             break;
-    
+        
         case INTAKE_IN_LIFT_IN:
         case INTAKE_IN_LIFT_OUT:
-            m_currentState = eCmdState.StowLift;
+            m_currentState = eCmdState.LiftToTarget;
             break;
         }
-
-        // Stop the Intake rollers
-        Robot.sub_cargointake.driveRollerManually(0.0);
-
     }
 
     protected void execute()
     {
+
         switch (m_currentState)
         {
         case IntakeOut:
@@ -127,8 +101,8 @@ public class StowCargo extends Command
                 m_currentState  = eCmdState.LiftUp;
             }
             break;
-
-        case LiftUp:    
+        
+        case LiftUp:
             
             // Start Lift movement
             Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY, false);
@@ -150,23 +124,23 @@ public class StowCargo extends Command
             if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.RETRACTED))
             {
                 // .. and if so, start the Lift position
-                m_currentState  = eCmdState.StowLift;
+                m_currentState  = eCmdState.LiftToTarget;
             }
             break;
         
-        case StowLift:
+        case LiftToTarget:
 
             // Start Lift movement
-            Robot.sub_fourbarlift.moveLiftToPosition(m_liftEndPosition, false);
+            Robot.sub_fourbarlift.moveLiftToPosition(m_target4BarPos, false);
             
             // Check if Lift is in position...
-            if (Robot.sub_fourbarlift.checkLiftOnTarget(m_liftEndPosition))
+            if (Robot.sub_fourbarlift.checkLiftOnTarget(m_target4BarPos))
             {
-                // .. and if so, then we are finished
+                // .. and if so, we're done
                 m_isFinished = true;
             }
             break;
-
+        
         default:
             break;
         }
@@ -179,14 +153,14 @@ public class StowCargo extends Command
 
     protected void end()
     {
+        // Stop the Intake rollers
+        Robot.sub_cargointake.driveRollerManually(0.0);
+
         /*
             This command will end with:
-            1) CargoIntake rollers off
-            2) CargoIntake RETRACTED and holding via MotionMagic
-            3) If CargoHold is holding a Cargo:
-                    4BarLift at INTAKE position and holding via MotionMagic
-             else
-                    4BarLift at HOME position and holding via MotionMagic
+            1) 4BarLift at target position and holding via MotionMagic
+            3) CargoIntake RETRACTED in
+            4) CargoIntake rollers off
          */
     }
 
@@ -194,4 +168,5 @@ public class StowCargo extends Command
     {
         end();
     }
+
 }

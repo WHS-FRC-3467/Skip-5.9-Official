@@ -24,17 +24,19 @@ public class PrepareToIntakeCargo extends Command
         * Poll position until there
     * Intake Out (INTAKE)
         * Poll position until there
-    * Lift to Intake position (INTAKE)
-    * Turn ON Hold
-    * Turn ON Intake
-    * When Cargo Hold reports Cargo is being held:
-        * Turn off Intake
+    * Start rollers and Lift to Intake position (INTAKE)
+        * Turn ON Hold
+        * Turn ON Intake
+        * Poll position until there
+    * Poll CargoHold. When Cargo Hold reports Cargo is being held:
         * Lower Hold current limit
+        * Go to Exit
     * Exit command
+        * Turn off Intake
     */
 
-        // Command States
-	public enum eCmdState {
+    // Command States
+	private enum eCmdState {
         LiftUp(0.0),
         IntakeOut(0.0),
         LiftToIntake(0.0),
@@ -53,6 +55,8 @@ public class PrepareToIntakeCargo extends Command
 
     private eCmdState m_currentState;
     private boolean m_isFinished;
+    private ArmMonitor.eArmPositions m_armPos;
+
     //private double m_stateStartTime;
 
     private double m_cargoHoldCurrent;
@@ -68,7 +72,6 @@ public class PrepareToIntakeCargo extends Command
     protected void initialize()
     {
 
-        m_currentState = eCmdState.LiftUp;
         m_isFinished = false;
         m_cargoHoldCurrent = CargoHold.CARGO_HOLD_PICKUP_CURRENT;
 
@@ -76,7 +79,28 @@ public class PrepareToIntakeCargo extends Command
         Robot.sub_cargointake.setTolerance(20);
         Robot.sub_fourbarlift.setTolerance(50);
 
-        //m_stateStartTime = this.timeSinceInitialized();
+        // Find out where the arms currently are
+        m_armPos = ArmMonitor.getArmPositions();
+
+        // Determine starting state
+        switch (m_armPos)
+        {
+        case INTAKE_IN_LIFT_IN:
+        default:
+            m_currentState = eCmdState.LiftUp;
+            break;
+            
+        case INTAKE_VERTICAL_LIFT_IN:
+        case INTAKE_IN_LIFT_OUT:
+        case INTAKE_VERTICAL_LIFT_OUT:
+            m_currentState = eCmdState.IntakeOut;
+            break;
+
+        case INTAKE_OUT_LIFT_IN:
+        case INTAKE_OUT_LIFT_OUT:
+            m_currentState = eCmdState.LiftToIntake;
+            break;
+        }
     }
 
     protected void execute()
@@ -136,8 +160,12 @@ public class PrepareToIntakeCargo extends Command
                 m_cargoHoldCurrent = CargoHold.CARGO_HOLD_STALL_CURRENT;
                 Robot.sub_cargohold.cargoIsHeld(true);
 
+                // Start driving the intake rollers backwards to prevent another Cargo from slipping in
+                Robot.sub_cargointake.driveRollerManually(-0.5);
+
                 // TODO: Light up the LED signal here to indicate "Cargo In Hand"
-                
+                // TODO: Rumble the Driver Control to indicate "Cargo In Hand"
+
                 // cargo detected - we're done
                 m_isFinished = true;
             }

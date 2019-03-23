@@ -2,11 +2,15 @@ package org.team3467.robot2019.robot;
 
 import org.team3467.robot2019.robot.Control.ButtonBox;
 import org.team3467.robot2019.robot.Control.ButtonBoxButton;
-
+import org.team3467.robot2019.robot.Control.ComboBoxButton;
+import org.team3467.robot2019.robot.Control.LoneBoxButton;
 import org.team3467.robot2019.robot.Control.XBoxControllerDPad;
 import org.team3467.robot2019.robot.Control.XboxController;
 import org.team3467.robot2019.robot.Control.XboxControllerButton;
+import org.team3467.robot2019.subsystems.AutoSequence.HighCargoLift;
+import org.team3467.robot2019.subsystems.AutoSequence.LowCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.PrepareToIntakeCargo;
+import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
 import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
@@ -164,93 +168,51 @@ public class OI {
             .whenPressed(new StowCargo());
         
         //  Button 1 = PrepareToIntakeCargo
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenPressed(new PrepareToIntakeCargo());
-            //Function: Intakes cargo from floor
-            //Assumes: All appendages are in starting configuaration
-            //Step 1: 4 Bar raises up
-            //Step 2: Intake arm moves to floor intake setpoint
-            //Step 3: 4 Bar moves down to intake setpoint
-            //Step 4: Cargo Intake turns on
-            //Step 4: Cargo Hold turns on
-            //Step 5: Wait for current spike on Cargo Hold then initialize Cargo Hold low speed
-            //Step 6; Cargo Intake turns off
-            //  END
+        //  Function: Set up arms and intake cargo from floor
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kCollectCargo).whenPressed(new PrepareToIntakeCargo());
 
-        //  Button 2 = StowCargo
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenPressed(new StowCargo());
-            //Function: Brings all cargo appendages into the robot
-            //Assumes: Robot is in "Collect Cargo" configuration
-            //Step 1: 4 Bar raises up
-            //Step 2: Cargo Intake returns to Home position
-            //Step 3: 4 Bar moves down to Home/Intake setpoint (depending on Cargo held)
-            //  END
+        //  Button 2 = StowCargo (NOTE: This button is ONLY used in ComboButton commands)
+        //  Function: Repositions all cargo appendages into the robot
+        //      Target location of arms depends on other button used in Combo 
+        new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kReverseIntakeRoller).whenActive(new StowCargo());
+        new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargo1).whenActive(new LowCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+        new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargo2).whenActive(new HighCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+        new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargo3).whenActive(new HighCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+        new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargoShip).whenActive(new LowCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
 
         //  Button 3 = ReleaseCargo
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k3).whenPressed(new ReleaseCargo());
-            //Function: Cargo Hold motor reverses to release ball
-            //Assumes: We have a piece of Cargo in a scoring position
-            //Step 1: Cargo Hold motor spins in reverse direction
+        //  Function: Cargo Hold motor reverses to release ball
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kSpitCargo).whileHeld(new ReleaseCargo());
         
         //  Button 4 = GrabHatch
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k4).whenPressed(new GrabHatch());
-            //Function: Lowers Hatch Grabberto HP height
-            //Assumes: Hatch Grabber is in the upright/stowed position
-            //Step 1: Hatch Arm lowers to Level 1 height (bottoms out)
-            //Step 2: If Limit Switch is pressed then pulse driver gamepad once
+        //  Function: Lowers Hatch Grabber to Feeding Station height
+        //          If Limit Switch is on grabber is pressed, then pulse driver gamepad once
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kGrabHatch).whenPressed(new GrabHatch());
         
         //  Button 5 = ReleaseHatch
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.k5).whenPressed(new ReleaseHatch());
-            //Function: Fingers that hold the Hatch are moved inward
-            //Assumes: We have a Hatch in a scoring position
-            //Hatch Finger Servo moves position
+        //  Function: Release Hatch from grabber
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whileHeld(new ReleaseHatch());
         
         //  Button 6 = StowGrabber
-        //Don't know if this is being used
- //       new ButtonBoxButton(buttonBox, ButtonBox.Button.k6).whenPressed(new StowGrabber());
-            //Function: Raises Hatch Grabber to upright/stowed position
-            //Assumes: Hatch Grabber is in the HP height
-            //Step 1: Raises Hatch Arm to stowed/starting position
+        //Function: Raises Hatch Grabber to upright/stowed position
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new StowGrabber());
         
         //  Button 7 = LiftCargo1
-        //need to figure out what to call this
- //       new ButtonBoxButton(buttonBox, ButtonBox.Button.k7).whenPressed(new LiftCargo1());
-            //Function: Raises Cargo Hold to rocket level 1
-            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. The Cargo Hold is in the stowed position.
-            //Step 1: Lift the Cargo Hold to Rocket 1
-            //Step 2: Stow Cargo Intake
-            //Step 3: Spit Cargo
-            //Step 4: Deploy Cargo Intake to prepare for another Cargo
-            //Step 5: Stow Cargo Hold
-        
+        //  Function: Raises Cargo Hold to Rocket Level 1
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargo1, ButtonBox.Button.kStowCargo).whenActive(new QuickCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+
         //  Button 8 = LiftCargo2
- //       new ButtonBoxButton(buttonBox, ButtonBox.Button.k8).whenPressed(new LiftCargo2());
-            //Function: Raises Cargo Hold to level 2
-            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
-            //Step 1: Lift the Cargo Hold to Rocket level 2
-            //Step 2: Stow Cargo Intake
-            //Step 3: Spit Cargo
-            //Step 4: Deploy Cargo Intake to prepare for another Cargo
-            //Step 5: Stow Cargo Hold
-        
-        //  Button 9 = LiftCargoShip
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k9).whenPressed(new LiftCargoShip());
-            //Function: Raises Cargo Hold to rocket level 3
-            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
-            //Step 1: Lift the Cargo Hold to Rocket level 3
-            //Step 2: Stow Cargo Intake
-            //Step 3: Spit Cargo
-            //Step 4: Deploy Cargo Intake to prepare for another Cargo
-            //Step 5: Stow Cargo Hold
-        
+        //  Function: Raises Cargo Hold to Rocket Level 2
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargo2, ButtonBox.Button.kStowCargo).whenActive( new QuickCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+
+        //  Button 9 = LiftCargo3
+        //  Function: Raises Cargo Hold to Rocket Level 3
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargo3, ButtonBox.Button.kStowCargo).whenActive( new HighCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+
         //  Button 10 = LiftCargoShip
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k10).whenPressed(new LiftCargoShip());
-            //Function: Raises Cargo Hold to Cargo Bay level
-            //Assumes: We have a piece of Cargo in Cargo Hold and are lined up. Cargo Hold is in the stowed position.
-            //Step 1: Lift the Cargo Hold to Rocket Cargo Bay level
-            //Step 2: Stow Cargo Intake
-            //Step 3: Spit Cargo
-            //Step 4: Deploy Cargo Intake to prepare for another Cargo
-            //Step 5: Stow Cargo Hold
+        //  Function: Raises Cargo Hold to Cargo Ship
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargoShip, ButtonBox.Button.kStowCargo).whenActive( new QuickCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+
         
         //  Button 11 = LiftHatch1
 //        new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new LiftHatch1());
@@ -276,13 +238,9 @@ public class OI {
             //Step 2: Release Hatch
             //Step 3: Stow Hatch Handler
         
-        //  Button 14 = LiftHatchShip
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k14).whenPressed(new LiftHatchShip());
-            //Function: Raises Hatch Handler to Cargo Bay level
-            //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
-            //Step 1: Lift the Hatch Handler to Rocket Cargo Bay level
-            //Step 2: Release Hatch
-            //Step 3: Stow Hatch Handler
+        //  Button 14 = Reverse Intake Roller
+        //  Function: Runs Cargo Intake in reverse to eject unwanted Cargo
+        new LoneBoxButton(buttonBox, ButtonBox.Button.kReverseIntakeRoller, ButtonBox.Button.kStowCargo).whileActive(new DriveCargoIntakeRoller(-1.0));
         
         //  Button 15 = QueueClimber
 //        new ButtonBoxButton(buttonBox, ButtonBox.Button.k15).whenPressed(new QueueClimber());
