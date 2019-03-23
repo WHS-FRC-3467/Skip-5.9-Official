@@ -100,8 +100,9 @@ public class HighCargoLift extends Command {
            // Start Lift movement
            Robot.sub_fourbarlift.moveLiftToPosition(m_target4BarPos, false);
            
-           // Check if Lift is in position...
-           if (Robot.sub_fourbarlift.checkLiftOnTarget(m_target4BarPos))
+           // Check if Lift is in position or if it has at least gone by the OOTW position...
+           if (Robot.sub_fourbarlift.checkLiftOnTarget(m_target4BarPos) || 
+                Robot.sub_fourbarlift.getLiftEncoderPosition() > FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY.getSetpoint())
            {
                // .. and if so, start the Intake Arm position
                m_currentState  = eCmdState.IntakeVertical;

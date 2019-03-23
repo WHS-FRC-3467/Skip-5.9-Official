@@ -44,7 +44,7 @@ public class OI {
 
     private static XboxController driverController;
     private static XboxController operatorController;
-    private static XboxController autoseqController;
+    //private static XboxController autoseqController;
 	private static ButtonBox buttonBox;
 
     //private ShuffleboardTab tab_sandstorm = Shuffleboard.getTab("Sandstorm Period");
@@ -61,7 +61,7 @@ public class OI {
     public void init() {
         driverController = new XboxController(0);
         operatorController = new XboxController(1);
-        autoseqController = new XboxController(3);
+        //autoseqController = new XboxController(3);
 
         buttonBox = new ButtonBox(2);
         bindControllerCommands();
@@ -161,11 +161,11 @@ public class OI {
         // BUTTON BOX BUTTONS
         //
 
-        new XboxControllerButton(autoseqController, XboxController.Button.kY)
-            .whenPressed(new PrepareToIntakeCargo());
+        //new XboxControllerButton(autoseqController, XboxController.Button.kY)
+        //    .whenPressed(new PrepareToIntakeCargo());
 
-        new XboxControllerButton(autoseqController, XboxController.Button.kA)
-            .whenPressed(new StowCargo());
+        //new XboxControllerButton(autoseqController, XboxController.Button.kA)
+        //    .whenPressed(new StowCargo());
         
         //  Button 1 = PrepareToIntakeCargo
         //  Function: Set up arms and intake cargo from floor
