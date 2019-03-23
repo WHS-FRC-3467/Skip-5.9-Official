@@ -25,6 +25,7 @@ import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
 import org.team3467.robot2019.subsystems.CargoLift.UpdateLiftStats;
+import org.team3467.robot2019.subsystems.Drivetrain.AutoLineup;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 import org.team3467.robot2019.subsystems.Hatch.DeployGrabber;
 import org.team3467.robot2019.subsystems.Hatch.DriveHatchDeployment;
@@ -284,7 +285,7 @@ public class OI {
 //        new ButtonBoxButton(buttonBox, ButtonBox.Button.k20).whenPressed(new AutoLineUp());
             //Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
             //Assumes: Robot is within range for LimeLight to obtain and track target
-            //Step 1: 
+            new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whileHeld(new AutoLineup());
 
       
 

@@ -7,23 +7,53 @@
 
 package org.team3467.robot2019.subsystems.Drivetrain;
 
+import org.team3467.robot2019.robot.Robot;
+import org.team3467.robot2019.subsystems.Limelight.Limelight;
+
 import edu.wpi.first.wpilibj.command.Command;
 
-public class EngageLineup extends Command {
-  public EngageLineup() {
+public class AutoLineup extends Command {
+
+
+  double lineup_tolerance = 0.0;
+
+
+
+
+  public AutoLineup() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.sub_drivetrain);
+    
+    
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    //step 1: get the most updated limelight/lidar data
+
+    double target_error = Limelight.getTx();
+    System.out.println("Limelight Error: " + target_error);
+
+
+
+    //step 2: calculate the power needed to get perfectly inline
     
+
+    //step 3: move
+
+    Robot.sub_drivetrain.drive(0.4, target_error, true);
+
+    
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
