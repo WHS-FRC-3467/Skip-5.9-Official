@@ -15,15 +15,15 @@ public class FourBarLift extends Subsystem {
     //TODO implement Hatch level encoder values here
     public enum eFourBarLiftPosition {
         HOME(10, "ZERO"),
-        INTAKE(501, "INTAKE"),
+        INTAKE(400, "INTAKE"),
         HATCH_1(4500, "HATCH LEVEL ONE"),
         L1(5300, "ROCKET LEVEL ONE"),
-        OUTOFTHEWAY(6644,  "OUT OF THE WAY"),
+        OUTOFTHEWAY(7000,  "OUT OF THE WAY"),
         CARGO_SHIP(8800,  "CARGO SHIP"),
         HATCH_2(8000, "HATCH LEVEL TWO"),
         L2(11681, "ROCKET LEVEL TWO"),
         HATCH_3(13000, "HATCH LEVEL THREE"),
-        L3(17350, "ROCKET LEVEL THREE");
+        L3(17100, "ROCKET LEVEL THREE");
 
 
         private final int setpoint;

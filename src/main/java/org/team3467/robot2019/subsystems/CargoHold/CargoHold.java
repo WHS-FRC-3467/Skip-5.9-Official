@@ -98,7 +98,7 @@ public class CargoHold extends Subsystem
         // TODO: May be able to lower the multiplication factor here to see if it registers a "hold" more quickly
         // now that we start the rollers earlier in the command and hopefully avoid false positives from the roller
         // startup current surge.
-        return (m_motorCurrent >= (currentLevel*1.3));
+        return (m_motorCurrent >= (currentLevel*1.1));
     }
 
     public void cargoIsHeld(boolean holdState)
