@@ -10,7 +10,6 @@ import org.team3467.robot2019.robot.Control.XboxControllerButton;
 import org.team3467.robot2019.subsystems.AutoSequence.HighCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.LowCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.PrepareToIntakeCargo;
-import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimb;
 import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
@@ -217,24 +216,41 @@ public class OI {
 
         
         //  Button 11 = LiftHatch1
-        //  Function: Raises Hatch Handler to Rocket level 1 / Feeder Station / Cargo Ship
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftHatch1).whenPressed(new LowCargoLift(FourBarLift.eFourBarLiftPosition.HATCH_1));
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new LiftHatch1());
+            //Function: Raises Hatch Handler to Rocket level 1
+            //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
+            //Step 1: Lift the Hatch Handler to Rocket level 1
+            //Step 2: Release Hatch
+            //Step 3: Stow Hatch Handler
         
         //  Button 12 = LiftHatch2
-        //  Function: Raises Hatch Handler to Rocket level 2
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftHatch2).whenPressed(new LowCargoLift(FourBarLift.eFourBarLiftPosition.HATCH_2));
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k12).whenPressed(new LiftHatch2());
+            //Function: Raises Hatch Handler to Rocket level 2
+            //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
+            //Step 1: Lift the Hatch Handler to Rocket level 2
+            //Step 2: Release Hatch
+            //Step 3: Stow Hatch Handler
         
         //  Button 13 = LiftHatch3
-        //  Function: Raises Hatch Handler to Rocket level 3
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftHatch3).whenPressed(new LowCargoLift(FourBarLift.eFourBarLiftPosition.HATCH_3));
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k13).whenPressed(new LiftHatch3());
+            //Function: Raises Hatch Handler to Rocket level 3
+            //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
+            //Step 1: Lift the Hatch Handler to Rocket level 3
+            //Step 2: Release Hatch
+            //Step 3: Stow Hatch Handler
         
         //  Button 14 = Reverse Intake Roller
         //  Function: Runs Cargo Intake in reverse to eject unwanted Cargo
         new LoneBoxButton(buttonBox, ButtonBox.Button.kReverseIntakeRoller, ButtonBox.Button.kStowCargo).whileActive(new DriveCargoIntakeRoller(-1.0));
         
         //  Button 15 = QueueClimber
-        //  Function: Moves Cargo Intake to vertical: ready to climb
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kQueueClimber).whenPressed(new QueueForClimb());
+//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k15).whenPressed(new QueueClimber());
+            //Function: Moves Cargo Intake to vertical: ready to climb
+            //Assumes: All Cargo Appendages are in the Stowed position
+            //Step 1: 4 Bar moves up
+            //Step 2: Cargo Intake moves to setpoint clear of 4 bar
+            //Step 3: 4 Bar returns to Home setpoint
+            //Step 4: Cargo Intake rotates back into a vertical position
         
         //  Button 16 = ClimbHab2
 //        new ButtonBoxButton(buttonBox, ButtonBox.Button.k16).whenPressed(new ClimbHab2());
