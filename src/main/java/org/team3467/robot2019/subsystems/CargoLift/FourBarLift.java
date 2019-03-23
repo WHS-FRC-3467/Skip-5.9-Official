@@ -128,7 +128,7 @@ public class FourBarLift extends Subsystem {
     {
         m_moveToPosition = position;
         m_liftMotor.runMotionMagic(position.getSetpoint());
-        updatePosition();
+        //updatePosition();
 
         if (reportStats)
         {
@@ -140,7 +140,7 @@ public class FourBarLift extends Subsystem {
     public void holdMagically (boolean reportStats) {
 
         m_liftMotor.runMotionMagic(m_actualEncoderPosition);
-        updatePosition();
+        //updatePosition();
 
         if (reportStats)
         {

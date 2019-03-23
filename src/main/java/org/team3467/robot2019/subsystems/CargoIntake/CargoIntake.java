@@ -151,7 +151,7 @@ public class CargoIntake extends Subsystem
     {
         m_activeIntakeArmPosition = position;
         m_intakeArm.runMotionMagic(position.getSetpoint());
-        updatePosition();
+        //updatePosition();
 
         if (reportStats)
         {
@@ -163,7 +163,7 @@ public class CargoIntake extends Subsystem
     public void holdMagically (boolean reportStats) {
 
         m_intakeArm.runMotionMagic(m_actualEncoderPosition);
-        updatePosition();
+        //updatePosition();
 
         if (reportStats)
         {
