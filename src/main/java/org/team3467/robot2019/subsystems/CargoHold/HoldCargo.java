@@ -7,11 +7,15 @@
 
 package org.team3467.robot2019.subsystems.CargoHold;
 
+import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class HoldCargo extends Command {
+
+    static final private double RUMBLE_TIME = 2.0;
+
     public HoldCargo() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.sub_cargohold);
@@ -27,6 +31,8 @@ public class HoldCargo extends Command {
     protected void execute() {
         if (Robot.sub_cargohold.isCargoHeld())
         {
+            OI.setDriverRumble(this.timeSinceInitialized() < RUMBLE_TIME);
+
             Robot.sub_cargohold.intakeCargo(CargoHold.CARGO_HOLD_STALL_CURRENT);
         }
         else

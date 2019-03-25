@@ -136,8 +136,7 @@ public class PrepareToIntakeCargo extends Command
         
         case LiftToIntake:
 
-            // Go ahead and start the rollers here to avoid any issues with startup "surges" affecting the Hold sensing
-            Robot.sub_cargointake.driveRollerManually(CargoIntake.CARGO_INTAKE_ROLLER_SPEED);
+            // Go ahead and start the cargo hold rollers here to avoid any issues with startup "surges" affecting the Hold sensing
             Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent);
 
             // Start Lift movement
@@ -152,6 +151,9 @@ public class PrepareToIntakeCargo extends Command
             break;
         
         case WaitForCapture:
+
+            // Start the intake rollers only after the Cargo Hold is in place and ready for cargo
+            Robot.sub_cargointake.driveRollerManually(CargoIntake.CARGO_INTAKE_ROLLER_SPEED);
 
             if (Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent))
             {

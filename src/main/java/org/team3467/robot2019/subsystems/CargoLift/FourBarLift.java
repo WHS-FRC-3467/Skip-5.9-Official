@@ -16,13 +16,13 @@ public class FourBarLift extends Subsystem {
     public enum eFourBarLiftPosition {
         HOME(10, "HOME"),
         INTAKE(400, "INTAKE"),
-        HATCH_1(4500, "HATCH LEVEL ONE"),
+        HATCH_1(2200, "HATCH LEVEL ONE"),
         L1(5300, "ROCKET LEVEL ONE"),
         OUTOFTHEWAY(7000,  "OUT OF THE WAY"),
         CARGO_SHIP(8800,  "CARGO SHIP"),
-        HATCH_2(8000, "HATCH LEVEL TWO"),
+        HATCH_2(9400, "HATCH LEVEL TWO"),
         L2(11681, "ROCKET LEVEL TWO"),
-        HATCH_3(13000, "HATCH LEVEL THREE"),
+        HATCH_3(14750, "HATCH LEVEL THREE"),
         L3(17100, "ROCKET LEVEL THREE");
 
 

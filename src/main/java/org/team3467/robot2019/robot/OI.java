@@ -10,6 +10,7 @@ import org.team3467.robot2019.robot.Control.XboxControllerButton;
 import org.team3467.robot2019.subsystems.AutoSequence.HighCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.LowCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.PrepareToIntakeCargo;
+import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimb;
 import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
@@ -98,7 +99,7 @@ public class OI {
 		// The "RightBumper" button deploys the hatch mechanism
         new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
 
-
+        // Do Auto Lineup and move toward hatch or cargo markings using LimeLight tracking
         new XBoxControllerDPad(driverController, XboxController.DPad.kDPadLeft).whileActive(new AutoLineup());
 
 		/*
@@ -161,9 +162,11 @@ public class OI {
          new XboxControllerButton(operatorController, XboxController.Button.kStickRight).whenPressed(new DriveCargoIntakeRoller());
 
 
-        //
-        // BUTTON BOX BUTTONS
-        //
+		/*
+		 * 
+		 * 3rd XBox Controller
+		 * 
+		 */
 
         //new XboxControllerButton(autoseqController, XboxController.Button.kY)
         //    .whenPressed(new PrepareToIntakeCargo());
@@ -171,6 +174,13 @@ public class OI {
         //new XboxControllerButton(autoseqController, XboxController.Button.kA)
         //    .whenPressed(new StowCargo());
         
+
+		/*
+		 * 
+		 * Button Box
+		 * 
+		 */
+
         //  Button 1 = PrepareToIntakeCargo
         //  Function: Set up arms and intake cargo from floor
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kCollectCargo).whenPressed(new PrepareToIntakeCargo());
@@ -182,7 +192,7 @@ public class OI {
         new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargo1).whenActive(new LowCargoLift(FourBarLift.eFourBarLiftPosition.L1));
         new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargo2).whenActive(new HighCargoLift(FourBarLift.eFourBarLiftPosition.L2));
         new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargo3).whenActive(new HighCargoLift(FourBarLift.eFourBarLiftPosition.L3));
-        new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargoShip).whenActive(new LowCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+        new ComboBoxButton(buttonBox, ButtonBox.Button.kStowCargo, ButtonBox.Button.kLiftCargoShip).whenActive(new HighCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
 
         //  Button 3 = ReleaseCargo
         //  Function: Cargo Hold motor reverses to release ball
@@ -217,43 +227,25 @@ public class OI {
         //  Function: Raises Cargo Hold to Cargo Ship
         new LoneBoxButton(buttonBox, ButtonBox.Button.kLiftCargoShip, ButtonBox.Button.kStowCargo).whenActive( new QuickCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
 
-        
         //  Button 11 = LiftHatch1
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new LiftHatch1());
-            //Function: Raises Hatch Handler to Rocket level 1
-            //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
-            //Step 1: Lift the Hatch Handler to Rocket level 1
-            //Step 2: Release Hatch
-            //Step 3: Stow Hatch Handler
+        //  Function: Raises Hatch Handler to Rocket level 1 / Feeder Station / Cargo Ship
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftHatch1).whenPressed(new LowCargoLift(FourBarLift.eFourBarLiftPosition.HATCH_1));
         
         //  Button 12 = LiftHatch2
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k12).whenPressed(new LiftHatch2());
-            //Function: Raises Hatch Handler to Rocket level 2
-            //Assumes: We have a Hatch in Hatch Handler and are lined up. The Hatch Handler is in the collect position.
-            //Step 1: Lift the Hatch Handler to Rocket level 2
-            //Step 2: Release Hatch
-            //Step 3: Stow Hatch Handler
+        //  Function: Raises Hatch Handler to Rocket level 2
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftHatch2).whenPressed(new LowCargoLift(FourBarLift.eFourBarLiftPosition.HATCH_2));
         
         //  Button 13 = LiftHatch3
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k13).whenPressed(new LiftHatch3());
-            //Function: Raises Hatch Handler to Rocket level 3
-            //Assumes: We have a Hatch in the Hatch Handler and are lined up. Hatch Handler is in the collect position.
-            //Step 1: Lift the Hatch Handler to Rocket level 3
-            //Step 2: Release Hatch
-            //Step 3: Stow Hatch Handler
+        //  Function: Raises Hatch Handler to Rocket level 3
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kLiftHatch3).whenPressed(new LowCargoLift(FourBarLift.eFourBarLiftPosition.HATCH_3));
         
         //  Button 14 = Reverse Intake Roller
         //  Function: Runs Cargo Intake in reverse to eject unwanted Cargo
         new LoneBoxButton(buttonBox, ButtonBox.Button.kReverseIntakeRoller, ButtonBox.Button.kStowCargo).whileActive(new DriveCargoIntakeRoller(-1.0));
         
         //  Button 15 = QueueClimber
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k15).whenPressed(new QueueClimber());
-            //Function: Moves Cargo Intake to vertical: ready to climb
-            //Assumes: All Cargo Appendages are in the Stowed position
-            //Step 1: 4 Bar moves up
-            //Step 2: Cargo Intake moves to setpoint clear of 4 bar
-            //Step 3: 4 Bar returns to Home setpoint
-            //Step 4: Cargo Intake rotates back into a vertical position
+        //  Function: Moves Cargo Intake to vertical: ready to climb
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kQueueClimber).whenPressed(new QueueForClimb());
         
         //  Button 16 = ClimbHab2
 //        new ButtonBoxButton(buttonBox, ButtonBox.Button.k16).whenPressed(new ClimbHab2());
@@ -285,37 +277,24 @@ public class OI {
             //Step 1: Turn on Cargo Intake and slowly pull onto Hab level
         
         //  Button 20 = AutoLineUp
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k20).whenPressed(new AutoLineUp());
-            //Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
-            //Assumes: Robot is within range for LimeLight to obtain and track target
-            new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whileHeld(new AutoLineup());
-
-      
-
-        // new ButtonBoxButton(buttonBox, ButtonBox.Button.k11).whenPressed(new DriveCargoHoldRollers());
-
-            //new ButtonBoxButton(buttonBox, ButtonBox.Button.k1).whenPressed(new TestMe());
-            //new ButtonBoxButton(buttonBox, ButtonBox.Button.k2).whenPressed(new TestMe2());
-
-
-
-
+        //  Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
+        //  Assumes: Robot is within range for LimeLight to obtain and track target
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whileHeld(new AutoLineup());
 
 
         // Commands to drag onto the ShuffleBoard
-         SmartDashboard.putData(new DriveBot(DriveBot.driveMode_Rocket, false));
-         SmartDashboard.putData(new IntakeCargo());
-         SmartDashboard.putData(new ReleaseCargo());
-         SmartDashboard.putData(new StopCargoHold());
-         SmartDashboard.putData(new DriveHatchDeployment());
-         SmartDashboard.putData(new DriveCargoIntakeArm());
-         SmartDashboard.putData(new UpdateIntakeStats());
-         SmartDashboard.putData(new MoveCargoLift());
-         SmartDashboard.putData(new UpdateLiftStats());
+        SmartDashboard.putData(new DriveBot(DriveBot.driveMode_Rocket, false));
+        SmartDashboard.putData(new IntakeCargo());
+        SmartDashboard.putData(new ReleaseCargo());
+        SmartDashboard.putData(new StopCargoHold());
+        SmartDashboard.putData(new DriveHatchDeployment());
+        SmartDashboard.putData(new DriveCargoIntakeArm());
+        SmartDashboard.putData(new UpdateIntakeStats());
+        SmartDashboard.putData(new MoveCargoLift());
+        SmartDashboard.putData(new UpdateLiftStats());
 
-         SmartDashboard.putData(new PrepareToIntakeCargo());
-         SmartDashboard.putData(new StowCargo());
-
+        SmartDashboard.putData(new PrepareToIntakeCargo());
+        SmartDashboard.putData(new StowCargo());
 
     }
 
@@ -376,6 +355,10 @@ public class OI {
         return operatorController.getTriggerAxis(Hand.kLeft);
     }
 
+    public static void setDriverRumble(boolean rumbleOn) {
+        driverController.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleOn ? 1 : 0);
+        driverController.setRumble(GenericHID.RumbleType.kRightRumble, rumbleOn ? 1 : 0);
+    }
     public static void setOperatorRumble(boolean rumbleOn) {
         operatorController.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleOn ? 1 : 0);
         operatorController.setRumble(GenericHID.RumbleType.kRightRumble, rumbleOn ? 1 : 0);

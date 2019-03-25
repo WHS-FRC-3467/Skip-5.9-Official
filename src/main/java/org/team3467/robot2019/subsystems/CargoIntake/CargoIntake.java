@@ -25,7 +25,7 @@ public class CargoIntake extends Subsystem
         // Standing vertical inside bumper perimeter
         VERTICAL(800,"VERTICAL"),   // TODO: Check this value
         // Safely outside the Lift "swing zone"
-        OUTSIDE(1200, "OUTSIDE"),   // TODO: Check this value
+        OUTSIDE(1400, "OUTSIDE"),   // TODO: Check this value
         // Cargo Intake position
         INTAKE(1500, "INTAKE"),
         // HAB-top Crawling position
