@@ -26,6 +26,9 @@ import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
 import org.team3467.robot2019.subsystems.CargoLift.UpdateLiftStats;
+import org.team3467.robot2019.subsystems.Climber.DriveClimber;
+import org.team3467.robot2019.subsystems.Climber.KeepIn;
+import org.team3467.robot2019.subsystems.Climber.TuneClimber;
 import org.team3467.robot2019.subsystems.Drivetrain.AutoLineup;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 import org.team3467.robot2019.subsystems.Hatch.DeployGrabber;
@@ -265,10 +268,8 @@ public class OI {
             //Step 3: Start Crawl mode and pull robot onto Hab 3
         
         //  Button 18 = ClimbRetract
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k18).whenPressed(new ClimbRetract());
-            //Function: Retract Polejack and return Cargo Intake
-            //Assumes: Drivebase wheels are on Hab 3 and Polejack and Cargo Intake are fully deployed
-            //Step 1: Retract both Polejack and Cargo Intake
+        //  Function: Retract Polejack (and return Cargo Intake)
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whileActive(new KeepIn(0.5));
         
         //  Button 19 = ClimbCrawl
 //        new ButtonBoxButton(buttonBox, ButtonBox.Button.k19).whenPressed(new ClimbCrawl());
@@ -295,6 +296,9 @@ public class OI {
 
         SmartDashboard.putData(new PrepareToIntakeCargo());
         SmartDashboard.putData(new StowCargo());
+
+        SmartDashboard.putData(new TuneClimber());
+        SmartDashboard.putData(new DriveClimber());
 
     }
 
@@ -325,6 +329,10 @@ public class OI {
 
     public static double getDriverRightTrigger() {
         return driverController.getTriggerAxis(Hand.kLeft);
+    }
+
+    public static double getOperatorLeftX() {
+        return operatorController.getX(Hand.kLeft);
     }
 
     public static double getOperatorLeftY() {

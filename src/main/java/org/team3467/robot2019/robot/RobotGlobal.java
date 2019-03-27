@@ -28,7 +28,11 @@ public final class RobotGlobal {
 
     public final static int GYRO = 11;
 
-    
+    /* Digital Inputs (Limit Switches) */
+    public final static int DIO_INTAKE_ARM = 1;
+    public final static int DIO_4BAR_LIFT = 2;
+    public final static int DIO_CLIMBER = 3;
+
 }
 
 /*
@@ -48,33 +52,7 @@ M12: 1 talon for 4-bar, port 5 on PDP(30)
 M13: 1 talon for cargo hold, port 4 on PDP(30)
 
 
-
-Issues:
-Limelight Image on ShuffleBoard
-Shuffleboard management
-
 ToDo:
-
-CargoIntake:
-CargoIntake.java:
-    - Set encoder readings for position enum
-    - Tune PID params
-
-CargoLift:
-FourBarLift.java:
-    - Set encoder readings for position enum
-    - Tune PID params
-
-
-    Changes to Drive Controls
-    Operator:
-         Right Stick XAxis : Manual control of Cargo Intake Arm (default)
-         Right Stick Press: Only turns on Cargo Arm Roller; Turn off with A button
-         A Button:
-            When Cargo Intake rollers are moving, stops movement
-            When Cargo Intake Arm is running under PID, drops back to manual mode
-         Left Stick Press: Only turns on Cargo Hold Roller; Turn off with Back button
-         Back button: Turn off Cargo Hold roller
 
 
 

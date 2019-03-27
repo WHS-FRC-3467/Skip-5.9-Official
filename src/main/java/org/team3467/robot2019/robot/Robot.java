@@ -3,6 +3,7 @@ package org.team3467.robot2019.robot;
 import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
+import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
 import org.team3467.robot2019.subsystems.FieldCamera.FieldCamera;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
@@ -22,6 +23,8 @@ public class Robot extends TimedRobot {
     public static CargoIntake sub_cargointake;
     public static HatchGrabber sub_hatchgrabber;
     public static FourBarLift sub_fourbarlift;
+    public static Climber sub_climber;
+
     //public static Gyro sub_gyro;
     public static LEDSerial sub_led;
 

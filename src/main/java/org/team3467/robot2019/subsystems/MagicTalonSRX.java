@@ -71,7 +71,7 @@ public class MagicTalonSRX extends TalonSRX {
     private int m_accel = 0;
     
     // Controls display to SmartDashboard - turn this off after system is tuned
-	private boolean m_debugging = true;
+	private boolean m_debugging = false;
 	
 	public MagicTalonSRX(String name, int deviceID, int slotNum) {
 		
