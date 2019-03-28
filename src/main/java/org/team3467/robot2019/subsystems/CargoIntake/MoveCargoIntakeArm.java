@@ -8,6 +8,7 @@
 package org.team3467.robot2019.subsystems.CargoIntake;
 
 import org.team3467.robot2019.robot.Robot;
+import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,16 +27,19 @@ public class MoveCargoIntakeArm extends Command {
     @Override
     protected void initialize() {
         counter = 0;
+
+        if(m_position == CargoIntake.eCargoIntakeArmPosition.INTAKE) {
+            Robot.sub_led.setLEDPattern(LEDSerial.P_CARGO_IN);
+        }
     }
 
     @Override
     protected void execute() {
-        System.out.println("THE WIZARD IS MOVING YOUR MOTOR");
         if (counter++ > 25) {
             counter = 0; // report stats when counter == 0 
 		}
         Robot.sub_cargointake.moveArmToPosition(m_position, (counter == 0));
-
+            
     }
 
     @Override
@@ -46,6 +50,7 @@ public class MoveCargoIntakeArm extends Command {
     @Override
     protected void end() {
         Robot.sub_cargointake.driveArmManually(0.0);
+            Robot.sub_led.setLEDPattern(LEDSerial.DEFAULT_PATTERN);
     }
 
     @Override

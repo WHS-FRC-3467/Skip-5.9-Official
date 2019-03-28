@@ -24,6 +24,9 @@ public class LEDSerial extends Subsystem {
     public static final int P_CARGO_IN = 8;
     public static final int P_CARGO_OUT = 9;
     public static final String P_CARGO_HOLDING = "Q";
+    
+    public static int DEFAULT_PATTERN = P_RAINBOW_FADE;
+
 
 
 //#endregion

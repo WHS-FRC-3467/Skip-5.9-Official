@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
         sub_cargointake = CargoIntake.getInstance();
         sub_hatchgrabber = HatchGrabber.getInstance();
         sub_fourbarlift = FourBarLift.getInstance();
+        sub_climber = new Climber();
         //sub_gyro = Gyro.getInstance();
 
         robot_oi = new OI();

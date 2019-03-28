@@ -5,6 +5,7 @@
 package org.team3467.robot2019.subsystems.CargoHold;
 
 import org.team3467.robot2019.robot.Robot;
+import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -28,7 +29,7 @@ public class ReleaseCargo extends Command
   @Override
   protected void initialize()
   {
- 
+    Robot.sub_led.setLEDPattern(LEDSerial.P_CARGO_OUT);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -50,6 +51,7 @@ public class ReleaseCargo extends Command
   protected void end()
   {
     Robot.sub_cargohold.stop();
+    Robot.sub_led.setLEDPattern(LEDSerial.DEFAULT_PATTERN);
   }
 
   // Called when another command which requires one or more of the same

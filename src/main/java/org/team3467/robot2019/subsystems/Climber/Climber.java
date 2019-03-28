@@ -38,7 +38,7 @@ public class Climber extends Subsystem {
     public void initDefaultCommand()
     {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new KeepIn(0.1));
+        setDefaultCommand(new DriveClimber());
     }
 
     public void drive(double speed)

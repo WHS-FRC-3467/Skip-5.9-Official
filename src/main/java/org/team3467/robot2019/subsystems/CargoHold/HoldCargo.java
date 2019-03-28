@@ -9,6 +9,7 @@ package org.team3467.robot2019.subsystems.CargoHold;
 
 import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
+import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -24,6 +25,7 @@ public class HoldCargo extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        Robot.sub_led.setLEDPattern(LEDSerial.P_CARGO_HOLDING);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,7 +52,9 @@ public class HoldCargo extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        Robot.sub_led.setLEDPattern(LEDSerial.DEFAULT_PATTERN);
     }
+        
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
