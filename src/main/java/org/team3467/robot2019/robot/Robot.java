@@ -30,8 +30,6 @@ public class Robot extends TimedRobot {
 
     public static OI robot_oi;
 
-    ShuffleboardTab sandstorm_tab = Shuffleboard.getTab("Sandstorm Period");
-    ShuffleboardTab teleop_tab = Shuffleboard.getTab("Teleop Period");
 
 
     @Override
@@ -91,7 +89,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Shuffleboard.selectTab("Sandstorm Period");
 
     }
 
@@ -106,7 +103,6 @@ public class Robot extends TimedRobot {
         // Remove any commands letover from prior runs
         Scheduler.getInstance().removeAll();
 
-        Shuffleboard.selectTab("Teleop Period");
     }
 
     @Override
