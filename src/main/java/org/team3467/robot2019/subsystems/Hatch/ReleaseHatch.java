@@ -9,7 +9,7 @@ public class ReleaseHatch extends Command {
     private boolean m_motionStopped;
     
     public ReleaseHatch() {
-        requires(Robot.sub_hatchgrabber);
+//        requires(Robot.sub_hatchgrabber);
     }
 
     protected void initialize() {
@@ -25,7 +25,6 @@ public class ReleaseHatch extends Command {
     }
 
     protected void end() {
-        Robot.sub_hatchgrabber.stopGrabber();
     }
     
     protected void interrupted() {

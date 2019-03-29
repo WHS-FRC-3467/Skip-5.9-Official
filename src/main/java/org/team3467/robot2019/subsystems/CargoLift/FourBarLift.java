@@ -51,7 +51,7 @@ public class FourBarLift extends Subsystem {
     // which will avoid sudden movements upon re-enabling the robot.
     private int m_actualEncoderPosition;
 
-    MagicTalonSRX m_liftMotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0);
+    MagicTalonSRX m_liftMotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0, false);
         
     private double m_P = 2.2;
     private double m_I = 0.0;

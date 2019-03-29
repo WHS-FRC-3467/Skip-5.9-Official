@@ -32,15 +32,15 @@ public class DriveHatchDeployment extends Command {
 
     if(forwardSpeed > 0.0)
     {
-        Robot.sub_hatchgrabber.driveDeployment(forwardSpeed);
+        Robot.sub_hatchgrabber.driveManual(forwardSpeed);
     }
     else if (backwardSpeed > 0.0)
     {
-      Robot.sub_hatchgrabber.driveDeployment(-backwardSpeed);
+      Robot.sub_hatchgrabber.driveManual(-backwardSpeed);
     }
     else
     {
-      Robot.sub_hatchgrabber.driveDeployment(0.0);
+      Robot.sub_hatchgrabber.driveManual(0.0);
     }
 
   }
@@ -54,7 +54,7 @@ public class DriveHatchDeployment extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.sub_hatchgrabber.driveDeployment(0.0);
+    Robot.sub_hatchgrabber.driveManual(0.0);
   }
 
   // Called when another command which requires one or more of the same

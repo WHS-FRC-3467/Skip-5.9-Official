@@ -7,15 +7,16 @@
 
 package org.team3467.robot2019.subsystems.Hatch;
 
-import org.team3467.robot2019.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RunTest extends Command {
+import org.team3467.robot2019.robot.Robot;
 
-    private int direction;
+  
+public class HoldMagicallyInPlace extends Command {
 
-    public RunTest() {
+    private int m_counter;
+
+    public HoldMagicallyInPlace() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.sub_hatchgrabber);
     }
@@ -23,21 +24,22 @@ public class RunTest extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        direction = 1;
+        m_counter = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
+    @Override
     protected void execute() {
-        if (direction > 0)
-        {
-            if (Robot.sub_hatchgrabber.grabHatch())
-                direction = direction * -1;
+        
+        if (m_counter++ > 25) {
+            m_counter = 0; // report stats when counter == 0 
         }
-        else if (direction < 0)
-        {
-            if (Robot.sub_hatchgrabber.releaseHatch())
-                direction = direction * -1;
-        }
+        
+        // If Arm is in "Start" position, then no need to run closed loop; just let it rest
+        if (Robot.sub_hatchgrabber.getHGAPosition() == HatchGrabber.eHGAPosition.START)
+            Robot.sub_hatchgrabber.driveManual(0.0);
+        else
+            Robot.sub_hatchgrabber.holdMagically((m_counter == 0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
