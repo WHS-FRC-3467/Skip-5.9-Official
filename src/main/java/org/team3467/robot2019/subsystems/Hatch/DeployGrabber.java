@@ -1,41 +1,42 @@
 package org.team3467.robot2019.subsystems.Hatch;
 
 import org.team3467.robot2019.robot.Robot;
+import org.team3467.robot2019.subsystems.Hatch.HatchGrabber.eHGAPosition;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Add your docs here.
  */
-public class DeployGrabber extends TimedCommand {
+public class DeployGrabber extends Command {
+
+    private int counter;
 
     public DeployGrabber() {
-        super(HatchGrabber.DEPLOY_TIME);
+        super();
         requires(Robot.sub_hatchgrabber);
     }
 
-    // Called just before this Command runs the first time
-    @Override
     protected void initialize() {
+        counter = 0;
     }
 
-    // Called repeatedly when this Command is scheduled to run
-    @Override
     protected void execute() {
-        Robot.sub_hatchgrabber.deployGrabber();
+        if (counter++ > 25) {
+            counter = 0; // report stats when counter == 0 
+		}
+        Robot.sub_hatchgrabber.moveHGAToPosition(eHGAPosition.PLACE, (counter == 0));
     }
 
-    // Called once after timeout
-    @Override
+    protected boolean isFinished() {
+        return Robot.sub_hatchgrabber.isHGAOnTarget(eHGAPosition.PLACE);
+    }
+
     protected void end() {
-        Robot.sub_hatchgrabber.stopDeploy();
-        Robot.sub_hatchgrabber.setGrabberDeployed();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
     protected void interrupted() {
         end();
     }
+
 }

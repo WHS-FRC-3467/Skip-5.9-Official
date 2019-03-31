@@ -6,26 +6,25 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class GrabHatch extends Command {
 
-    private boolean m_motionStopped;
+    private boolean m_hatchInHand;
     
     public GrabHatch() {
-        requires(Robot.sub_hatchgrabber);
+//        requires(Robot.sub_hatchgrabber);
     }
 
     protected void initialize() {
-        m_motionStopped = false;
+        m_hatchInHand = false;
     }
 
     protected void execute() {
-        m_motionStopped = Robot.sub_hatchgrabber.grabHatch();
+        m_hatchInHand = Robot.sub_hatchgrabber.grabHatch();
     }
 
     protected boolean isFinished() {
-        return m_motionStopped;
+        return m_hatchInHand;
     }
 
     protected void end() {
-        Robot.sub_hatchgrabber.stopGrabber();
     }
     
     protected void interrupted() {

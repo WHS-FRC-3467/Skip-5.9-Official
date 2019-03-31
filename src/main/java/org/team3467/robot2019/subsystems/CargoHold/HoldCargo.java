@@ -9,7 +9,6 @@ package org.team3467.robot2019.subsystems.CargoHold;
 
 import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
-import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -25,17 +24,25 @@ public class HoldCargo extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.sub_led.setLEDPattern(LEDSerial.P_CARGO_HOLDING);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        /* 
+        Each time thru:
+        If isCargoHeld() - Only checks flag
+            Rumble?
+            intakeCargo() - runs motor and returns true if it finds cargo THE FIRST TIME
+        else
+            calls stop() - turns off motor and clears flag 
+        */
         if (Robot.sub_cargohold.isCargoHeld())
         {
-            OI.setDriverRumble(this.timeSinceInitialized() < RUMBLE_TIME);
+            // Optional: Rumble the Driver Control to indicate "Cargo In Hand"
+            // OI.setDriverRumble(this.timeSinceInitialized() < RUMBLE_TIME);
 
-            Robot.sub_cargohold.intakeCargo(CargoHold.CARGO_HOLD_STALL_CURRENT);
+            Robot.sub_cargohold.intakeCargo(CargoHold.CARGO_HOLD_STALL_CURRENT, false);
         }
         else
         {
@@ -52,7 +59,6 @@ public class HoldCargo extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.sub_led.setLEDPattern(LEDSerial.DEFAULT_PATTERN);
     }
         
 

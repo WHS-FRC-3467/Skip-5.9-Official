@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import org.team3467.robot2019.robot.RobotGlobal;
 import org.team3467.robot2019.subsystems.MagicTalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,7 +19,7 @@ public class FourBarLift extends Subsystem {
         INTAKE(400, "INTAKE"),
         HATCH_1(2200, "HATCH LEVEL ONE"),
         L1(5300, "ROCKET LEVEL ONE"),
-        OUTOFTHEWAY(7000,  "OUT OF THE WAY"),
+        OUTOFTHEWAY(7200,  "OUT OF THE WAY"),
         CARGO_SHIP(8800,  "CARGO SHIP"),
         HATCH_2(9400, "HATCH LEVEL TWO"),
         L2(11681, "ROCKET LEVEL TWO"),
@@ -50,9 +51,11 @@ public class FourBarLift extends Subsystem {
     // Save this because we want the default command to run MotionMagic at the current position,
     // which will avoid sudden movements upon re-enabling the robot.
     private int m_actualEncoderPosition;
+    private boolean m_wasRecentlyDisabled;
 
-    MagicTalonSRX m_liftMotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0);
-        
+    MagicTalonSRX m_liftMotor = new MagicTalonSRX("FBL",RobotGlobal.CARGO_LIFT,0, false);
+    public DigitalInput m_limitSw = new DigitalInput(RobotGlobal.DIO_4BAR_LIFT);
+    
     private double m_P = 2.2;
     private double m_I = 0.0;
     private double m_D = 0.0;
@@ -102,6 +105,7 @@ public class FourBarLift extends Subsystem {
         // Assuming this is Starting Position; if not, then need to change it
         m_moveToPosition = eFourBarLiftPosition.HOME;
         updatePosition();
+        m_wasRecentlyDisabled = false;
     }
     
     @Override
@@ -130,6 +134,9 @@ public class FourBarLift extends Subsystem {
         m_liftMotor.runMotionMagic(position.getSetpoint());
         updatePosition();
 
+        // Now that Lift has been re-commanded to a position, turn off flag
+        m_wasRecentlyDisabled = false;
+
         if (reportStats)
         {
             reportStats();
@@ -139,7 +146,12 @@ public class FourBarLift extends Subsystem {
     // Use current position as setpoint
     public void holdMagically (boolean reportStats) {
 
-        m_liftMotor.runMotionMagic(m_actualEncoderPosition);
+        // If robot was recently disabled and hasn't been re-commanded to a position, use actual encoder position
+        if (m_wasRecentlyDisabled == true) {
+            m_liftMotor.runMotionMagic(m_actualEncoderPosition);
+        } else {
+            m_liftMotor.runMotionMagic(m_moveToPosition.getSetpoint());
+        }
         updatePosition();
 
         if (reportStats)
@@ -149,6 +161,11 @@ public class FourBarLift extends Subsystem {
 
     }
     
+    // Signal that robot has been disabled, so lift may move from known position
+    public void signalDisabled() {
+        m_wasRecentlyDisabled = true;
+    }
+
     public boolean isLiftOnTarget(eFourBarLiftPosition m_position) {
         
         // We only want to stop the Cargo Lift PID loop from running when
@@ -207,6 +224,7 @@ public class FourBarLift extends Subsystem {
     public void reportStats() {
 
         SmartDashboard.putString("FBL Position", getLiftPosition().getName());
+        SmartDashboard.putBoolean("FBL Limit", m_limitSw.get());
         reportEncoder();
         reportTalonStats();
 

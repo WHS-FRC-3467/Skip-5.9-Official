@@ -7,7 +7,9 @@ package org.team3467.robot2019.subsystems.CargoHold;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.robot.RobotGlobal;
+import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -75,30 +77,38 @@ public class CargoHold extends Subsystem
     }
 
     /**
-     * Inake Cargo while checking current draw
+     * Intake Cargo while checking current draw
      * @param double currentLevel - max current draw (in Amps) allowed
+     * @param boolean noStats - set to true if you do not want to print stats this time (speed optimization)
      * @return boolean - if currentLevel was met or exceeded
      */
-    public boolean intakeCargo(double currentLevel)
+    public boolean intakeCargo(double currentLevel, boolean noStats)
     {
+        boolean retVal = false;
+        
         /* Current Closed Loop */
         m_cargoHold.set(ControlMode.Current, currentLevel);
 
         m_motorCurrent = m_cargoHold.getOutputCurrent();
-        m_percentOutput = m_cargoHold.getMotorOutputPercent();
-        m_closedLoopError = m_cargoHold.getClosedLoopError(0);
-
-        if (loopCount++ > INTAKE_REPORTING_LOOP_COUNT)
-        {
-            reportCargoHoldStats();
-            loopCount = 0;
-        }
-
         // Return TRUE if currentLevel was met or exceeded on this pass
         // TODO: May be able to lower the multiplication factor here to see if it registers a "hold" more quickly
         // now that we start the rollers earlier in the command and hopefully avoid false positives from the roller
         // startup current surge.
-        return (m_motorCurrent >= (currentLevel*1.1));
+        retVal = (m_motorCurrent >= (currentLevel*1.1));
+    
+        if (!noStats)
+        {
+            m_percentOutput = m_cargoHold.getMotorOutputPercent();
+            m_closedLoopError = m_cargoHold.getClosedLoopError(0);
+    
+            if (loopCount++ > INTAKE_REPORTING_LOOP_COUNT)
+            {
+                reportCargoHoldStats();
+                loopCount = 0;
+            }
+        }
+
+        return retVal;
     }
 
     public void cargoIsHeld(boolean holdState)
@@ -132,6 +142,14 @@ public class CargoHold extends Subsystem
 
     private void reportCargoHoldStats()
     {
+
+        if (m_haveCargo)
+            // Light up the LED signal here to indicate "Cargo In Hand"
+            Robot.sub_led.setLEDPattern(LEDSerial.P_CARGO_HOLDING);
+        else
+            // Light up the LED signal here to indicate "Normal" status
+            Robot.sub_led.setLEDPattern(LEDSerial.DEFAULT_PATTERN);
+
         SmartDashboard.putNumber("CargoHold Current Draw", m_motorCurrent);
         SmartDashboard.putNumber("CargoHold Percent Output", m_percentOutput);
         SmartDashboard.putNumber("CargoHold Closed Loop Error", m_closedLoopError);

@@ -19,7 +19,7 @@ public final class RobotGlobal {
     public final static int CARGO_INTAKE_ARM_2 = 4;
 
     public final static int HATCH_GRABBER = 10; // Fwd/Back limit switches
-    public final static int HATCH_ACTUATOR = 13; // Fwd limi switch
+    //public final static int HATCH_ACTUATOR = 13; // Fwd limit switch
 
     public final static int CARGO_HOLD = 11; // Gyro attached
     public final static int CARGO_LIFT = 12; // Encoder attached
@@ -28,6 +28,9 @@ public final class RobotGlobal {
 
     public final static int GYRO = 11;
 
+    /* Hatch Release Servo */
+    public final static int RELEASE_SERVO = 1;
+    
     /* Digital Inputs (Limit Switches) */
     public final static int DIO_INTAKE_ARM = 1;
     public final static int DIO_4BAR_LIFT = 2;

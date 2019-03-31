@@ -33,12 +33,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
         double speed = OI.getOperatorLeftX();
         
-        if (speed > 0.2 || speed < -0.2)
+        if (speed > 0.2 )
+        {
             Robot.sub_climber.drive(speed * 0.5);
+        } else if (speed < -0.2 && (Robot.sub_climber.m_limitSw.get() == true)) {
+            Robot.sub_climber.drive(speed * 0.5);
+        }
         else
             Robot.sub_climber.drive(0.0);
 
+        SmartDashboard.putNumber("Climber Speed", speed);
         SmartDashboard.putNumber("Climber Encoder", Robot.sub_climber.getEncoderCount());
+        SmartDashboard.putBoolean("Climber Limit", Robot.sub_climber.m_limitSw.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()

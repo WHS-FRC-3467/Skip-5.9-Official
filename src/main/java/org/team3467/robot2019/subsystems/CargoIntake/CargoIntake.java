@@ -16,7 +16,7 @@ public class CargoIntake extends Subsystem
 {
 
     public static final double CARGO_INTAKE_ROLLER_SPEED = 0.75;
-    private static final double CRAWL_SPEED = 0.5;
+    private static final double CRAWL_SPEED = 0.25;
 
     public enum eCargoIntakeArmPosition
     { 
@@ -29,7 +29,7 @@ public class CargoIntake extends Subsystem
         // Cargo Intake position
         INTAKE(1500, "INTAKE"),
         // HAB-top Crawling position
-        CRAWL(1800,"CRAWL");
+        CRAWL(2100,"CRAWL");
 
         private int IntakeArmPosition;
         private String IntakeArmPositionName;
@@ -55,8 +55,9 @@ public class CargoIntake extends Subsystem
     // Save this because we want the default command to run MotionMagic at the current position,
     // which will avoid sudden movements upon re-enabling the robot.
     private int m_actualEncoderPosition;
+    private boolean m_wasRecentlyDisabled;
 
-    MagicTalonSRX   m_intakeArm = new MagicTalonSRX("Cargo Intake", RobotGlobal.CARGO_INTAKE_ARM_1, 0);
+    MagicTalonSRX   m_intakeArm = new MagicTalonSRX("Cargo Intake", RobotGlobal.CARGO_INTAKE_ARM_1, 0, false);
     TalonSRX        m_intakeArm_2 = new TalonSRX(RobotGlobal.CARGO_INTAKE_ARM_2);
     TalonSRX        m_intakeRoller = new TalonSRX(RobotGlobal.CARGO_INTAKE_ROLLER);
 
@@ -112,6 +113,7 @@ public class CargoIntake extends Subsystem
         // Assuming this is Starting Position; if not, then need to change it
         m_activeIntakeArmPosition = eCargoIntakeArmPosition.RETRACTED;
         updatePosition();
+        m_wasRecentlyDisabled = false;
     }
 
     protected void initDefaultCommand()
@@ -153,6 +155,9 @@ public class CargoIntake extends Subsystem
         m_intakeArm.runMotionMagic(position.getSetpoint());
         updatePosition();
 
+        // Now that Lift has been re-commanded to a position, turn off flag
+        m_wasRecentlyDisabled = false;
+
         if (reportStats)
         {
             reportStats();
@@ -162,7 +167,12 @@ public class CargoIntake extends Subsystem
     // Use current position as setpoint
     public void holdMagically (boolean reportStats) {
 
-        m_intakeArm.runMotionMagic(m_actualEncoderPosition);
+        // If robot was recently disabled and hasn't been re-commanded to a position, use actual encoder position
+        if (m_wasRecentlyDisabled == true) {
+            m_intakeArm.runMotionMagic(m_actualEncoderPosition);
+        } else {
+            m_intakeArm.runMotionMagic(m_activeIntakeArmPosition.getSetpoint());
+        }
         updatePosition();
 
         if (reportStats)
@@ -171,6 +181,11 @@ public class CargoIntake extends Subsystem
         }
     }
     
+    // Signal that robot has been disabled, so lift may move from known position
+    public void signalDisabled() {
+        m_wasRecentlyDisabled = true;
+    }
+
     public boolean isArmOnTarget(eCargoIntakeArmPosition position) {
         
         if (OI.getOperatorButtonA())

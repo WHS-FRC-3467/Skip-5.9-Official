@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
         sub_cargointake = CargoIntake.getInstance();
         sub_hatchgrabber = HatchGrabber.getInstance();
         sub_fourbarlift = FourBarLift.getInstance();
-        sub_climber = new Climber();
+        sub_climber = Climber.getInstance();
         //sub_gyro = Gyro.getInstance();
 
         robot_oi = new OI();
@@ -77,11 +77,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 
+        sub_cargointake.signalDisabled();
+        sub_fourbarlift.signalDisabled();
+        sub_hatchgrabber.signalDisabled();
+
         // Keep the Intake Arm and 4Bar Lift positions updated even when Disabled
         // We set the target closed-loop setpoints to the current position when reEnabled
         // so as to minimize any movement of the arms 
         sub_cargointake.updatePosition();
         sub_fourbarlift.updatePosition();
+        sub_hatchgrabber.updatePosition();
 
         Scheduler.getInstance().run();
 	}
@@ -109,7 +114,6 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        //SmartDashboard.putNumber("FBL Encoder2" , sub_fourbarlift.getLiftEncoder());
     }
 
 

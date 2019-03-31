@@ -8,7 +8,6 @@
 package org.team3467.robot2019.subsystems.CargoIntake;
 
 import org.team3467.robot2019.robot.Robot;
-import org.team3467.robot2019.subsystems.LED.LEDSerial;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -28,9 +27,11 @@ public class MoveCargoIntakeArm extends Command {
     protected void initialize() {
         counter = 0;
 
-        if(m_position == CargoIntake.eCargoIntakeArmPosition.INTAKE) {
-            Robot.sub_led.setLEDPattern(LEDSerial.P_CARGO_IN);
-        }
+        // Set default closed loop tolerances for this command sequence
+        if (m_position == CargoIntake.eCargoIntakeArmPosition.CRAWL)
+            Robot.sub_cargointake.setTolerance(30);
+        else
+            Robot.sub_cargointake.setTolerance(10);
     }
 
     @Override
@@ -50,7 +51,6 @@ public class MoveCargoIntakeArm extends Command {
     @Override
     protected void end() {
         Robot.sub_cargointake.driveArmManually(0.0);
-            Robot.sub_led.setLEDPattern(LEDSerial.DEFAULT_PATTERN);
     }
 
     @Override
