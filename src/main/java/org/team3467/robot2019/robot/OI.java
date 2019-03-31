@@ -30,7 +30,6 @@ import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Climber.DriveClimber;
 import org.team3467.robot2019.subsystems.Climber.KeepIn;
 import org.team3467.robot2019.subsystems.Climber.PIDClimber;
-import org.team3467.robot2019.subsystems.Climber.TuneClimber;
 import org.team3467.robot2019.subsystems.Drivetrain.AutoLineup;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 import org.team3467.robot2019.subsystems.Hatch.DeployGrabber;

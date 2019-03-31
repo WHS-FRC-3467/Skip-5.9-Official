@@ -59,7 +59,7 @@ public class HatchGrabber extends Subsystem {
 
  
     private static final double FINGERS_OUT_DEGREES = 0;
-    private static final double FINGERS_IN_DEGREES = 200;
+    private static final double FINGERS_IN_DEGREES = 90;
     
     private Servo m_releaseServo;
     private MagicTalonSRX m_grabberArm;

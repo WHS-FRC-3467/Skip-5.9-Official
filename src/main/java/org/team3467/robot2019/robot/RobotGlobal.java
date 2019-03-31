@@ -29,7 +29,7 @@ public final class RobotGlobal {
     public final static int GYRO = 11;
 
     /* Hatch Release Servo */
-    public final static int RELEASE_SERVO = 1;
+    public final static int RELEASE_SERVO = 4;
     
     /* Digital Inputs (Limit Switches) */
     public final static int DIO_INTAKE_ARM = 1;
