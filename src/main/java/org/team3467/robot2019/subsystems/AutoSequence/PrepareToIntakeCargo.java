@@ -11,6 +11,8 @@ import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoHold.CargoHold;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
+import org.team3467.robot2019.subsystems.LED.LEDSerial;
+
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -137,7 +139,7 @@ public class PrepareToIntakeCargo extends Command
         case LiftToIntake:
 
             // Go ahead and start the cargo hold rollers here to avoid any issues with startup "surges" affecting the Hold sensing
-            Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent);
+            Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent, false);
 
             // Start Lift movement
             Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE, false);
@@ -155,7 +157,10 @@ public class PrepareToIntakeCargo extends Command
             // Start the intake rollers only after the Cargo Hold is in place and ready for cargo
             Robot.sub_cargointake.driveRollerManually(CargoIntake.CARGO_INTAKE_ROLLER_SPEED);
 
-            if (Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent))
+            // Light up the LED signal here to indicate "Ready to Intake Cargo"
+            Robot.sub_led.setLEDPattern(LEDSerial.P_CARGO_IN);
+        
+            if (Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent, true))
             {
                 // If IntakeCargo() returned true, then we know the current has spiked from holding a cargo.
                 // Immediately switch to a lower "holding" current, and say that we're done
@@ -164,9 +169,6 @@ public class PrepareToIntakeCargo extends Command
 
                 // Start driving the intake rollers backwards to prevent another Cargo from slipping in
                 Robot.sub_cargointake.driveRollerManually(-0.5);
-
-                // TODO: Light up the LED signal here to indicate "Cargo In Hand"
-                // TODO: Rumble the Driver Control to indicate "Cargo In Hand"
 
                 // cargo detected - we're done
                 m_isFinished = true;

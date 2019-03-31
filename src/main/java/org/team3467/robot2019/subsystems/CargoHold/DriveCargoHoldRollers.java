@@ -26,7 +26,7 @@ public class DriveCargoHoldRollers extends Command {
         if (speed > 0.1)
         {
             // Returns True if current is met or exceeded
-            if (Robot.sub_cargohold.intakeCargo(m_currentLevel))
+            if (Robot.sub_cargohold.intakeCargo(m_currentLevel, false))
             {
                 m_currentLevel = CargoHold.CARGO_HOLD_STALL_CURRENT;
                 Robot.sub_cargohold.cargoIsHeld(true);

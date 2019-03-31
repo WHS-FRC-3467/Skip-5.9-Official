@@ -26,8 +26,10 @@ import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
 import org.team3467.robot2019.subsystems.CargoLift.UpdateLiftStats;
+import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Climber.DriveClimber;
 import org.team3467.robot2019.subsystems.Climber.KeepIn;
+import org.team3467.robot2019.subsystems.Climber.PIDClimber;
 import org.team3467.robot2019.subsystems.Climber.TuneClimber;
 import org.team3467.robot2019.subsystems.Drivetrain.AutoLineup;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
@@ -203,7 +205,7 @@ public class OI {
         
         //  Button 4 = GrabHatch
         //  Function: Lowers Hatch Grabber to Feeding Station height
-        //          If Limit Switch is on grabber is pressed, then pulse driver gamepad once
+        //    If Limit Switch is on grabber is pressed, then pulse driver gamepad once
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kGrabHatch).whenPressed(new GrabHatch());
         
         //  Button 5 = ReleaseHatch
@@ -251,40 +253,29 @@ public class OI {
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kQueueClimber).whenPressed(new QueueForClimb());
         
         //  Button 16 = ClimbHab2
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k16).whenPressed(new ClimbHab2());
-            //Function: Climbs to Hab 2
-            //Assumes: Lined up against the Hab platform prepared to climb
-            //Step 1: Cargo Intake comes down onto Hab 2
-            //Step 2: Cargo Intake pushes down to lift front of robot
-            //Step 3: Cargo Intake crawls (Wheels on Cargo Intake and Drivebase are moving)
-            //Step 4: Robot is on top of Hab 2
+        //  Function: Raises PoleJack to Hab 2 Level
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbHab2).whenPressed(new PIDClimber(Climber.HAB2_CLIMB_COUNT));
         
         //  Button 17 = ClimbHab3
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k17).whenPressed(new ClimbHab3());
-            //Function: Climbs to Hab 3
-            //Assumes: Lined up against the Hab platform prepared to climb (On level 1 in front of Hab 3)
-            //Step 1: Cargo Intake comes down until touches Hab 3
-            //Step 2: Continue to move Cargo Intake down while raising Polejack in back of robot
-            //Step 3: Start Crawl mode and pull robot onto Hab 3
+        //  Function: Raises PoleJack to Hab 3 Level
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbHab3).whenPressed(new PIDClimber(Climber.HAB3_CLIMB_COUNT));
         
         //  Button 18 = ClimbRetract
-        //  Function: Retract Polejack (and return Cargo Intake)
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whileActive(new KeepIn(0.5));
+        //  Function: Retract Polejack
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whileActive(new KeepIn(1.0));
         
         //  Button 19 = ClimbCrawl
-//        new ButtonBoxButton(buttonBox, ButtonBox.Button.k19).whenPressed(new ClimbCrawl());
-            //Function: Pull Drivebase onto Hab level 2 or 3
-            //Assumes: Intake is touching Hab level and linec up
-            //Step 1: Turn on Cargo Intake and slowly pull onto Hab level
+        //  Function: Lower Cargo Intake to CRAWL position and slowly pull onto Hab level
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbCrawl).whileActive(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.CRAWL));
         
         //  Button 20 = AutoLineUp
         //  Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
         //  Assumes: Robot is within range for LimeLight to obtain and track target
+        //  Turn on LEDs and switch to Vision mode while tracking; turn off LEDs and return to Driver mode when done 
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whileHeld(new AutoLineup());
 
 
         // Commands to drag onto the ShuffleBoard
-        SmartDashboard.putData(new DriveBot(DriveBot.driveMode_Rocket, false));
         SmartDashboard.putData(new IntakeCargo());
         SmartDashboard.putData(new ReleaseCargo());
         SmartDashboard.putData(new StopCargoHold());
@@ -293,13 +284,9 @@ public class OI {
         SmartDashboard.putData(new UpdateIntakeStats());
         SmartDashboard.putData(new MoveCargoLift());
         SmartDashboard.putData(new UpdateLiftStats());
-
-        SmartDashboard.putData(new PrepareToIntakeCargo());
-        SmartDashboard.putData(new StowCargo());
-
-        SmartDashboard.putData(new TuneClimber());
         SmartDashboard.putData(new DriveClimber());
 
+        
     }
 
     //Easier access to xbox controller

@@ -187,6 +187,8 @@ public class TuneClimber extends Command {
         SmartDashboard.putNumber("SetPoint", setPoint);
         SmartDashboard.putNumber("Process Variable", processVariable);
         SmartDashboard.putNumber("Output", Robot.sub_climber.m_sparkMax.getAppliedOutput());
+        SmartDashboard.putBoolean("Climber Limit", Robot.sub_climber.m_limitSw.get());
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -197,7 +199,8 @@ public class TuneClimber extends Command {
 
     // Called once after isFinished returns true
     @Override
-    protected void end() {
+
+  protected void end() {
         Robot.sub_climber.stop();
     }
 

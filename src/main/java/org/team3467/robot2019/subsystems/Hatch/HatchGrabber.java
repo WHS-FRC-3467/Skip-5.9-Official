@@ -45,6 +45,7 @@ public class HatchGrabber extends Subsystem {
     // Save this because we want the default command to run MotionMagic at the current position,
     // which will avoid sudden movements upon re-enabling the robot.
     private int m_actualEncoderPosition;
+    private boolean m_wasRecentlyDisabled;
 
     private double m_P = 2.2;
     private double m_I = 0.0;
@@ -105,14 +106,15 @@ public class HatchGrabber extends Subsystem {
         // Assuming this is Starting Position; if not, then need to change it
         m_moveToPosition = eHGAPosition.START;
         updatePosition();
-        
+        m_wasRecentlyDisabled = false;
     }
 
     protected void initDefaultCommand() {
         /*
             Continue MotionMagic with setpoint at current position
         */
-        setDefaultCommand(new HoldMagicallyInPlace());
+        // TODO: Turn on this default command once HGA is tuned for MotionMagic
+        //setDefaultCommand(new HoldMagicallyInPlace());
     }
 
     /*
@@ -132,6 +134,9 @@ public class HatchGrabber extends Subsystem {
         m_grabberArm.runMotionMagic(position.getSetpoint());
         updatePosition();
 
+        // Now that HGA has been re-commanded to a position, turn off flag
+        m_wasRecentlyDisabled = false;
+
         if (reportStats)
         {
             reportStats();
@@ -141,16 +146,25 @@ public class HatchGrabber extends Subsystem {
     // Use current position as setpoint
     public void holdMagically (boolean reportStats) {
 
-        m_grabberArm.runMotionMagic(m_actualEncoderPosition);
+        // If robot was recently disabled and hasn't been re-commanded to a position, use actual encoder position
+        if (m_wasRecentlyDisabled == true) {
+            m_grabberArm.runMotionMagic(m_actualEncoderPosition);
+        } else {
+            m_grabberArm.runMotionMagic(m_moveToPosition.getSetpoint());
+        }
         updatePosition();
 
         if (reportStats)
         {
             reportStats();
         }
-
     }
-    
+
+    // Signal that robot has been disabled, so lift may move from known position
+    public void signalDisabled() {
+        m_wasRecentlyDisabled = true;
+    }
+
     public boolean isHGAOnTarget(eHGAPosition m_position) {
         
         // We only want to stop the HGA PID loop from running when

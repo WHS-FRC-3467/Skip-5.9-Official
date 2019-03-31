@@ -30,7 +30,7 @@ public class DriveCargoIntakeRoller extends Command {
         double speed;
         
         if (m_commandedSpeed == 0.0)
-            speed = (-1.0) * OI.getOperatorRightY();
+            speed = (-0.3) * OI.getOperatorRightY();
         else
             speed = m_commandedSpeed;
 

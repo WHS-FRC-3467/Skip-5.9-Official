@@ -32,8 +32,11 @@ public class KeepIn extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-      Robot.sub_climber.keepIn(m_power);
+      Robot.sub_climber.moveIn(m_power);
+
       SmartDashboard.putNumber("Climber Encoder", Robot.sub_climber.getEncoderCount());
+      SmartDashboard.putBoolean("Climber Limit", Robot.sub_climber.m_limitSw.get());
+
   }
 
 }
