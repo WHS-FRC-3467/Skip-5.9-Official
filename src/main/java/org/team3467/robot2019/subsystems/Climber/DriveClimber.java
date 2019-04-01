@@ -32,19 +32,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     protected void execute() {
 
         double speed = OI.getOperatorLeftX();
-        
+        double encoderCnt = Robot.sub_climber.getEncoderCount();
+        boolean limitSwitch = Robot.sub_climber.m_limitSw.get();
+
         if (speed > 0.2 )
         {
             Robot.sub_climber.drive(speed * 0.5);
-        } else if (speed < -0.2 && (Robot.sub_climber.m_limitSw.get() == true)) {
+        } else if (speed < -0.2 && limitSwitch == true && encoderCnt > 0.0) {
             Robot.sub_climber.drive(speed * 0.5);
         }
         else
             Robot.sub_climber.drive(0.0);
 
         SmartDashboard.putNumber("Climber Speed", speed);
-        SmartDashboard.putNumber("Climber Encoder", Robot.sub_climber.getEncoderCount());
-        SmartDashboard.putBoolean("Climber Limit", Robot.sub_climber.m_limitSw.get());
+        SmartDashboard.putNumber("Climber Encoder", encoderCnt);
+        SmartDashboard.putBoolean("Climber Limit", limitSwitch);
     }
 
     // Make this return true when this Command no longer needs to run execute()

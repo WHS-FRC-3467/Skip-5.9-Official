@@ -17,23 +17,14 @@ public class HighCargoLift extends Command {
 
     // Command States
    private enum eCmdState {
-       IntakeOut(0.0),
-       LiftToTarget(0.0),
-       IntakeVertical(0.0);
-       
-       private final double time;
-       
-       private eCmdState(double time) {
-           this.time = time;
-       }
-       
-       public double getTime() {
-           return this.time;
-       }
+       IntakeOut,
+       LiftToTarget,
+       IntakeVertical;
    }
 
    private eCmdState m_currentState;
    private boolean m_isFinished;
+   private int m_counter;
    private ArmMonitor.eArmPositions m_armPos;
    private FourBarLift.eFourBarLiftPosition m_target4BarPos;
 
@@ -51,6 +42,7 @@ public class HighCargoLift extends Command {
    {
 
         m_isFinished = false;
+        m_counter = 0;
 
         // Set default closed loop tolerances for this command sequence
         Robot.sub_cargointake.setTolerance(20);
@@ -79,13 +71,16 @@ public class HighCargoLift extends Command {
 
    protected void execute()
    {
+        if (m_counter++ > 25) {
+            m_counter = 0; // report stats when counter == 0 
+        }
 
        switch (m_currentState)
        {
        case IntakeOut:
 
            // Start Intake Arm movement
-           Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.INTAKE, false);
+           Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.INTAKE, (m_counter == 0));
            
            // Check if Arm is in position...
            if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.INTAKE))
@@ -98,7 +93,7 @@ public class HighCargoLift extends Command {
        case LiftToTarget:
            
            // Start Lift movement
-           Robot.sub_fourbarlift.moveLiftToPosition(m_target4BarPos, false);
+           Robot.sub_fourbarlift.moveLiftToPosition(m_target4BarPos, (m_counter == 0));
            
            // Check if Lift is in position or if it has at least gone by the OOTW position...
            if (Robot.sub_fourbarlift.checkLiftOnTarget(m_target4BarPos) || 
@@ -112,7 +107,7 @@ public class HighCargoLift extends Command {
        case IntakeVertical:
 
            // Start Intake Arm movement
-           Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.VERTICAL, false);
+           Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.VERTICAL, (m_counter == 0));
            
            // Check if Arm is in position...
            if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.VERTICAL))

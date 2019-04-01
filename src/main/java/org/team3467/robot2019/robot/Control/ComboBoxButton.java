@@ -1,6 +1,5 @@
 package org.team3467.robot2019.robot.Control;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.*;
 
 /**

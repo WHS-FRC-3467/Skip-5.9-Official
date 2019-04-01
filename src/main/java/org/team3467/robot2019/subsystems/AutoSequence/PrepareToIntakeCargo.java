@@ -39,25 +39,16 @@ public class PrepareToIntakeCargo extends Command
 
     // Command States
 	private enum eCmdState {
-        LiftUp(0.0),
-        IntakeOut(0.0),
-        LiftToIntake(0.0),
-        WaitForCapture(0.0);
-        
-		private final double time;
-		
-		private eCmdState(double time) {
-			this.time = time;
-		}
-		
-		public double getTime() {
-			return this.time;
-		}
+        LiftUp,
+        IntakeOut,
+        LiftToIntake,
+        WaitForCapture;
 	}
 
     private eCmdState m_currentState;
     private boolean m_isFinished;
     private ArmMonitor.eArmPositions m_armPos;
+    private int m_counter;
 
     //private double m_stateStartTime;
 
@@ -75,6 +66,7 @@ public class PrepareToIntakeCargo extends Command
     {
 
         m_isFinished = false;
+        m_counter = 0;
         m_cargoHoldCurrent = CargoHold.CARGO_HOLD_PICKUP_CURRENT;
 
         // Set default closed loop tolerances for this command sequence
@@ -107,13 +99,16 @@ public class PrepareToIntakeCargo extends Command
 
     protected void execute()
     {
-
+        if (m_counter++ > 25) {
+            m_counter = 0; // report stats when counter == 0 
+        }
+    
         switch (m_currentState)
         {
         case LiftUp:
             
             // Start Lift movement
-            Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY, false);
+            Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY, (m_counter == 0));
             
             // Check if Lift is in position...
             if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY))
@@ -126,7 +121,7 @@ public class PrepareToIntakeCargo extends Command
         case IntakeOut:
 
             // Start Intake Arm movement
-            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.INTAKE, false);
+            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.INTAKE, (m_counter == 0));
             
             // Check if Arm is in position...
             if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.INTAKE))
@@ -142,7 +137,7 @@ public class PrepareToIntakeCargo extends Command
             Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent, false);
 
             // Start Lift movement
-            Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE, false);
+            Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE, (m_counter == 0));
             
             // Check if Lift is in position...
             if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.INTAKE))

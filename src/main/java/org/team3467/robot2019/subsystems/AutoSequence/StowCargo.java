@@ -34,24 +34,15 @@ public class StowCargo extends Command
 
     // Command States
 	private enum eCmdState {
-        IntakeOut(0.0),
-        LiftUp(0.0),
-        IntakeIn(0.0),
-        StowLift(0.0);
-        
-		private final double time;
-		
-		private eCmdState(double time) {
-			this.time = time;
-		}
-		
-		public double getTime() {
-			return this.time;
-		}
+        IntakeOut,
+        LiftUp,
+        IntakeIn,
+        StowLift;
 	}
 
     private eCmdState m_currentState;
     private boolean m_isFinished;
+    private int m_counter;
     private eFourBarLiftPosition m_liftEndPosition;
     private ArmMonitor.eArmPositions m_armPos;
 
@@ -69,6 +60,7 @@ public class StowCargo extends Command
     {
 
         m_isFinished = false;
+        m_counter = 0;
 
         // Set default closed loop tolerances for this command sequence
         Robot.sub_cargointake.setTolerance(20);
@@ -113,12 +105,16 @@ public class StowCargo extends Command
 
     protected void execute()
     {
+        if (m_counter++ > 25) {
+            m_counter = 0; // report stats when counter == 0 
+        }
+
         switch (m_currentState)
         {
         case IntakeOut:
 
             // Start Intake Arm movement
-            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.INTAKE, false);
+            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.INTAKE, (m_counter == 0));
             
             // Check if Arm is in position...
             if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.INTAKE))
@@ -131,7 +127,7 @@ public class StowCargo extends Command
         case LiftUp:    
             
             // Start Lift movement
-            Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY, false);
+            Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY, (m_counter == 0));
             
             // Check if Lift is in position...
             if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY))
@@ -144,7 +140,7 @@ public class StowCargo extends Command
         case IntakeIn:
 
             // Start Intake Arm movement
-            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.RETRACTED, false);
+            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.RETRACTED, (m_counter == 0));
             
             // Check if Arm is in position...
             if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.RETRACTED))
@@ -157,7 +153,7 @@ public class StowCargo extends Command
         case StowLift:
 
             // Start Lift movement
-            Robot.sub_fourbarlift.moveLiftToPosition(m_liftEndPosition, false);
+            Robot.sub_fourbarlift.moveLiftToPosition(m_liftEndPosition, (m_counter == 0));
             
             // Check if Lift is in position...
             if (Robot.sub_fourbarlift.checkLiftOnTarget(m_liftEndPosition))

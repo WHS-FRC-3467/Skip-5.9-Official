@@ -70,7 +70,7 @@ public class Climber extends Subsystem {
         speed = speed * -1.0;
 
         // Move in (relax cable) only if limit switch is not hit and encoder count is not negative
-        if ((m_limitSw.get() == true) && (m_sparkEncoder.getPosition() >= 0.0))
+        if ((m_limitSw.get() == true) && (m_sparkEncoder.getPosition() > 0.0))
             m_sparkMax.set(speed);
         else
             stop();

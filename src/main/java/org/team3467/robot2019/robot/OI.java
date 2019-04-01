@@ -209,7 +209,7 @@ public class OI {
         
         //  Button 5 = ReleaseHatch
         //  Function: Release Hatch from grabber
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whileHeld(new ReleaseHatch());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
         
         //  Button 6 = StowGrabber
         //Function: Raises Hatch Grabber to upright/stowed position
