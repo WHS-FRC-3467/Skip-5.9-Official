@@ -27,6 +27,7 @@ public class QuickCargoLift extends Command {
     private int m_counter;
     private ArmMonitor.eArmPositions m_armPos;
     private FourBarLift.eFourBarLiftPosition m_target4BarPos;
+    private FourBarLift.eFourBarLiftPosition m_first4BarPos;
 
     //private double m_stateStartTime;
 
@@ -57,6 +58,13 @@ public class QuickCargoLift extends Command {
         case INTAKE_IN_LIFT_IN:
         default:
             m_currentState = eCmdState.LiftUp;
+
+            // Determine 1st 4Bar position to move to
+            if (m_target4BarPos.getSetpoint() > FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY.getSetpoint())
+                m_first4BarPos = m_target4BarPos;
+            else
+                m_first4BarPos = FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY;
+
             break;
   
         case INTAKE_VERTICAL_LIFT_IN:
@@ -70,6 +78,7 @@ public class QuickCargoLift extends Command {
             m_currentState = eCmdState.LiftToTarget;
             break;
         }
+
     }
 
     protected void execute()
@@ -82,16 +91,17 @@ public class QuickCargoLift extends Command {
         {
         case LiftUp:
             
-          // Start Lift movement
-          Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY, (m_counter == 0));
+            // Start Lift movement
+            Robot.sub_fourbarlift.moveLiftToPosition(m_first4BarPos, (m_counter == 0));
           
-          // Check if Lift is in position...
-          if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY))
-          {
-              // .. and if so, start the Intake Arm position
-              m_currentState  = eCmdState.IntakeOut;
-          }
-          break;
+            // Check if Lift is in position or if it has at least gone by the OOTW position...
+            if (Robot.sub_fourbarlift.checkLiftOnTarget(m_first4BarPos) || 
+                Robot.sub_fourbarlift.getLiftEncoderPosition() > FourBarLift.eFourBarLiftPosition.OUTOFTHEWAY.getSetpoint())
+            {
+                // .. and if so, start the Intake Arm position
+                m_currentState  = eCmdState.IntakeOut;
+            }
+            break;
       
 
         case IntakeOut:

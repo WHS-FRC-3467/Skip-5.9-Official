@@ -16,7 +16,7 @@ public class CargoIntake extends Subsystem
 {
 
     public static final double CARGO_INTAKE_ROLLER_SPEED = 0.75;
-    private static final double CRAWL_SPEED = 0.25;
+    private static final double CRAWL_SPEED = 0.50;
 
     public enum eCargoIntakeArmPosition
     { 

@@ -57,8 +57,8 @@ public class PIDClimber extends Command {
         kD = 0.02; 
         kIz = 0; 
         kFF = 0; 
-        kMaxOutput = 0.5; 
-        kMinOutput = -0.5;
+        kMaxOutput = 0.75; 
+        kMinOutput = -0.75;
 
         // set PID coefficients
         m_pidController.setP(kP);

@@ -261,11 +261,11 @@ public class OI {
         
         //  Button 18 = ClimbRetract
         //  Function: Retract Polejack
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whileActive(new KeepIn(1.0));
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(0.8));
         
         //  Button 19 = ClimbCrawl
         //  Function: Lower Cargo Intake to CRAWL position and slowly pull onto Hab level
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbCrawl).whileActive(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.CRAWL));
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbCrawl).whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.CRAWL));
         
         //  Button 20 = AutoLineUp
         //  Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket

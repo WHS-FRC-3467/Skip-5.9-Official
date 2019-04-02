@@ -9,34 +9,56 @@ package org.team3467.robot2019.subsystems.Climber;
 
 import org.team3467.robot2019.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Add your docs here.
+ * Keeps the Climber's polejack retracted as long as it is running
  */
-public class KeepIn extends InstantCommand {
-  /**
-   * Add your docs here.
-   */
-  private static double m_power;
+public class KeepIn extends Command {
 
-  public KeepIn(double power) {
-    super();
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.sub_climber);
+    private static double m_power;
+    private static boolean m_finished;
 
-    m_power = power;
-  }
+    public KeepIn(double power) {
+        super();
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.sub_climber);
 
-  // Called once when the command executes
-  @Override
-  protected void initialize() {
-      Robot.sub_climber.moveIn(m_power);
+        m_power = power;
+    }
 
-      SmartDashboard.putNumber("Climber Encoder", Robot.sub_climber.getEncoderCount());
-      SmartDashboard.putBoolean("Climber Limit", Robot.sub_climber.m_limitSw.get());
+    // Called once when the command executes
+    protected void initialize() {
+        m_finished = false;
+    }
 
-  }
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
 
+        m_finished = Robot.sub_climber.moveIn(m_power);
+
+        SmartDashboard.putNumber("Climber Encoder", Robot.sub_climber.getEncoderCount());
+        SmartDashboard.putBoolean("Climber Limit", Robot.sub_climber.m_limitSw.get());
+    }
+
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        return m_finished;
+    }
+
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+        Robot.sub_climber.stop();
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+        end();
+    }
 }
