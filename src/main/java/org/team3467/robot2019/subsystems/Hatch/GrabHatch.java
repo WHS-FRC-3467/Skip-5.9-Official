@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class GrabHatch extends Command {
 
     private boolean m_hatchInHand;
+    private int m_counter;
     
     public GrabHatch() {
         requires(Robot.sub_hatchgrabber);
@@ -15,10 +16,17 @@ public class GrabHatch extends Command {
 
     protected void initialize() {
         m_hatchInHand = false;
+        m_counter = 0;
         SmartDashboard.putString("Hatch Cmd", "GrabHatch");
     }
 
     protected void execute() {
+        if (m_counter++ > 25) {
+            m_counter = 0; // report stats when counter == 0 
+		}
+
+        Robot.sub_hatchgrabber.moveHGAToPosition(HatchGrabber.eHGAPosition.PLACE, (m_counter == 0));
+
         m_hatchInHand = Robot.sub_hatchgrabber.grabHatch();
     }
 
