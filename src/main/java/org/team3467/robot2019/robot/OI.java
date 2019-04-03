@@ -37,6 +37,7 @@ import org.team3467.robot2019.subsystems.Hatch.DriveHatchDeployment;
 import org.team3467.robot2019.subsystems.Hatch.GrabHatch;
 import org.team3467.robot2019.subsystems.Hatch.ReleaseHatch;
 import org.team3467.robot2019.subsystems.Hatch.StowGrabber;
+import org.team3467.robot2019.subsystems.Hatch.ZeroHatchEncoder;
 import org.team3467.robot2019.subsystems.Limelight.Limelight;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.CameraMode;
 import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
@@ -261,7 +262,7 @@ public class OI {
         
         //  Button 18 = ClimbRetract
         //  Function: Retract Polejack
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(0.8));
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(1.0));
         
         //  Button 19 = ClimbCrawl
         //  Function: Lower Cargo Intake to CRAWL position and slowly pull onto Hab level
@@ -284,6 +285,7 @@ public class OI {
         SmartDashboard.putData(new MoveCargoLift());
         SmartDashboard.putData(new UpdateLiftStats());
         SmartDashboard.putData(new DriveClimber());
+        SmartDashboard.putData(new ZeroHatchEncoder());
 
         
     }

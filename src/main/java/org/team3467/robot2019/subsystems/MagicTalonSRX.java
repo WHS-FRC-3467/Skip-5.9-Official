@@ -195,6 +195,9 @@ public class MagicTalonSRX extends TalonSRX {
 		configMotionCruiseVelocity(m_cruiseVel, 10);
 		configMotionAcceleration(m_accel, 10);
 
+        /* Set curve smoothing (0 - 8)*/
+        configMotionSCurveStrength(4);
+
 		/* Use the specified tolerance to set the allowable Closed-Loop error */
 		configAllowableClosedloopError(m_slotNum, m_tolerance, 10);
     	

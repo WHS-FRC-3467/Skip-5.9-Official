@@ -11,6 +11,7 @@ import org.team3467.robot2019.robot.OI;
 import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveHatchDeployment extends Command {
   public DriveHatchDeployment() {
@@ -21,6 +22,7 @@ public class DriveHatchDeployment extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    SmartDashboard.putString("Hatch Cmd", "DriveHatchDeployment");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -43,6 +45,7 @@ public class DriveHatchDeployment extends Command {
       Robot.sub_hatchgrabber.driveManual(0.0);
     }
 
+    Robot.sub_hatchgrabber.reportStats();
   }
 
   // Make this return true when this Command no longer needs to run execute()

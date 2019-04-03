@@ -17,8 +17,8 @@ public class HatchGrabber extends Subsystem {
 
     public enum eHGAPosition {
         START(0, "START"),
-        STOW(10, "STOW"),
-        PLACE(400, "PLACE");
+        STOW(50, "STOW"),
+        PLACE(1500, "PLACE");
 
         private final int setpoint;
         private final String name;
@@ -82,13 +82,13 @@ public class HatchGrabber extends Subsystem {
         m_grabberArm.setNeutralMode(NeutralMode.Brake);
 
         // Flip Motor Directions?
-        m_grabberArm.setInverted(false);
+        m_grabberArm.setInverted(true);
             
         // Configure to use CTRE MagEncoder (built into Versaplanetary Encoder Slice)
         m_grabberArm.configFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
         // Flip sensors so they count positive in the positive control direction?
-        m_grabberArm.setSensorPhase(true);
+        m_grabberArm.setSensorPhase(false);
 
         // Configure PIDF constants
         m_grabberArm.configPIDF(m_slot, m_P, m_I, m_D, m_F);
@@ -113,7 +113,7 @@ public class HatchGrabber extends Subsystem {
             Continue MotionMagic with setpoint at current position
         */
         // TODO: Turn on this default command once HGA is tuned for MotionMagic
-        //setDefaultCommand(new HoldMagicallyInPlace());
+        setDefaultCommand(new HoldMagicallyInPlace());
     }
 
     /*
@@ -242,7 +242,10 @@ public class HatchGrabber extends Subsystem {
 
     public boolean grabHatch()
     {
-        m_releaseServo.setAngle(FINGERS_OUT_DEGREES);
+        //m_releaseServo.setAngle(FINGERS_OUT_DEGREES);
+        m_releaseServo.setPosition(0.0);
+        SmartDashboard.putNumber("Hatch Servo", m_releaseServo.getPosition());
+
         if ( m_grabberArm.getSensorCollection().isFwdLimitSwitchClosed())
         {
             SmartDashboard.putBoolean("HatchGrabbed", true);
@@ -254,7 +257,9 @@ public class HatchGrabber extends Subsystem {
 
     public boolean releaseHatch()
     {
-        m_releaseServo.setAngle(FINGERS_IN_DEGREES);
+        //m_releaseServo.setAngle(FINGERS_IN_DEGREES);
+        m_releaseServo.setPosition(1.0);
+        SmartDashboard.putNumber("Hatch Servo", m_releaseServo.getPosition());
         
         if ( !m_grabberArm.getSensorCollection().isFwdLimitSwitchClosed())
         {

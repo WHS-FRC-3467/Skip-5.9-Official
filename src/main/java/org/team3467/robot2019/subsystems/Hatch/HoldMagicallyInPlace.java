@@ -8,6 +8,7 @@
 package org.team3467.robot2019.subsystems.Hatch;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.team3467.robot2019.robot.Robot;
 
@@ -25,6 +26,7 @@ public class HoldMagicallyInPlace extends Command {
     @Override
     protected void initialize() {
         m_counter = 0;
+        SmartDashboard.putString("Hatch Cmd", "HoldMagically");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,9 +38,9 @@ public class HoldMagicallyInPlace extends Command {
         }
         
         // If Arm is in "Start" position, then no need to run closed loop; just let it rest
-        if (Robot.sub_hatchgrabber.getHGAPosition() == HatchGrabber.eHGAPosition.START)
-            Robot.sub_hatchgrabber.driveManual(0.0);
-        else
+//        if (Robot.sub_hatchgrabber.getHGAPosition() == HatchGrabber.eHGAPosition.START)
+//            Robot.sub_hatchgrabber.driveManual(0.0);
+//        else
             Robot.sub_hatchgrabber.holdMagically((m_counter == 0));
     }
 

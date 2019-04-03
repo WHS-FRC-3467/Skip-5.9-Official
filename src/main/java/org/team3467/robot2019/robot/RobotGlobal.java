@@ -18,7 +18,7 @@ public final class RobotGlobal {
     public final static int CARGO_INTAKE_ROLLER = 5;
     public final static int CARGO_INTAKE_ARM_2 = 4;
 
-    public final static int HATCH_GRABBER = 10; // Fwd/Back limit switches
+    public final static int HATCH_GRABBER = 13; // Fwd limit switch
     //public final static int HATCH_ACTUATOR = 13; // Fwd limit switch
 
     public final static int CARGO_HOLD = 11; // Gyro attached

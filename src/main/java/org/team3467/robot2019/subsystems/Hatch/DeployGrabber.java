@@ -4,6 +4,7 @@ import org.team3467.robot2019.robot.Robot;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber.eHGAPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -19,6 +20,7 @@ public class DeployGrabber extends Command {
 
     protected void initialize() {
         counter = 0;
+        SmartDashboard.putString("Hatch Cmd", "DeployGrabber");
     }
 
     protected void execute() {

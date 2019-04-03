@@ -3,6 +3,7 @@ package org.team3467.robot2019.subsystems.Hatch;
 import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -18,6 +19,7 @@ public class StowGrabber extends Command {
 
     protected void initialize() {
         counter = 0;
+        SmartDashboard.putString("Hatch Cmd", "StowGrabber");
     }
 
     protected void execute() {
