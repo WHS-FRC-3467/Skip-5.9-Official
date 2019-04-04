@@ -67,11 +67,11 @@ public class QuickCargoLift extends Command {
 
             break;
   
+        case INTAKE_VERTICAL_LIFT_OUT:
         case INTAKE_VERTICAL_LIFT_IN:
             m_currentState = eCmdState.IntakeOut;
             break;
             
-        case INTAKE_VERTICAL_LIFT_OUT:
         case INTAKE_OUT_LIFT_IN:
         case INTAKE_IN_LIFT_OUT:
         case INTAKE_OUT_LIFT_OUT:

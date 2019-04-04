@@ -17,8 +17,8 @@ public class HatchGrabber extends Subsystem {
 
     public enum eHGAPosition {
         START(0, "START"),
-        STOW(50, "STOW"),
-        PLACE(1500, "PLACE");
+        STOW(10, "STOW"),
+        PLACE(1450, "PLACE");
 
         private final int setpoint;
         private final String name;
@@ -46,9 +46,9 @@ public class HatchGrabber extends Subsystem {
     private int m_actualEncoderPosition;
     private boolean m_wasRecentlyDisabled;
 
-    private double m_P = 2.2;
+    private double m_P = 1.5;
     private double m_I = 0.0;
-    private double m_D = 0.0;
+    private double m_D = 0.03;
     private double m_F = 0.0;
 
     private int m_cruiseVelocity = 1400;
@@ -56,10 +56,6 @@ public class HatchGrabber extends Subsystem {
     private int m_tolerance = 10;
     private int m_slot = 0;
 
- 
-    private static final double FINGERS_OUT_DEGREES = 0;
-    private static final double FINGERS_IN_DEGREES = 90;
-    
     private Servo m_releaseServo;
     private MagicTalonSRX m_grabberArm;
 
@@ -82,13 +78,13 @@ public class HatchGrabber extends Subsystem {
         m_grabberArm.setNeutralMode(NeutralMode.Brake);
 
         // Flip Motor Directions?
-        m_grabberArm.setInverted(true);
+        m_grabberArm.setInverted(false);
             
         // Configure to use CTRE MagEncoder (built into Versaplanetary Encoder Slice)
         m_grabberArm.configFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
         // Flip sensors so they count positive in the positive control direction?
-        m_grabberArm.setSensorPhase(false);
+        m_grabberArm.setSensorPhase(true);
 
         // Configure PIDF constants
         m_grabberArm.configPIDF(m_slot, m_P, m_I, m_D, m_F);
@@ -112,7 +108,6 @@ public class HatchGrabber extends Subsystem {
         /*
             Continue MotionMagic with setpoint at current position
         */
-        // TODO: Turn on this default command once HGA is tuned for MotionMagic
         setDefaultCommand(new HoldMagicallyInPlace());
     }
 
@@ -157,6 +152,12 @@ public class HatchGrabber extends Subsystem {
         {
             reportStats();
         }
+    }
+
+    public void moveMagic (int setpoint)
+    {
+        m_actualEncoderPosition = setpoint;
+        m_grabberArm.runMotionMagic(m_actualEncoderPosition);
     }
 
     // Signal that robot has been disabled, so lift may move from known position
@@ -240,12 +241,17 @@ public class HatchGrabber extends Subsystem {
     }
 
 
+    public void setServoPosition(double pos) {
+        m_releaseServo.set(pos);
+        SmartDashboard.putNumber("Hatch Servo", m_releaseServo.getPosition());
+    }
+
     public boolean grabHatch()
     {
-        //m_releaseServo.setAngle(FINGERS_OUT_DEGREES);
-        m_releaseServo.setPosition(0.0);
+        m_releaseServo.set(0.9);
         SmartDashboard.putNumber("Hatch Servo", m_releaseServo.getPosition());
 
+/*
         if ( m_grabberArm.getSensorCollection().isFwdLimitSwitchClosed())
         {
             SmartDashboard.putBoolean("HatchGrabbed", true);
@@ -253,14 +259,16 @@ public class HatchGrabber extends Subsystem {
         } else {
             return false;
         }
-    }
+    */
+        return false;
+}
 
     public boolean releaseHatch()
     {
-        //m_releaseServo.setAngle(FINGERS_IN_DEGREES);
-        m_releaseServo.setPosition(1.0);
+        m_releaseServo.set(0.1);
         SmartDashboard.putNumber("Hatch Servo", m_releaseServo.getPosition());
         
+    /*
         if ( !m_grabberArm.getSensorCollection().isFwdLimitSwitchClosed())
         {
             SmartDashboard.putBoolean("HatchGrabbed", false);
@@ -268,6 +276,9 @@ public class HatchGrabber extends Subsystem {
         } else {
             return false;
         }
+    */
+        return false;
+
     }
 
     

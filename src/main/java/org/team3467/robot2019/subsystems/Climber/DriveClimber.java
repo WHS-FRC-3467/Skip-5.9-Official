@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     @Override
     protected void execute() {
 
-        double speed = OI.getOperatorLeftX();
+        double speed = OI.getOperatorLeftY();
         double encoderCnt = Robot.sub_climber.getEncoderCount();
         boolean limitSwitch = Robot.sub_climber.m_limitSw.get();
 

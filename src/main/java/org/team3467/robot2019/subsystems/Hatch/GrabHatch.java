@@ -25,7 +25,7 @@ public class GrabHatch extends Command {
             m_counter = 0; // report stats when counter == 0 
 		}
 
-        Robot.sub_hatchgrabber.moveHGAToPosition(HatchGrabber.eHGAPosition.PLACE, (m_counter == 0));
+       //Robot.sub_hatchgrabber.moveHGAToPosition(HatchGrabber.eHGAPosition.PLACE, (m_counter == 0));
 
         m_hatchInHand = Robot.sub_hatchgrabber.grabHatch();
     }

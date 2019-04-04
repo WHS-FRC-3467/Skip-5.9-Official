@@ -29,21 +29,24 @@ public class DriveHatchDeployment extends Command {
   @Override
   protected void execute() {
 
-    double forwardSpeed = OI.getOperatorRightTrigger();
-    double backwardSpeed = OI.getOperatorLeftTrigger();
+    double speed = OI.getOperatorLeftX();
 
-    if(forwardSpeed > 0.0)
+    if ((speed > 0.05) || (speed < -0.05))
     {
-        Robot.sub_hatchgrabber.driveManual(forwardSpeed);
-    }
-    else if (backwardSpeed > 0.0)
-    {
-      Robot.sub_hatchgrabber.driveManual(-backwardSpeed);
+        Robot.sub_hatchgrabber.driveManual(speed);
     }
     else
     {
       Robot.sub_hatchgrabber.driveManual(0.0);
     }
+
+    // This will drive the HatchGrabber arm using MotionMagic PID (stick centered = retracted)
+    /*
+    double armPos = OI.getOperatorRightX();
+    if (armPos < 0.0) armPos = 0.0;
+    armPos = armPos * 1500;
+    Robot.sub_hatchgrabber.moveMagic((int)armPos);
+    */
 
     Robot.sub_hatchgrabber.reportStats();
   }
@@ -64,5 +67,6 @@ public class DriveHatchDeployment extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

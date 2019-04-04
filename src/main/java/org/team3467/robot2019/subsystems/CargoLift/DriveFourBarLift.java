@@ -5,11 +5,11 @@ import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LiftManually extends Command {
+public class DriveFourBarLift extends Command {
 
     static final double SPEED_REDUCTION = 0.5;
 
-    public LiftManually() {
+    public DriveFourBarLift() {
         requires(Robot.sub_fourbarlift);
     }
 

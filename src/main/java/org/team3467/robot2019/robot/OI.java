@@ -14,18 +14,14 @@ import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimb;
 import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
-import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
 import org.team3467.robot2019.subsystems.CargoHold.ReleaseCargo;
-import org.team3467.robot2019.subsystems.CargoHold.StopCargoHold;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
 import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
-import org.team3467.robot2019.subsystems.CargoIntake.UpdateIntakeStats;
+import org.team3467.robot2019.subsystems.CargoLift.DriveFourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
-import org.team3467.robot2019.subsystems.CargoLift.LiftManually;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
-import org.team3467.robot2019.subsystems.CargoLift.UpdateLiftStats;
 import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Climber.DriveClimber;
 import org.team3467.robot2019.subsystems.Climber.KeepIn;
@@ -94,15 +90,15 @@ public class OI {
 		// The "X" button activates "turn in place" while held down
 		new XboxControllerButton(driverController, XboxController.Button.kX).whileActive(new DriveBot(DriveBot.driveMode_RocketSpin, false));
 
-		// The "B" button grabs the hatch cover
-        new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new GrabHatch());
-        // The "Y" button releases the hatch cover
-        new XboxControllerButton(driverController, XboxController.Button.kY).whenPressed(new ReleaseHatch());
+        // The "B" button releases the hatch cover when pressed, then resets the hatch grabber when released
+        new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new ReleaseHatch());
+        new XboxControllerButton(driverController, XboxController.Button.kB).whenReleased(new GrabHatch());
         
+        // *** These are on Button Box now
         // The "LeftBumper" button retracts the hatch mechanism
-        new XboxControllerButton(driverController, XboxController.Button.kBumperLeft).whenPressed(new StowGrabber());
+        //new XboxControllerButton(driverController, XboxController.Button.kBumperLeft).whenPressed(new StowGrabber());
 		// The "RightBumper" button deploys the hatch mechanism
-        new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
+        //new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
 
         // Do Auto Lineup and move toward hatch or cargo markings using LimeLight tracking
         new XBoxControllerDPad(driverController, XboxController.DPad.kDPadLeft).whileActive(new AutoLineup());
@@ -113,49 +109,61 @@ public class OI {
 		 * 
 		 */
         
-         //
+        //
+        // Manual manipulation of Cargo Lift, Cargo Intake Arm, Pole Jack, and Hatch Grabber Arm
+        //
+        // Press and hold the "Start" button to drive the Cargo Lift manually using the Left (down) and Right (up) Triggers
+        new XboxControllerButton(operatorController, XboxController.Button.kStart).whileHeld(new DriveFourBarLift());
+
+        // Press and hold the "A" button to drive the Intake Arm angle with the Right Stick X-Axis
+        new XboxControllerButton(operatorController, XboxController.Button.kA).whileHeld(new DriveCargoIntakeArm());
+
+        // Press and hold the "Y" button to drive the Pole Jack with the Left Stick Y-Axis
+        new XboxControllerButton(operatorController, XboxController.Button.kY).whileHeld(new DriveClimber());
+
+        // Press and hold the "B" button to drive the Hatch Grabber with the Left Stick X-Axis
+        new XboxControllerButton(operatorController, XboxController.Button.kA).whileHeld(new DriveHatchDeployment());
+
+        // ******************************************************************************//
+        // *****  All of the following are now controllable on the Button Box  **********//
+        // ******************************************************************************//
+        //
+        // Cargo Lift Setpoints
+        //
+        // Go directly to Cargo setpoints using Left Bumper and DPad
+        // new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft)
+        //    .whenPressed(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.INTAKE));
+        // new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown)
+        //    .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
+        // new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft)
+        //    .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
+        // new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight)
+        //    .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
+        // new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp)
+        //    .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
+        
+        //
         // Cargo Hold
         //
         // Pressing down the Left Stick will turn the Cargo Hold Roller ON
         // PRESS "Back" Button to turn it OFF!
         //
-        new XboxControllerButton(operatorController, XboxController.Button.kStickLeft).whenPressed(new DriveCargoHoldRollers());
+        //new XboxControllerButton(operatorController, XboxController.Button.kStickLeft).whenPressed(new DriveCargoHoldRollers());
                 
-        //
-        // Cargo Lift
-        //
-        // Press and hold the "Start" button to drive the Cargo Lift manually using the Left (down) and Right (up) Triggers
-        new XboxControllerButton(operatorController, XboxController.Button.kStart).whileHeld(new LiftManually());
-
-        // Go directly to Cargo setpoints using Left Bumper and DPad
-        new XboxControllerButton(operatorController, XboxController.Button.kBumperLeft)
-            .whenPressed(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.INTAKE));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadDown)
-            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.CARGO_SHIP));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadLeft)
-            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L1));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadRight)
-            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L2));
-        new XBoxControllerDPad(operatorController, XboxController.DPad.kDPadUp)
-            .whenActive(new MoveCargoLift(FourBarLift.eFourBarLiftPosition.L3));
-        
         //
         // Cargo Intake Arm
         //
         // The "X" button will Stow the Arm
-        new XboxControllerButton(operatorController, XboxController.Button.kX)
-            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
+        //new XboxControllerButton(operatorController, XboxController.Button.kX)
+        //    .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
 
         // The "Y" button will move the Arm to Collect position
-        new XboxControllerButton(operatorController, XboxController.Button.kY)
-            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.INTAKE));
+        //new XboxControllerButton(operatorController, XboxController.Button.kY)
+        //    .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.INTAKE));
 
 		// The "B" button will move the Arm to Lift and Crawl position
-        new XboxControllerButton(operatorController, XboxController.Button.kB)
-            .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
-
-        // Press and hold the "A" button to drive the Intake Arm angle with the Right Stick X-Axis
-        new XboxControllerButton(operatorController, XboxController.Button.kA).whileHeld(new DriveCargoIntakeArm());
+        //new XboxControllerButton(operatorController, XboxController.Button.kB)
+        //    .whenPressed(new MoveCargoIntakeArm(CargoIntake.eCargoIntakeArmPosition.RETRACTED));
 
 
         //
@@ -164,22 +172,10 @@ public class OI {
         // Pressing down the Right Stick will turn Cargo Intake Roller control on
         // PRESS "A" Button to turn it OFF!
         //
-         new XboxControllerButton(operatorController, XboxController.Button.kStickRight).whenPressed(new DriveCargoIntakeRoller());
+        // new XboxControllerButton(operatorController, XboxController.Button.kStickRight).whenPressed(new DriveCargoIntakeRoller());
 
 
-		/*
-		 * 
-		 * 3rd XBox Controller
-		 * 
-		 */
-
-        //new XboxControllerButton(autoseqController, XboxController.Button.kY)
-        //    .whenPressed(new PrepareToIntakeCargo());
-
-        //new XboxControllerButton(autoseqController, XboxController.Button.kA)
-        //    .whenPressed(new StowCargo());
-        
-
+		
 		/*
 		 * 
 		 * Button Box
@@ -203,18 +199,18 @@ public class OI {
         //  Function: Cargo Hold motor reverses to release ball
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kSpitCargo).whileHeld(new ReleaseCargo());
         
-        //  Button 4 = GrabHatch
+        //  Button 4 = DeployHatch
         //  Function: Lowers Hatch Grabber to Feeding Station height
-        //    If Limit Switch is on grabber is pressed, then pulse driver gamepad once
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kGrabHatch).whenPressed(new GrabHatch());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new DeployGrabber());
         
-        //  Button 5 = ReleaseHatch
-        //  Function: Release Hatch from grabber
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
-        
-        //  Button 6 = StowGrabber
-        //Function: Raises Hatch Grabber to upright/stowed position
+        //  Button 5 = StowHatch
+        //  Function: Raises Hatch Grabber to upright/stowed position
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new StowGrabber());
+        
+        //  Button 6 = ReleaseHatch
+        //  Function: Release Hatch from grabber when pressed, reset to grab when button is released
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenReleased(new GrabHatch());
         
         //  Button 7 = LiftCargo1
         //  Function: Raises Cargo Hold to Rocket Level 1
@@ -275,23 +271,30 @@ public class OI {
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whileHeld(new AutoLineup());
 
 
+        //
         // Commands to drag onto the ShuffleBoard
-        SmartDashboard.putData(new IntakeCargo());
-        SmartDashboard.putData(new ReleaseCargo());
-        SmartDashboard.putData(new StopCargoHold());
-        SmartDashboard.putData(new DriveHatchDeployment());
+        //
+        // Most of these are also accesible on the Operator Contoller
+        // (initiated by pressing a specific button)
+        SmartDashboard.putData(new DriveFourBarLift());
         SmartDashboard.putData(new DriveCargoIntakeArm());
-        SmartDashboard.putData(new UpdateIntakeStats());
-        SmartDashboard.putData(new MoveCargoLift());
-        SmartDashboard.putData(new UpdateLiftStats());
         SmartDashboard.putData(new DriveClimber());
+        SmartDashboard.putData(new DriveHatchDeployment());
         SmartDashboard.putData(new ZeroHatchEncoder());
 
+        //SmartDashboard.putData(new IntakeCargo());
+        //SmartDashboard.putData(new ReleaseCargo());
+        //SmartDashboard.putData(new StopCargoHold());
+        //SmartDashboard.putData(new UpdateIntakeStats());
+        //SmartDashboard.putData(new MoveCargoLift());
+        //SmartDashboard.putData(new UpdateLiftStats());
+        //SmartDashboard.putData(new UpdateHatchStats());
         
     }
 
-    //Easier access to xbox controller
-
+    //
+    // Easier access to XBox controllers
+    //
     public static XboxController getDriverController() {
         return driverController;
     }
