@@ -122,7 +122,7 @@ public class OI {
         new XboxControllerButton(operatorController, XboxController.Button.kY).whileHeld(new DriveClimber());
 
         // Press and hold the "B" button to drive the Hatch Grabber with the Left Stick X-Axis
-        new XboxControllerButton(operatorController, XboxController.Button.kA).whileHeld(new DriveHatchDeployment());
+        new XboxControllerButton(operatorController, XboxController.Button.kB).whileHeld(new DriveHatchDeployment());
 
         // ******************************************************************************//
         // *****  All of the following are now controllable on the Button Box  **********//
