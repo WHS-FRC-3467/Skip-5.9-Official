@@ -21,6 +21,7 @@ import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeRoller;
 import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
+import org.team3467.robot2019.subsystems.CargoIntake.StartIntakeManual;
 import org.team3467.robot2019.subsystems.CargoLift.DriveFourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
@@ -203,16 +204,17 @@ public class OI {
         
         //  Button 4 = DeployHatch
         //  Function: Lowers Hatch Grabber to Feeding Station height
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new DeployGrabber());
-        
+      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new DeployGrabber());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whileHeld(new StartIntakeManual());
+
         //  Button 5 = StowHatch
         //  Function: Raises Hatch Grabber to upright/stowed position
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new StowGrabber());
+      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new StowGrabber());
         
         //  Button 6 = ReleaseHatch
         //  Function: Release Hatch from grabber when pressed, reset to grab when button is released
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenReleased(new GrabHatch());
+      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
+      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenReleased(new GrabHatch());
         
         //  Button 7 = LiftCargo1
         //  Function: Raises Cargo Hold to Rocket Level 1
