@@ -44,7 +44,7 @@ public class IntakeCargo extends Command {
     @Override
     protected void end()
     {
-        Robot.sub_cargohold.stop();
+        //Robot.sub_cargohold.stop();
     }
 
     // Called when another command which requires one or more of the same

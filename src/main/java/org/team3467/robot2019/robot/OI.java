@@ -14,6 +14,8 @@ import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimb;
 import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
+import org.team3467.robot2019.subsystems.CargoHold.HoldCargo;
+import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
 import org.team3467.robot2019.subsystems.CargoHold.ReleaseCargo;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
 import org.team3467.robot2019.subsystems.CargoIntake.DriveCargoIntakeArm;
@@ -258,7 +260,7 @@ public class OI {
         
         //  Button 18 = ClimbRetract
         //  Function: Retract Polejack
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(1.0));
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(0.9));
         
         //  Button 19 = ClimbCrawl
         //  Function: Lower Cargo Intake to CRAWL position and slowly pull onto Hab level
@@ -268,7 +270,7 @@ public class OI {
         //  Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
         //  Assumes: Robot is within range for LimeLight to obtain and track target
         //  Turn on LEDs and switch to Vision mode while tracking; turn off LEDs and return to Driver mode when done 
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whileHeld(new AutoLineup());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whenPressed(new IntakeCargo());
 
 
         //

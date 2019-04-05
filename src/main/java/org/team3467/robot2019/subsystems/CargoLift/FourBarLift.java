@@ -16,7 +16,7 @@ public class FourBarLift extends Subsystem {
     //TODO implement Hatch level encoder values here
     public enum eFourBarLiftPosition {
         HOME(10, "HOME"),
-        INTAKE(400, "INTAKE"),
+        INTAKE(200, "INTAKE"),
         HATCH_1(2000, "HATCH LEVEL ONE"),
         L1(5300, "ROCKET LEVEL ONE"),
         OUTOFTHEWAY(7200,  "OUT OF THE WAY"),

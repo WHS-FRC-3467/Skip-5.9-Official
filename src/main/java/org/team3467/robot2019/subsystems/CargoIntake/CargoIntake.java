@@ -27,7 +27,7 @@ public class CargoIntake extends Subsystem
         // Safely outside the Lift "swing zone"
         OUTSIDE(1400, "OUTSIDE"),   // TODO: Check this value
         // Cargo Intake position
-        INTAKE(1500, "INTAKE"),
+        INTAKE(1550, "INTAKE"),
         // HAB-top Crawling position
         CRAWL(2100,"CRAWL");
 
@@ -205,12 +205,12 @@ public class CargoIntake extends Subsystem
         // to the position; Keep PID going to hold position
         if (position == eCargoIntakeArmPosition.CRAWL)
         {
-            if (checkArmOnTarget(position))
-            {
+            //if (checkArmOnTarget(position))
+            //{
                 driveRollerManually(CRAWL_SPEED);
-            }
-            else
-                driveRollerManually(0.0);
+            //}
+            //else
+            //    driveRollerManually(0.0);
         } 
     
         return false;

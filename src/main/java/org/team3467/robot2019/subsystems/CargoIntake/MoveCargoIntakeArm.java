@@ -29,7 +29,7 @@ public class MoveCargoIntakeArm extends Command {
 
         // Set default closed loop tolerances for this command sequence
         if (m_position == CargoIntake.eCargoIntakeArmPosition.CRAWL)
-            Robot.sub_cargointake.setTolerance(75);
+            Robot.sub_cargointake.setTolerance(50);
         else
             Robot.sub_cargointake.setTolerance(10);
     }

@@ -21,7 +21,7 @@ public class CargoHold extends Subsystem
 {
     // Public current levels for operation of the Cargo Hold
     public static final double CARGO_HOLD_PICKUP_CURRENT = 6.0;
-    public static final double CARGO_HOLD_STALL_CURRENT = 3.0;
+    public static final double CARGO_HOLD_STALL_CURRENT = 5.0;
     
     private TalonSRX m_cargoHold = new TalonSRX(RobotGlobal.CARGO_HOLD);
 
@@ -94,7 +94,7 @@ public class CargoHold extends Subsystem
         // TODO: May be able to lower the multiplication factor here to see if it registers a "hold" more quickly
         // now that we start the rollers earlier in the command and hopefully avoid false positives from the roller
         // startup current surge.
-        retVal = (m_motorCurrent >= (currentLevel*1.1));
+        retVal = (m_motorCurrent >= (currentLevel*1.05));
     
         if (!noStats)
         {

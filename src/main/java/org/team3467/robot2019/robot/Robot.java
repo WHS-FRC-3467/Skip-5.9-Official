@@ -8,9 +8,12 @@ import org.team3467.robot2019.subsystems.Drivetrain.Drivetrain;
 import org.team3467.robot2019.subsystems.FieldCamera.FieldCamera;
 import org.team3467.robot2019.subsystems.Hatch.HatchGrabber;
 import org.team3467.robot2019.subsystems.LED.LEDSerial;
+import org.team3467.robot2019.subsystems.Limelight.Limelight;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Robot extends TimedRobot {
@@ -55,6 +58,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
      //   robot_oi.shuffleboardUpdate();
 
+     publishMatchTime();
        
     }
 
@@ -93,6 +97,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        Limelight.setPipeline(0); // set the limelight vision mode to normal vision
 
     }
 
@@ -106,6 +111,7 @@ public class Robot extends TimedRobot {
 
         // Remove any commands letover from prior runs
         Scheduler.getInstance().removeAll();
+        Limelight.setPipeline(0); // set the limelight vision mode to normal vision
 
     }
 
@@ -120,5 +126,16 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
     }
+
+
+    public void publishMatchTime() {
+         try {
+            SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
+
+         } catch(Exception e) {
+            SmartDashboard.putNumber("Match Time", -99999);
+         }
+    }
+
 
 }

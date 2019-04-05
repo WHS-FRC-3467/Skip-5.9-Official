@@ -40,7 +40,7 @@ public class FieldCamera extends Subsystem {
 
 
     	// Run one USB camera
-    	// runOne();
+    	 runOne();
 
     	// Run two USB cameras
     	// runTwo();
@@ -51,7 +51,9 @@ public class FieldCamera extends Subsystem {
 		UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture("MS Lifecam Camera", 0);
         //camera1.setResolution(320, 240);
         //camera1.setFPS(15);
-        camera1.setResolution(640, 480);
+		camera1.setResolution(640, 480);
+		camera1.setExposureAuto();
+		camera1.setWhiteBalanceAuto();
         camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
         
         // These settings should be less than 1mbps streaming to Shuffleboard.
