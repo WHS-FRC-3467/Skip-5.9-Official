@@ -13,25 +13,28 @@ import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class QueueForClimb extends Command {
+public class QueueForClimbOrDefense extends Command {
 
     // Command States
     private enum eCmdState {
         LiftUp,
         IntakeOut,
         LiftIn,
-        IntakeVertical;
+        IntakeToTarget;
     }
 
     private eCmdState m_currentState;
     private boolean m_isFinished;
     private int m_counter;
     private ArmMonitor.eArmPositions m_armPos;
+    private CargoIntake.eCargoIntakeArmPosition m_targetArmPosition;
 
-    public QueueForClimb()
+    public QueueForClimbOrDefense(CargoIntake.eCargoIntakeArmPosition targetArmPosition)
     {
         requires(Robot.sub_cargointake);
         requires(Robot.sub_fourbarlift);
+
+        m_targetArmPosition = targetArmPosition;
     }
 
     protected void initialize()
@@ -66,7 +69,7 @@ public class QueueForClimb extends Command {
 
         case INTAKE_VERTICAL_LIFT_IN:
         case INTAKE_OUT_LIFT_IN:
-            m_currentState = eCmdState.IntakeVertical;
+            m_currentState = eCmdState.IntakeToTarget;
             break;
         }
     }
@@ -114,17 +117,17 @@ public class QueueForClimb extends Command {
             if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.HOME))
             {
                 // .. and if so, start the Intake Arm position
-                m_currentState  = eCmdState.IntakeVertical;
+                m_currentState  = eCmdState.IntakeToTarget;
             }
             break;
 
-        case IntakeVertical:
+        case IntakeToTarget:
 
             // Start Intake Arm movement
-            Robot.sub_cargointake.moveArmToPosition(CargoIntake.eCargoIntakeArmPosition.VERTICAL, (m_counter == 0));
+            Robot.sub_cargointake.moveArmToPosition(m_targetArmPosition, (m_counter == 0));
             
             // Check if Arm is in position...
-            if (Robot.sub_cargointake.checkArmOnTarget(CargoIntake.eCargoIntakeArmPosition.VERTICAL))
+            if (Robot.sub_cargointake.checkArmOnTarget(m_targetArmPosition))
             {
                 // .. and if so, we're done
                 m_isFinished = true;
@@ -149,7 +152,7 @@ public class QueueForClimb extends Command {
         /*
             This command will end with:
             1) 4BarLift STOWED
-            3) CargoIntake VERTICAL
+            3) CargoIntake at desired target: either VERTICAL or DEFENSE
             4) CargoIntake rollers off
         */
     }

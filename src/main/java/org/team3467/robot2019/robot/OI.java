@@ -10,7 +10,7 @@ import org.team3467.robot2019.robot.Control.XboxControllerButton;
 import org.team3467.robot2019.subsystems.AutoSequence.HighCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.LowCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.PrepareToIntakeCargo;
-import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimb;
+import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimbOrDefense;
 import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
@@ -97,11 +97,11 @@ public class OI {
         new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new ReleaseHatch());
         new XboxControllerButton(driverController, XboxController.Button.kB).whenReleased(new GrabHatch());
         
-        // *** These are on Button Box now
+        
         // The "LeftBumper" button retracts the hatch mechanism
-        //new XboxControllerButton(driverController, XboxController.Button.kBumperLeft).whenPressed(new StowGrabber());
+        new XboxControllerButton(driverController, XboxController.Button.kBumperLeft).whenPressed(new StowGrabber());
 		// The "RightBumper" button deploys the hatch mechanism
-        //new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
+        new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
 
         // Do Auto Lineup and move toward hatch or cargo markings using LimeLight tracking
         new XBoxControllerDPad(driverController, XboxController.DPad.kDPadLeft).whileActive(new AutoLineup());
@@ -111,7 +111,12 @@ public class OI {
 		 * Operator Controller
 		 * 
 		 */
-        
+        //
+        // Defense Mode
+        //
+        // Press the "X" button to position the Cargo Intake outside of the Cargo Lift in a position where it holds the Lift in with little pressure
+        new XboxControllerButton(operatorController, XboxController.Button.kX).whenPressed(new QueueForClimbOrDefense(CargoIntake.eCargoIntakeArmPosition.DEFENSE));
+
         //
         // Manual manipulation of Cargo Lift, Cargo Intake Arm, Pole Jack, and Hatch Grabber Arm
         //
@@ -202,8 +207,8 @@ public class OI {
         //  Function: Cargo Hold motor reverses to release ball
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kSpitCargo).whileHeld(new ReleaseCargo());
         
-        //  Button 4 = DeployHatch
-        //  Function: Lowers Hatch Grabber to Feeding Station height
+        //  Button 4 = Start Cargo Intake
+        //  Function: Starts the Cargo Intake rollers in the Intake direction
       //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new DeployGrabber());
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whileHeld(new StartIntakeManual());
 
@@ -250,7 +255,7 @@ public class OI {
         
         //  Button 15 = QueueClimber
         //  Function: Moves Cargo Intake to vertical: ready to climb
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kQueueClimber).whenPressed(new QueueForClimb());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kQueueClimber).whenPressed(new QueueForClimbOrDefense(CargoIntake.eCargoIntakeArmPosition.VERTICAL));
         
         //  Button 16 = ClimbHab2
         //  Function: Raises PoleJack to Hab 2 Level
