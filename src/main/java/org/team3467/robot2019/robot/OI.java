@@ -207,19 +207,23 @@ public class OI {
         //  Function: Cargo Hold motor reverses to release ball
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kSpitCargo).whileHeld(new ReleaseCargo());
         
-        //  Button 4 = Start Cargo Intake
-        //  Function: Starts the Cargo Intake rollers in the Intake direction
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new DeployGrabber());
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whileHeld(new StartIntakeManual());
+        //  Button 4 = Deploy Hatch Grabber
+        //  Function: Lowers Hatch Grabber to horizontal delivery/pickup position
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new DeployGrabber());
 
-        //  Button 5 = StowHatch
-        //  Function: Raises Hatch Grabber to upright/stowed position
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new StowGrabber());
+        //  Button 5 = Stow Hatch Grabber
+        //  Function: Raises Hatch Grabber to upright stowed position
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new StowGrabber());
         
         //  Button 6 = ReleaseHatch
         //  Function: Release Hatch from grabber when pressed, reset to grab when button is released
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenReleased(new GrabHatch());
+        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
+        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenReleased(new GrabHatch());
+
+        //  Button 6 = Alternate Use
+        //  *** Run Cargo Intake Rollers ***
+        //  Function: Starts the Cargo Intake rollers in the Intake direction
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whileHeld(new StartIntakeManual());
         
         //  Button 7 = LiftCargo1
         //  Function: Raises Cargo Hold to Rocket Level 1
@@ -277,8 +281,13 @@ public class OI {
         //  Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
         //  Assumes: Robot is within range for LimeLight to obtain and track target
         //  Turn on LEDs and switch to Vision mode while tracking; turn off LEDs and return to Driver mode when done 
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whenPressed(new IntakeCargo());
+        // new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whenPressed(new AutoLineup());
 
+        //  Button 20 = Alternate Use
+        //  *** Run Cargo Hold as Intake ***
+        //  Function: Run the Cargo Hold in the Intake mode (Current PID control)
+        //  This insures the Cargo Hold continues working after Cargo is picked up off the ground
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whenPressed(new IntakeCargo());
 
         //
         // Commands to drag onto the ShuffleBoard
