@@ -10,7 +10,7 @@ import org.team3467.robot2019.robot.Control.XboxControllerButton;
 import org.team3467.robot2019.subsystems.AutoSequence.HighCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.LowCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.PrepareToIntakeCargo;
-import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimb;
+import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimbOrDefense;
 import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
 import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
@@ -24,6 +24,7 @@ import org.team3467.robot2019.subsystems.CargoIntake.MoveCargoIntakeArm;
 import org.team3467.robot2019.subsystems.CargoIntake.StartIntakeManual;
 import org.team3467.robot2019.subsystems.CargoLift.DriveFourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
+import org.team3467.robot2019.subsystems.CargoLift.IncrementCargoLift;
 import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
 import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Climber.DriveClimber;
@@ -97,11 +98,11 @@ public class OI {
         new XboxControllerButton(driverController, XboxController.Button.kB).whenPressed(new ReleaseHatch());
         new XboxControllerButton(driverController, XboxController.Button.kB).whenReleased(new GrabHatch());
         
-        // *** These are on Button Box now
+        
         // The "LeftBumper" button retracts the hatch mechanism
-        //new XboxControllerButton(driverController, XboxController.Button.kBumperLeft).whenPressed(new StowGrabber());
+        new XboxControllerButton(driverController, XboxController.Button.kBumperLeft).whenPressed(new StowGrabber());
 		// The "RightBumper" button deploys the hatch mechanism
-        //new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
+        new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
 
         // Do Auto Lineup and move toward hatch or cargo markings using LimeLight tracking
         new XBoxControllerDPad(driverController, XboxController.DPad.kDPadLeft).whileActive(new AutoLineup());
@@ -111,7 +112,12 @@ public class OI {
 		 * Operator Controller
 		 * 
 		 */
-        
+        //
+        // Defense Mode
+        //
+        // Press the "X" button to position the Cargo Intake outside of the Cargo Lift in a position where it holds the Lift in with little pressure
+        new XboxControllerButton(operatorController, XboxController.Button.kX).whenPressed(new QueueForClimbOrDefense(CargoIntake.eCargoIntakeArmPosition.DEFENSE));
+
         //
         // Manual manipulation of Cargo Lift, Cargo Intake Arm, Pole Jack, and Hatch Grabber Arm
         //
@@ -202,19 +208,24 @@ public class OI {
         //  Function: Cargo Hold motor reverses to release ball
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kSpitCargo).whileHeld(new ReleaseCargo());
         
-        //  Button 4 = DeployHatch
-        //  Function: Lowers Hatch Grabber to Feeding Station height
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new DeployGrabber());
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whileHeld(new StartIntakeManual());
+        //  Button 4 = Deploy Hatch Grabber
+        //  Function: Lowers Hatch Grabber to horizontal delivery/pickup position
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kDeployHatch).whenPressed(new IncrementCargoLift(true,350));
 
-        //  Button 5 = StowHatch
-        //  Function: Raises Hatch Grabber to upright/stowed position
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new StowGrabber());
+        //  Button 5 = Stow Hatch Grabber
+        //  Function: Raises Hatch Grabber to upright stowed position
+
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kStowHatch).whenPressed(new IncrementCargoLift(false, 350));
         
         //  Button 6 = ReleaseHatch
         //  Function: Release Hatch from grabber when pressed, reset to grab when button is released
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
-      //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenReleased(new GrabHatch());
+        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenPressed(new ReleaseHatch());
+        //  new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whenReleased(new GrabHatch());
+
+        //  Button 6 = Alternate Use
+        //  *** Run Cargo Intake Rollers ***
+        //  Function: Starts the Cargo Intake rollers in the Intake direction
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kReleaseHatch).whileHeld(new StartIntakeManual());
         
         //  Button 7 = LiftCargo1
         //  Function: Raises Cargo Hold to Rocket Level 1
@@ -250,7 +261,7 @@ public class OI {
         
         //  Button 15 = QueueClimber
         //  Function: Moves Cargo Intake to vertical: ready to climb
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kQueueClimber).whenPressed(new QueueForClimb());
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kQueueClimber).whenPressed(new QueueForClimbOrDefense(CargoIntake.eCargoIntakeArmPosition.VERTICAL));
         
         //  Button 16 = ClimbHab2
         //  Function: Raises PoleJack to Hab 2 Level
@@ -272,8 +283,13 @@ public class OI {
         //  Function: Line up with reflective tape on level 1 at Cargo Ship and Rocket
         //  Assumes: Robot is within range for LimeLight to obtain and track target
         //  Turn on LEDs and switch to Vision mode while tracking; turn off LEDs and return to Driver mode when done 
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whenPressed(new IntakeCargo());
+        // new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whenPressed(new AutoLineup());
 
+        //  Button 20 = Alternate Use
+        //  *** Run Cargo Hold as Intake ***
+        //  Function: Run the Cargo Hold in the Intake mode (Current PID control)
+        //  This insures the Cargo Hold continues working after Cargo is picked up off the ground
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kAutoLineUp).whenPressed(new IntakeCargo());
 
         //
         // Commands to drag onto the ShuffleBoard

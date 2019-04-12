@@ -22,10 +22,12 @@ public class CargoIntake extends Subsystem
     { 
         // Fully retracted
         RETRACTED(0, "RETRACTED"),
+        // Outide the lift, retracted back against it (but not applying pressure)
+        DEFENSE(500,"DEFENSE"),   // TODO: Check this value
         // Standing vertical inside bumper perimeter
-        VERTICAL(800,"VERTICAL"),   // TODO: Check this value
+        VERTICAL(800,"VERTICAL"),
         // Safely outside the Lift "swing zone"
-        OUTSIDE(1400, "OUTSIDE"),   // TODO: Check this value
+        OUTSIDE(1400, "OUTSIDE"),
         // Cargo Intake position
         INTAKE(1550, "INTAKE"),
         // HAB-top Crawling position

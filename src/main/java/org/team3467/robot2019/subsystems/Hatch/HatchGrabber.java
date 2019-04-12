@@ -18,7 +18,7 @@ public class HatchGrabber extends Subsystem {
     public enum eHGAPosition {
         START(0, "START"),
         STOW(10, "STOW"),
-        PLACE(1450, "PLACE");
+        PLACE(1550, "PLACE");
 
         private final int setpoint;
         private final String name;

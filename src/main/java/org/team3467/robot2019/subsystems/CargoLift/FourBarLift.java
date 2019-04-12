@@ -23,7 +23,7 @@ public class FourBarLift extends Subsystem {
         CARGO_SHIP(8800,  "CARGO SHIP"),
         HATCH_2(9400, "HATCH LEVEL TWO"),
         L2(11681, "ROCKET LEVEL TWO"),
-        HATCH_3(14750, "HATCH LEVEL THREE"),
+        HATCH_3(14550, "HATCH LEVEL THREE"),
         L3(17100, "ROCKET LEVEL THREE");
 
 
@@ -122,6 +122,13 @@ public class FourBarLift extends Subsystem {
      */
     public void driveManual(double speed) {
         m_liftMotor.set(ControlMode.PercentOutput, speed);
+        updatePosition();
+    }
+
+    public void moveLiftToExactPosition(int position) {
+        m_liftMotor.runMotionMagic(position);
+
+        reportStats();
         updatePosition();
     }
 

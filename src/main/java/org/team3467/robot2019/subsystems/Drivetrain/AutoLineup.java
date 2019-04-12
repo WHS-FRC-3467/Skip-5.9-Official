@@ -25,21 +25,20 @@ public class AutoLineup extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Limelight.setLedMode(LightMode.eOn);
-        Limelight.setCameraMode(CameraMode.eVision);
+        Limelight.setPipeline(1);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
         //step 1: get the most updated limelight/lidar data
-        double target_error = Limelight.getTx()+0.2;
+        double target_error = Limelight.getTx()+0.0;
         //System.out.println("Limelight Error: " + target_error);
 
         //step 2: calculate the power needed to get perfectly inline
 
         //step 3: move
-        Robot.sub_drivetrain.drive(-0.5, (target_error*-0.02), true);
+        Robot.sub_drivetrain.drive(-0.2, (target_error*0.04), true);
 
     }
 
@@ -50,8 +49,7 @@ public class AutoLineup extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Limelight.setLedMode(LightMode.eOff);
-        Limelight.setCameraMode(CameraMode.eDriver);            
+        Limelight.setPipeline(0);            
     }
 
     // Called when another command which requires one or more of the same

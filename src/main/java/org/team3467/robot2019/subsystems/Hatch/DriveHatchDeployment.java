@@ -29,6 +29,15 @@ public class DriveHatchDeployment extends Command {
   @Override
   protected void execute() {
 
+
+    if(Robot.robot_oi.getOperatorController().getXButton()) {
+      Robot.sub_fourbarlift.zeroLiftEncoder();
+      Robot.sub_cargointake.zeroArmEncoder();
+      Robot.sub_hatchgrabber.zeroHGAEncoder();
+      System.out.println("zeroing is complete.");
+    }
+
+
     double speed = OI.getOperatorLeftX();
 
     if ((speed > 0.05) || (speed < -0.05))
