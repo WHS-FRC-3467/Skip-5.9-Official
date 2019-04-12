@@ -105,8 +105,9 @@ public class OI {
         new XboxControllerButton(driverController, XboxController.Button.kBumperRight).whenPressed(new DeployGrabber());
 
         // Do Auto Lineup and move toward hatch or cargo markings using LimeLight tracking
-        new XBoxControllerDPad(driverController, XboxController.DPad.kDPadLeft).whileActive(new AutoLineup());
+      //  new XBoxControllerDPad(driverController, XboxController.DPad.kDPadLeft).whileActive(new AutoLineup());
 
+        new XboxControllerButton(driverController, XboxController.Button.kStickLeft).whileActive(new AutoLineup());  
 		/*
 		 * 
 		 * Operator Controller

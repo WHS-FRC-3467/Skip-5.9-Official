@@ -5,6 +5,8 @@
 package org.team3467.robot2019.subsystems.CargoHold;
 
 import org.team3467.robot2019.robot.Robot;
+import org.team3467.robot2019.subsystems.Limelight.Limelight;
+import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -28,6 +30,7 @@ public class ReleaseCargo extends Command
   @Override
   protected void initialize()
   {
+    Limelight.setLedMode(LightMode.eBlink);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -49,6 +52,8 @@ public class ReleaseCargo extends Command
   protected void end()
   {
     Robot.sub_cargohold.stop();
+    Limelight.setLedMode(LightMode.eOff);
+
   }
 
   // Called when another command which requires one or more of the same

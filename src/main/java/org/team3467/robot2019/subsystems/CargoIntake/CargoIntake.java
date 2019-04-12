@@ -23,7 +23,7 @@ public class CargoIntake extends Subsystem
         // Fully retracted
         RETRACTED(0, "RETRACTED"),
         // Outide the lift, retracted back against it (but not applying pressure)
-        DEFENSE(500,"DEFENSE"),   // TODO: Check this value
+        DEFENSE(520,"DEFENSE"),   // TODO: Check this value
         // Standing vertical inside bumper perimeter
         VERTICAL(800,"VERTICAL"),
         // Safely outside the Lift "swing zone"

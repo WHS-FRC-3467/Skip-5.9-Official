@@ -17,7 +17,7 @@ public class Limelight {
 	 * @author Dan Waxman
 	 */
 	public static enum LightMode {
-		eOn, eOff, eBlink
+		eOn, eOff, eBlink, eLeft, eRight
 	}
 
 	/**
