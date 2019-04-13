@@ -17,6 +17,7 @@ public class FourBarLift extends Subsystem {
     public enum eFourBarLiftPosition {
         HOME(10, "HOME"),
         INTAKE(200, "INTAKE"),
+        SAFE_INTAKE_RANGE(1000, "SAFE INTAKE RANGE"),
         HATCH_1(2000, "HATCH LEVEL ONE"),
         L1(5300, "ROCKET LEVEL ONE"),
         OUTOFTHEWAY(7200,  "OUT OF THE WAY"),

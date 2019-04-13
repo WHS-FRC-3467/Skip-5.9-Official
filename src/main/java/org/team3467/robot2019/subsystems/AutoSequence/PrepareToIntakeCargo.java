@@ -133,14 +133,21 @@ public class PrepareToIntakeCargo extends Command
         
         case LiftToIntake:
 
-            // Go ahead and start the cargo hold rollers here to avoid any issues with startup "surges" affecting the Hold sensing
-            Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent, false);
-
             // Start Lift movement
             Robot.sub_fourbarlift.moveLiftToPosition(FourBarLift.eFourBarLiftPosition.INTAKE, (m_counter == 0));
             
-            // Check if Lift is in position...
-            if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.INTAKE))
+            // Go ahead and start the cargo hold rollers here to avoid any issues with startup "surges" affecting the Hold sensing
+            // If we are stuck in this mode long enoough for a cargo to enter (we started intake rollers manually?), then go to WaitForCapture mode
+            if (Robot.sub_cargohold.intakeCargo(m_cargoHoldCurrent, false))
+            {
+                m_currentState  = eCmdState.WaitForCapture;
+            }
+
+            // Start the WaitForCapture (and the Cargo Intake rollers) sooner (before 4Bar gets to INTAKE position).
+            // Minimizes the need to use StartIntakeManual().
+            // Check if Lift is in position or if it at least is in the SAFE INTAKE RANGE...
+            if (Robot.sub_fourbarlift.checkLiftOnTarget(FourBarLift.eFourBarLiftPosition.INTAKE) || 
+                Robot.sub_fourbarlift.getLiftEncoderPosition() < FourBarLift.eFourBarLiftPosition.SAFE_INTAKE_RANGE.getSetpoint())
             {
                 // .. and if so, start the wait for a Cargo capture
                 m_currentState  = eCmdState.WaitForCapture;
