@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-
+            System.out.println("moving the pole jack at : " + OI.getOperatorLeftY());
         double speed = OI.getOperatorLeftY();
         double encoderCnt = Robot.sub_climber.getEncoderCount();
         boolean limitSwitch = Robot.sub_climber.m_limitSw.get();

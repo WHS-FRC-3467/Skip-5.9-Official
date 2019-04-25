@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Climber extends Subsystem {
 
     public static final double HAB2_CLIMB_COUNT = 135.0;
-    public static final double HAB3_CLIMB_COUNT = 275.0;
+    public static final double HAB3_CLIMB_COUNT = 276.0;
     
     public CANSparkMax m_sparkMax = new CANSparkMax(RobotGlobal.CLIMBER_STILT, MotorType.kBrushless);
     public CANEncoder m_sparkEncoder;

@@ -56,9 +56,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-     //   robot_oi.shuffleboardUpdate();
 
      publishMatchTime();
+     SmartDashboard.putNumber("pole jack position", Robot.sub_climber.getEncoderCount());
        
     }
 
