@@ -23,7 +23,7 @@ public class CargoIntake extends Subsystem
         // Fully retracted
         RETRACTED(0, "RETRACTED"),
         // Outide the lift, retracted back against it (but not applying pressure)
-        DEFENSE(198,"DEFENSE"),   // TODO: Check this value
+        DEFENSE(503,"DEFENSE"),   // TODO: Check this value
         // Standing vertical inside bumper perimeter
         VERTICAL(800,"VERTICAL"),
         // Safely outside the Lift "swing zone"
@@ -31,7 +31,7 @@ public class CargoIntake extends Subsystem
         // Cargo Intake position
         INTAKE(1550, "INTAKE"),
         // HAB-top Crawling position
-        CRAWL(2100,"CRAWL");
+        CRAWL(2137,"CRAWL");
 
         private int IntakeArmPosition;
         private String IntakeArmPositionName;
