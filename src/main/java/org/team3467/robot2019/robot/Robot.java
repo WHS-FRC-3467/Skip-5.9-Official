@@ -58,7 +58,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
 
      publishMatchTime();
-     SmartDashboard.putNumber("pole jack position", Robot.sub_climber.getEncoderCount());
        
     }
 

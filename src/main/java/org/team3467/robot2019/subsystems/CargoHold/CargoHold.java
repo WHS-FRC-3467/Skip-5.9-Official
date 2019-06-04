@@ -91,7 +91,7 @@ public class CargoHold extends Subsystem
 
         m_motorCurrent = m_cargoHold.getOutputCurrent();
         // Return TRUE if currentLevel was met or exceeded on this pass
-        // TODO: May be able to lower the multiplication factor here to see if it registers a "hold" more quickly
+        // May be able to lower the multiplication factor here to see if it registers a "hold" more quickly
         // now that we start the rollers earlier in the command and hopefully avoid false positives from the roller
         // startup current surge.
         retVal = (m_motorCurrent >= (currentLevel*1.05));

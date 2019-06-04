@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FourBarLift extends Subsystem {
 
-    //TODO implement Hatch level encoder values here
+    // Implement Hatch level encoder values here
     public enum eFourBarLiftPosition {
         HOME(10, "HOME"),
         INTAKE(200, "INTAKE"),

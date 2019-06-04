@@ -36,6 +36,10 @@ public final class RobotGlobal {
     public final static int DIO_4BAR_LIFT = 2;
     public final static int DIO_CLIMBER = 3;
 
+    /* Pole Jack Encoder DI channels */
+    public final static int DIO_POLEJACK_ENCODER_C1 = 5;
+    public final static int DIO_POLEJACK_ENCODER_C2 = 6;
+
 }
 
 /*

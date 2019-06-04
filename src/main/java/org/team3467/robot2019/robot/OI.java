@@ -13,8 +13,6 @@ import org.team3467.robot2019.subsystems.AutoSequence.PrepareToIntakeCargo;
 import org.team3467.robot2019.subsystems.AutoSequence.QueueForClimbOrDefense;
 import org.team3467.robot2019.subsystems.AutoSequence.QuickCargoLift;
 import org.team3467.robot2019.subsystems.AutoSequence.StowCargo;
-import org.team3467.robot2019.subsystems.CargoHold.DriveCargoHoldRollers;
-import org.team3467.robot2019.subsystems.CargoHold.HoldCargo;
 import org.team3467.robot2019.subsystems.CargoHold.IntakeCargo;
 import org.team3467.robot2019.subsystems.CargoHold.ReleaseCargo;
 import org.team3467.robot2019.subsystems.CargoIntake.CargoIntake;
@@ -25,11 +23,10 @@ import org.team3467.robot2019.subsystems.CargoIntake.StartIntakeManual;
 import org.team3467.robot2019.subsystems.CargoLift.DriveFourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.IncrementCargoLift;
-import org.team3467.robot2019.subsystems.CargoLift.MoveCargoLift;
 import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Climber.DriveClimber;
 import org.team3467.robot2019.subsystems.Climber.KeepIn;
-import org.team3467.robot2019.subsystems.Climber.PIDClimber;
+import org.team3467.robot2019.subsystems.Climber.WPI_PIDClimber;
 import org.team3467.robot2019.subsystems.Drivetrain.AutoLineup;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
 import org.team3467.robot2019.subsystems.Hatch.DeployGrabber;
@@ -266,11 +263,11 @@ public class OI {
         
         //  Button 16 = ClimbHab2
         //  Function: Raises PoleJack to Hab 2 Level
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbHab2).whenPressed(new PIDClimber(Climber.HAB2_CLIMB_COUNT));
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbHab2).whenPressed(new WPI_PIDClimber(Climber.HAB2_CLIMB_COUNT));
         
         //  Button 17 = ClimbHab3
         //  Function: Raises PoleJack to Hab 3 Level
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbHab3).whenPressed(new PIDClimber(Climber.HAB3_CLIMB_COUNT));
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbHab3).whenPressed(new WPI_PIDClimber(Climber.HAB3_CLIMB_COUNT));
         
         //  Button 18 = ClimbRetract
         //  Function: Retract Polejack

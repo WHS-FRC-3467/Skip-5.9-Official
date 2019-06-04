@@ -30,21 +30,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-            System.out.println("moving the pole jack at : " + OI.getOperatorLeftY());
+
         double speed = OI.getOperatorLeftY();
+        SmartDashboard.putNumber("Climber Commanded Speed", speed);
         double encoderCnt = Robot.sub_climber.getEncoderCount();
         boolean limitSwitch = Robot.sub_climber.m_limitSw.get();
 
         if (speed > 0.2 )
         {
-            Robot.sub_climber.drive(speed * 0.5);
-        } else if (speed < -0.2 && limitSwitch == true && encoderCnt > 0.0) {
-            Robot.sub_climber.drive(speed * 0.5);
+            speed = speed * 0.5;
+        }
+        else if (speed < -0.2 && limitSwitch == true && encoderCnt > 0.0)
+        {
+            speed = speed * 0.5;
         }
         else
-            Robot.sub_climber.drive(0.0);
+        {
+            speed = 0.0;
+        }
+        Robot.sub_climber.drive(speed);
 
-        SmartDashboard.putNumber("Climber Speed", speed);
+        SmartDashboard.putNumber("Climber Actual Speed", speed);
         SmartDashboard.putNumber("Climber Encoder", encoderCnt);
         SmartDashboard.putBoolean("Climber Limit", limitSwitch);
     }
