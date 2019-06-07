@@ -271,7 +271,8 @@ public class OI {
         
         //  Button 18 = ClimbRetract
         //  Function: Retract Polejack
-        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(0.9));
+        //new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(-0.9));
+        new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new WPI_PIDClimber(0.0));
         
         //  Button 19 = ClimbCrawl
         //  Function: Lower Cargo Intake to CRAWL position and slowly pull onto Hab level

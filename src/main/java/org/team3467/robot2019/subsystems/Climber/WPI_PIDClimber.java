@@ -16,10 +16,10 @@ public class WPI_PIDClimber extends Command {
 	
 	private PIDController m_pid;
     private double m_setPoint = 0.0;
-    private double m_maxSpeed = 0.2;  // TODO: Bump this up to speed up PID action
+    private double m_maxSpeed = 0.95;  // TODO: Bump this up to speed up PID action
     private int m_statsCounter = 0;
     
-	private double KP = 1.0;
+	private double KP = 0.01;
 	private double KI = 0.0;
 	private double KD = 0.0;
 	
@@ -78,7 +78,7 @@ public class WPI_PIDClimber extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
  
-        if (m_statsCounter++ > 25) {
+        if (m_statsCounter++ > 5) {
             m_statsCounter = 0; // report stats when counter == 0
             Robot.sub_climber.reportClimberStats();
 		}
@@ -88,7 +88,9 @@ public class WPI_PIDClimber extends Command {
     protected boolean isFinished() {
 
     	double error = m_pid.getError();
-   		return ((error >= 0 && error <= TOLERANCE) || (error < 0 && error >= (-1.0)*TOLERANCE));
+        SmartDashboard.putNumber("Climber Error", error);   
+        return false;
+        //return ((error >= 0 && error <= TOLERANCE) || (error < 0 && error >= (-1.0)*TOLERANCE));
     }
 
     // Called once after isFinished returns true
@@ -98,9 +100,4 @@ public class WPI_PIDClimber extends Command {
         Robot.sub_climber.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	end();
-    }
 }

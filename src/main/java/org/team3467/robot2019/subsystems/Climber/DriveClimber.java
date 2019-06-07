@@ -34,13 +34,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         double speed = OI.getOperatorLeftY();
         SmartDashboard.putNumber("Climber Commanded Speed", speed);
         double encoderCnt = Robot.sub_climber.getEncoderCount();
-        boolean limitSwitch = Robot.sub_climber.m_limitSw.get();
 
         if (speed > 0.2 )
         {
             speed = speed * 0.5;
         }
-        else if (speed < -0.2 && limitSwitch == true && encoderCnt > 0.0)
+        else if (speed < -0.2 && encoderCnt > 0.0)
         {
             speed = speed * 0.5;
         }
@@ -52,7 +51,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
         SmartDashboard.putNumber("Climber Actual Speed", speed);
         SmartDashboard.putNumber("Climber Encoder", encoderCnt);
-        SmartDashboard.putBoolean("Climber Limit", limitSwitch);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -67,10 +65,4 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         Robot.sub_climber.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
-    protected void interrupted() {
-        end();
-    }
 }
