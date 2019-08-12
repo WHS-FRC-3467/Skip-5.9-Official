@@ -30,7 +30,7 @@ public class DriveHatchDeployment extends Command {
   protected void execute() {
 
 
-    if(Robot.robot_oi.getOperatorController().getXButton()) {
+    if(OI.getOperatorController().getXButton()) {
       Robot.sub_fourbarlift.zeroLiftEncoder();
       Robot.sub_cargointake.zeroArmEncoder();
       Robot.sub_hatchgrabber.zeroHGAEncoder();

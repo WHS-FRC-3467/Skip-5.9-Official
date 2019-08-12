@@ -25,7 +25,6 @@ import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.IncrementCargoLift;
 import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Climber.DriveClimber;
-import org.team3467.robot2019.subsystems.Climber.KeepIn;
 import org.team3467.robot2019.subsystems.Climber.WPI_PIDClimber;
 import org.team3467.robot2019.subsystems.Drivetrain.AutoLineup;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
@@ -271,7 +270,6 @@ public class OI {
         
         //  Button 18 = ClimbRetract
         //  Function: Retract Polejack
-        //new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new KeepIn(-0.9));
         new ButtonBoxButton(buttonBox, ButtonBox.Button.kClimbRetract).whenPressed(new WPI_PIDClimber(0.0));
         
         //  Button 19 = ClimbCrawl

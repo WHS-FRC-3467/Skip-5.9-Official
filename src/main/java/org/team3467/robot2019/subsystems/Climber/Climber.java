@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.team3467.robot2019.robot.RobotGlobal;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -62,28 +61,6 @@ public class Climber extends Subsystem {
         m_sparkMax.set(speed);
     }
 
-    public void moveOut(double speed)
-    {
-        m_sparkMax.set(speed);
-    }
-
-    public boolean moveIn(double speed)
-    {
-        boolean retVal = false;
-        
-        // Move in (relax cable) only if encoder count is not negative
-        if (getEncoderCount() > 0)
-        {
-            m_sparkMax.set(speed);
-            retVal = false;
-        }
-        else {
-            stop();
-            retVal = true;
-        }
-        return retVal;
-    }
-    
     public void stop()
     {
         m_sparkMax.set(0.0);

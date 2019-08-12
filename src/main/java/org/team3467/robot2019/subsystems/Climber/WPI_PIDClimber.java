@@ -16,7 +16,7 @@ public class WPI_PIDClimber extends Command {
 	
 	private PIDController m_pid;
     private double m_setPoint = 0.0;
-    private double m_maxSpeed = 0.95;  // TODO: Bump this up to speed up PID action
+    private double m_maxSpeed = 0.95;
     private int m_statsCounter = 0;
     
 	private double KP = 0.01;
@@ -78,7 +78,7 @@ public class WPI_PIDClimber extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
  
-        if (m_statsCounter++ > 5) {
+        if (m_statsCounter++ > 10) {
             m_statsCounter = 0; // report stats when counter == 0
             Robot.sub_climber.reportClimberStats();
 		}
