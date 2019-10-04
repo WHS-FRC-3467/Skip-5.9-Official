@@ -6,28 +6,9 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 /**
  * Wrapper class for getting and setting Limelight NetworkTable values.
  * 
- * @author Dan Waxman
  */
 public class Limelight {
 	public static NetworkTableInstance table = null;
-
-	/**
-	 * Light modes for Limelight.
-	 * 
-	 * @author Dan Waxman
-	 */
-	public static enum LightMode {
-		eOn, eOff, eBlink, eLeft, eRight
-	}
-
-	/**
-	 * Camera modes for Limelight.
-	 * 
-	 * @author Dan Waxman
-	 */
-	public static enum CameraMode {
-		eVision, eDriver
-	}
 
 	/**
 	 * Gets whether a target is detected by the Limelight.
@@ -83,7 +64,46 @@ public class Limelight {
 		return getValue("tl").getDouble(0.00);
 	}
 
+    /*
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(<value>);
+    
+    ledMode	Sets limelight’s LED state
+        0	use the LED Mode set in the current pipeline
+        1	force off
+        2	force blink
+        3	force on
+    camMode	Sets limelight’s operation mode
+        0	Vision processor
+        1	Driver Camera (Increases exposure, disables vision processing)
+    pipeline	Sets limelight’s current pipeline
+        0 .. 9	Select pipeline 0..9
+    stream	Sets limelight’s streaming mode
+        0	Standard - Side-by-side streams if a webcam is attached to Limelight
+        1	PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
+        2	PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary cam
 
+    */
+    
+    /**
+	 * Light modes for Limelight.
+	 */
+	public static enum LightMode {
+		ePipeline, eOff, eBlink, eOn
+	}
+
+	/**
+	 * Camera modes for Limelight.
+	 */
+	public static enum CameraMode {
+		eVision, eDriver
+	}
+
+	/**
+	 * Stream modes for Limelight.
+	 */
+	public static enum StreamMode {
+		eStandard, ePIPMain, ePIPSecondary
+	}
 
 	/**
 	 * Sets LED mode of Limelight.
@@ -113,6 +133,35 @@ public class Limelight {
 	 */
 	public static void setPipeline(int number) {
 		getValue("pipeline").setNumber(number);
+	}
+
+   	/**
+	 * Sets streaming mode for Limelight.
+	 * 
+	 * @param mode
+	 *            Stream mode for Limelight.
+	 */
+	public static void setStreamMode(StreamMode mode) {
+		getValue("stream").setNumber(mode.ordinal());
+	}
+
+
+	/**
+	 * Sets Limelight to "Driver" mode.
+	 */
+	public static void setDriverMode() {
+        setCameraMode(CameraMode.eDriver);
+        setPipeline(0);
+        setLedMode(LightMode.eOff);
+	}
+
+	/**
+	 * Sets Limelight to "Vision" mode.
+	 */
+	public static void setVisionMode(int pipelinenumber) {
+        setCameraMode(CameraMode.eVision);
+        setPipeline(pipelinenumber);
+        setLedMode(LightMode.ePipeline);
 	}
 
 	/**

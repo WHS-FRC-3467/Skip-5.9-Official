@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         sub_led = LEDSerial.getInstance();
 
-        // Start the FieldCamera
+        // Start the FieldCamera(s)
         fieldCamera = new FieldCamera();
 
         sub_drivetrain = Drivetrain.getInstance();
@@ -50,7 +50,6 @@ public class Robot extends TimedRobot {
         //sub_gyro = Gyro.getInstance();
 
         robot_oi = new OI();
-
 
     }
 
@@ -96,7 +95,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        Limelight.setPipeline(0); // set the limelight vision mode to normal vision
+
+        // set the limelight vision mode to normal vision
+        Limelight.setDriverMode();
 
     }
 
@@ -110,7 +111,9 @@ public class Robot extends TimedRobot {
 
         // Remove any commands letover from prior runs
         Scheduler.getInstance().removeAll();
-        Limelight.setPipeline(0); // set the limelight vision mode to normal vision
+        
+        // set the limelight vision mode to normal vision
+        Limelight.setDriverMode();
 
     }
 
@@ -118,9 +121,9 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
+        // Show critical encoder values right off the bat
         sub_cargointake.reportEncoder();
-        
-    
+        sub_fourbarlift.reportEncoder();
     }
 
 

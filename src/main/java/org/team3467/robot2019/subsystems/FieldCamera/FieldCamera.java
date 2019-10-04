@@ -1,8 +1,7 @@
 package org.team3467.robot2019.subsystems.FieldCamera;
 
 import org.team3467.robot2019.subsystems.Limelight.Limelight;
-import org.team3467.robot2019.subsystems.Limelight.Limelight.CameraMode;
-import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
+import org.team3467.robot2019.subsystems.Limelight.Limelight.StreamMode;
 
 //import org.opencv.core.Mat;
 
@@ -29,14 +28,11 @@ public class FieldCamera extends Subsystem {
         //
         // Run Limelight Camera
         //
-        // Default to LEDs off
-        Limelight.setLedMode(LightMode.eOff);
-
         // Default to Driver Mode
-        Limelight.setCameraMode(CameraMode.eDriver);            
+        Limelight.setDriverMode();
 
         // Place Secondary stream in lower right of Primary stream
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(1);
+        Limelight.setStreamMode(StreamMode.ePIPMain);
 
 
     	// Run one USB camera

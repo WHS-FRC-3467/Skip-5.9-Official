@@ -81,11 +81,11 @@ public class Drivetrain extends Subsystem {
 		// Instantiate DifferentialDrive
 		m_drive = new DifferentialDrive(left_talon, right_talon);
 		
-		// DifferentialDrive Parameters
+        // DifferentialDrive Parameters
+        m_drive.setDeadband(0.0); // we will add our own deadband as needed
 		m_drive.setSafetyEnabled(true);
 		m_drive.setExpiration(1.0);
 		m_drive.setMaxOutput(1.0);
-
 
 	}
 	

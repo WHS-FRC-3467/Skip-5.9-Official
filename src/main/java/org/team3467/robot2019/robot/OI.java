@@ -25,7 +25,6 @@ import org.team3467.robot2019.subsystems.CargoLift.FourBarLift;
 import org.team3467.robot2019.subsystems.CargoLift.IncrementCargoLift;
 import org.team3467.robot2019.subsystems.Climber.Climber;
 import org.team3467.robot2019.subsystems.Climber.DriveClimber;
-import org.team3467.robot2019.subsystems.Climber.KeepIn;
 import org.team3467.robot2019.subsystems.Climber.WPI_PIDClimber;
 import org.team3467.robot2019.subsystems.Drivetrain.AutoLineup;
 import org.team3467.robot2019.subsystems.Drivetrain.DriveBot;
@@ -35,11 +34,7 @@ import org.team3467.robot2019.subsystems.Hatch.GrabHatch;
 import org.team3467.robot2019.subsystems.Hatch.ReleaseHatch;
 import org.team3467.robot2019.subsystems.Hatch.StowGrabber;
 import org.team3467.robot2019.subsystems.Hatch.ZeroHatchEncoder;
-import org.team3467.robot2019.subsystems.Limelight.Limelight;
-import org.team3467.robot2019.subsystems.Limelight.Limelight.CameraMode;
-import org.team3467.robot2019.subsystems.Limelight.Limelight.LightMode;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -390,52 +385,5 @@ public class OI {
     public static ButtonBox getButtonBox() {
         return buttonBox;
     }
-
-    public void shuffleboardUpdate() {
-    
-        //boolean ledState = shuffle_led.getBoolean(false);
-        boolean ledState = false;
-        if(ledState) {
-            Limelight.setLedMode(LightMode.eOn);
-        } else {
-            Limelight.setLedMode(LightMode.eOff);
-        }
-
-        //boolean camMode = shuffle_camMode.getBoolean(false);
-        boolean camMode = false;
-        if (camMode) {
-            Limelight.setCameraMode(CameraMode.eVision);
-        } else {
-            Limelight.setCameraMode(CameraMode.eDriver);            
-        }
-
-        //double streamConfig = shuffle_stream.getNumber(0);
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(0);
-
-
-        /*
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(<value>);
-        
-        ledMode	Sets limelight’s LED state
-            0	use the LED Mode set in the current pipeline
-            1	force off
-            2	force blink
-            3	force on
-        camMode	Sets limelight’s operation mode
-            0	Vision processor
-            1	Driver Camera (Increases exposure, disables vision processing)
-        pipeline	Sets limelight’s current pipeline
-            0 .. 9	Select pipeline 0..9
-        stream	Sets limelight’s streaming mode
-            0	Standard - Side-by-side streams if a webcam is attached to Limelight
-            1	PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
-            2	PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary cam
-
-        */
-    }
-
-
-
-
 
 }
