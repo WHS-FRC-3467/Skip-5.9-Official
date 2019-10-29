@@ -8,7 +8,7 @@ public class UpdateLidar extends InstantCommand {
     
     @Override
     protected void execute() {
-        //TODO updatelidar implementation
+        //updatelidar implementation
         
     }
 }

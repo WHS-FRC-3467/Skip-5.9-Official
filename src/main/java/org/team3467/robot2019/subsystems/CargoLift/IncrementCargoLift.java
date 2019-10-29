@@ -10,7 +10,6 @@ package org.team3467.robot2019.subsystems.CargoLift;
 import org.team3467.robot2019.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
  * Add your docs here.

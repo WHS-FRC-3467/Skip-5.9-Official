@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class HoldCargo extends Command {
 
-    static final private double RUMBLE_TIME = 2.0;
+    // static final private double RUMBLE_TIME = 2.0;
 
     public HoldCargo() {
         // Use requires() here to declare subsystem dependencies

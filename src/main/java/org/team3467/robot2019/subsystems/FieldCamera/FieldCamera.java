@@ -10,7 +10,6 @@ import org.team3467.robot2019.subsystems.Limelight.Limelight.StreamMode;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**

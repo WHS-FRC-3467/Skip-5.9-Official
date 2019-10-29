@@ -16,7 +16,7 @@ public class WPI_PIDClimber extends Command {
 	
 	private PIDController m_pid;
     private double m_setPoint = 0.0;
-    private double m_maxSpeed = 0.95;  // TODO: Bump this up to speed up PID action
+    private double m_maxSpeed = 0.95;  // Bump this up to speed up PID action
     private int m_statsCounter = 0;
     
 	private double KP = 0.01;
